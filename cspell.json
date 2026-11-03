@@ -1,0 +1,11 @@
+{
+  "version": "0.2",
+  "language": "fr,en",
+  "files": ["src/content/**/*.md", "src/content/**/*.yaml", "README.md", "MAINTENANCE.md", "CHANGELOG.md"],
+  "words": [
+    "Amachahou", "Gravewell", "Drealm", "Wildline", "EasyPay", "Ormoras", "Cerdes",
+    "Sefar", "Aeon", "Laika", "Earthopia", "Bobine", "Nocturne", "Béjaïa", "MAJIC",
+    "kabyle", "Anzar", "itch", "Bandcamp", "Astro", "WebP", "Formspree", "Unity", "URP", "LFS"
+  ],
+  "ignorePaths": ["node_modules", "dist", "public"]
+}
