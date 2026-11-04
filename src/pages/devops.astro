@@ -1,13 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import Fil from '../components/Fil.astro';
-import { profil, textes } from '../lib/contenu';
+import Faces from '../components/Faces.astro';
+import { profil, textes, titrePage } from '../lib/contenu';
 
 const t = await textes('fr');
 const p = await profil();
 ---
 
-<Base titre={`${t.devops} · ${p.nom}`} face="devops">
-  <h1>{t.devops}</h1>
-  <Fil face="devops" langue="fr" />
+<Base titre={titrePage('devops', t, p)} face="devops">
+  <Faces face="devops" langue="fr" />
 </Base>

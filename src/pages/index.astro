@@ -1,19 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import { profil, textes } from '../lib/contenu';
+import Faces from '../components/Faces.astro';
+import { profil, textes, titrePage } from '../lib/contenu';
 
 const t = await textes('fr');
 const p = await profil();
 ---
 
-<Base titre={p.nom} face="neutre">
-  <section class="accueil">
-    <h1>{p.nom}</h1>
-    <p class="accroche">{t.accroche}</p>
-    <p>{t.choisirFace}</p>
-    <ul class="portes">
-      <li><a class="porte porte--production" href="/production/">{t.production}</a></li>
-      <li><a class="porte porte--devops" href="/devops/">{t.devops}</a></li>
-    </ul>
-  </section>
+<Base titre={titrePage('neutre', t, p)} face="neutre">
+  <Faces face="neutre" langue="fr" />
 </Base>

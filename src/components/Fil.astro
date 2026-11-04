@@ -26,7 +26,7 @@ type Projet = (typeof listeProjets)[number];
 type Solution = (typeof listeSolutions)[number];
 type Element =
   | { type: 'commit'; ordre: number; solution: Solution }
-  | { type: 'sous-projet'; ordre: number; titre: string; solutions: Solution[] };
+  | { type: 'sous-projet'; ordre: number; titre: string; etiquette?: string; solutions: Solution[] };
 
 // Les solutions d'un projet, regroupées par sous-projet, dans l'ordre.
 function elementsDe(projet: Projet): Element[] {
@@ -49,7 +49,8 @@ function elementsDe(projet: Projet): Element[] {
     elements.push({
       type: 'sous-projet',
       ordre: Math.min(...groupe.map((s) => s.data.ordre)),
-      titre: devops ? sp.titreDevops : `${t.sousProjet} · ${sp.titre}`,
+      titre: devops ? sp.titreDevops : sp.titre,
+      etiquette: devops ? undefined : t.sousProjet,
       solutions: groupe,
     });
   }
@@ -89,7 +90,11 @@ const nombre = (e: Element) => (e.type === 'commit' ? 1 : e.solutions.length);
           <i class="bloc__tronc" aria-hidden="true" />
           <i class="bloc__branche" aria-hidden="true" />
           {enCours ? (
-            <i class="bloc__tete" aria-hidden="true" />
+            <svg class="bloc__tete" viewBox="0 0 28 28" aria-hidden="true">
+              <circle class="tete__piste" cx="14" cy="14" r="12" />
+              <circle class="tete__arc" cx="14" cy="14" r="12" pathLength="100" />
+              <circle class="tete__point" cx="14" cy="14" r="6" />
+            </svg>
           ) : (
             <i class="bloc__losange" aria-hidden="true" />
           )}
@@ -114,7 +119,10 @@ const nombre = (e: Element) => (e.type === 'commit' ? 1 : e.solutions.length);
                   <li class="sous-projet">
                     <i class="sp__branche" aria-hidden="true" />
                     <i class="sp__losange" aria-hidden="true" />
-                    <span class="sp__titre">{el.titre}</span>
+                    <span class="sp__titre">
+                      {el.etiquette && <span class="sp__type">{el.etiquette}</span>}
+                      {el.titre}
+                    </span>
                     <ul>
                       {el.solutions.map((s) => (
                         <li>
@@ -141,7 +149,7 @@ const nombre = (e: Element) => (e.type === 'commit' ? 1 : e.solutions.length);
 
   {
     etapes.length > 0 && (
-      <section class="bloc bloc--parcours" id="parcours">
+      <section class="bloc bloc--parcours" id={`parcours-${face}`}>
         <i class="bloc__tronc" aria-hidden="true" />
         <h2 class="bloc__titre">{devops ? t.parcoursDevops : t.parcours}</h2>
         <ol class="parcours">

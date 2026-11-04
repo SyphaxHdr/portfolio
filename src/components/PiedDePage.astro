@@ -1,6 +1,7 @@
 ---
 import { profil, textes, type Langue } from '../lib/contenu';
 import { dateDernierCommit } from '../lib/date';
+import { infosBuild } from '../lib/build';
 
 interface Props {
   langue: Langue;
@@ -9,6 +10,7 @@ interface Props {
 const { langue } = Astro.props;
 const t = await textes(langue);
 const p = await profil();
+const b = infosBuild();
 
 const date = dateDernierCommit();
 const dateLisible = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-FR' : 'en-GB', {
@@ -31,8 +33,23 @@ const dateLisible = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-FR' : 'en-GB',
         }
       </ul>
     </nav>
-    <p class="pied__date">
-      {t.miseAJour} <time datetime={date.toISOString()}>{dateLisible}</time>
-    </p>
+    <div class="pied__meta">
+      <p class="pied__date">
+        {t.miseAJour} <time datetime={date.toISOString()}>{dateLisible}</time>
+      </p>
+      <p class="pied__build">
+        {b.lienVersion ? <a href={b.lienVersion}>{b.version}</a> : <span>{b.version}</span>}
+        {
+          b.court && (
+            <>
+              <span aria-hidden="true">·</span>
+              {b.lienCommit ? <a href={b.lienCommit}>{b.court}</a> : <span>{b.court}</span>}
+            </>
+          )
+        }
+        <span aria-hidden="true">·</span>
+        {b.lienPublication ? <a href={b.lienPublication}>{t.publiePar}</a> : <span>{t.construitEnLocal}</span>}
+      </p>
+    </div>
   </div>
 </footer>

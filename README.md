@@ -60,6 +60,7 @@ Astro (site statique), CSS sans framework, un peu de JavaScript (pièce, changem
 ## Versions
 
 Versionnage sémantique : `0.x` pendant la construction, `1.0.0` quand le site est complet.
+La version vient de `package.json` : on la monte dans la pull request de la version, avec le `CHANGELOG.md`. Le pied de page affiche la version, le commit et la publication GitHub Actions qui a mis le site en ligne.
 Chaque version a un milestone (ses issues), un tag sur `main` et une release GitHub. Les changements sont notés dans `CHANGELOG.md`.
 
 ## Branches
