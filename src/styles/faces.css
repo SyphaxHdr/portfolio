@@ -1,66 +1,207 @@
 /* Les deux faces : l'accueil, la pièce et le passage d'une face à l'autre. */
 .principal:has(.faces) {
-  padding-top: 0;
+  padding-block: 0;
 }
 
 .faces {
+  --filigrane: 0.16;
+  --rail-production: var(--tronc);
+  --rail-devops: var(--tronc);
+  --tige: var(--tronc);
   position: relative;
   touch-action: pan-y;
 }
 
-/* Ce qui ne concerne qu'une face est masqué sur les autres. */
-[data-face='neutre'] .fil,
-[data-face='production'] .fil--devops,
-[data-face='devops'] .fil--production,
-[data-face='neutre'] [data-pour]:not([data-pour='neutre']),
-[data-face='production'] [data-pour]:not([data-pour='production']),
-[data-face='devops'] [data-pour]:not([data-pour='devops']) {
+[data-face='neutre'] .faces {
+  --rail-production: var(--ligne-production);
+  --rail-devops: var(--ligne-devops);
+  --tige: var(--texte);
+}
+
+/* Les deux fils sont superposés. Sur l'accueil, ils sont masqués ; sur une
+   face, le fil de l'autre face reste en filigrane : ses lignes seulement,
+   très pâles, sans texte (ni à l'écran, ni pour les lecteurs d'écran). */
+.fils {
+  --fondu: min(32vh, 300px);
+  display: grid;
+}
+
+.fils > * {
+  grid-area: 1 / 1;
+}
+
+/* Au changement de face, l'un pâlit pendant que l'autre s'éclaire. */
+.fil {
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s;
+}
+
+@starting-style {
+  .fil {
+    opacity: 0;
+  }
+}
+
+/* Le bas de l'écran : un fondu vers la couleur de la page, collé au bas de
+   l'écran. Le fil y devient de plus en plus transparent, et s'éclaire en
+   montant, au rythme du défilement. En bas de la page, il ne couvre plus que
+   la queue du fil. */
+.fondu {
+  position: sticky;
+  bottom: 0;
+  align-self: end;
+  height: var(--fondu);
+  background: var(--fond);
+  mask-image: linear-gradient(transparent, #000);
+  pointer-events: none;
+  transition: background-color 0.4s ease;
+}
+
+[data-face='neutre'] .fils {
   display: none;
 }
 
-/* Les deux lignes qui descendent du haut. La ligne de la face choisie
-   devient le tronc ; l'autre s'efface. */
+[data-face='production'] .fil--devops,
+[data-face='devops'] .fil--production {
+  visibility: hidden;
+  opacity: var(--filigrane);
+  pointer-events: none;
+}
+
+/* Dans le filigrane : les lignes et les points, sans le texte. */
+:is([data-face='production'] .fil--devops, [data-face='devops'] .fil--production)
+  :is(.bloc__tronc, .bloc__branche, .bloc__tete, .bloc__losange, .sp__branche, .sp__losange, .fil__queue),
+:is([data-face='production'] .fil--devops, [data-face='devops'] .fil--production) .commit::before,
+:is([data-face='production'] .fil--devops, [data-face='devops'] .fil--production) .sous-projet li::before,
+:is([data-face='production'] .fil--devops, [data-face='devops'] .fil--production) .etape::after {
+  visibility: visible;
+}
+
+/* Sur téléphone, il n'y a pas la place : l'autre fil est masqué. */
+@media (max-width: 47.99rem) {
+  [data-face='production'] .fil--devops,
+  [data-face='devops'] .fil--production {
+    display: none;
+  }
+}
+
+/* Les deux lignes. Sur l'en-tête, elles partent du nom (voir .bras) ; plus
+   bas, la ligne de la face choisie devient le tronc et l'autre pâlit en
+   filigrane (elle disparaît sur téléphone). Sur l'accueil, .queue les
+   prolonge droites. */
 .rail {
   position: absolute;
   inset-block: 0;
   width: var(--trait);
-  background: var(--tronc);
-  transition:
-    opacity 0.4s ease,
-    background-color 0.4s ease;
+  background: var(--rail);
 }
 
 .rail--production {
+  --rail: var(--rail-production);
   inset-inline-start: var(--x-tronc);
 }
 
 .rail--devops {
+  --rail: var(--rail-devops);
   inset-inline-end: var(--x-tronc);
 }
 
-[data-face='neutre'] .rail--production {
-  background: var(--ligne-production);
-}
-
-[data-face='neutre'] .rail--devops {
-  background: var(--ligne-devops);
-}
-
-[data-face='production'] .rail--devops,
-[data-face='devops'] .rail--production {
-  opacity: 0;
-}
-
-/* En-tête de la page */
+/* En-tête de la page : le nom, puis le reste entre les deux lignes.
+   --y-bras : hauteur où la tige se sépare ; --r : coin du bras sur le bord ;
+   --r-tige : courbe sous la tige. */
 .heros {
-  position: relative;
-  padding: clamp(2.5rem, 6vw, 3.5rem) calc(var(--x-tronc) + var(--trait) + 1.25rem) 2.5rem;
+  padding-top: clamp(2.5rem, 6vw, 3.5rem);
   text-align: center;
 }
 
+.heros__corps {
+  --y-bras: 2.75rem;
+  --r: 22px;
+  --r-tige: 16px;
+  position: relative;
+  margin-top: 0.75rem;
+  padding: calc(var(--y-bras) + var(--trait) + 1.5rem) calc(var(--x-tronc) + var(--trait) + 1.25rem) 2.5rem;
+}
+
 @media (min-width: 48rem) {
-  .heros {
+  .heros__corps {
     padding-inline: calc(var(--pad) - 2rem);
+  }
+}
+
+/* Un bras par face, dessiné d'un seul tenant : la tige sous le nom (::after)
+   tourne vers le bord, puis le bras (::before) rejoint le bord et descend.
+   Chaque bras est un groupe : en transparence, ses morceaux ne se
+   superposent pas. La face DevOps est le miroir (direction: rtl). */
+.bras {
+  --c: var(--rail-production);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.bras--devops {
+  --c: var(--rail-devops);
+  z-index: 0;
+  direction: rtl;
+}
+
+[data-face='devops'] .bras--devops {
+  z-index: 2;
+}
+
+.bras::before,
+.bras::after {
+  content: '';
+  position: absolute;
+  transition: border-color 0.4s ease;
+}
+
+.bras::before {
+  top: var(--y-bras);
+  bottom: 0;
+  inset-inline-start: var(--x-tronc);
+  inset-inline-end: calc(50% + var(--trait) / 2 + var(--r-tige) - 1px);
+  border-block-start: var(--trait) solid var(--c);
+  border-inline-start: var(--trait) solid var(--c);
+  border-start-start-radius: var(--r);
+}
+
+.bras::after {
+  top: 0;
+  height: calc(var(--y-bras) + var(--trait));
+  inset-inline-end: calc(50% - var(--trait) / 2);
+  width: calc(var(--r-tige) + var(--trait));
+  border-inline-end: var(--trait) solid var(--c);
+  border-block-end: var(--trait) solid var(--c);
+  border-end-end-radius: calc(var(--r-tige) + var(--trait));
+}
+
+/* Le point de départ, juste sous le nom. */
+.racine {
+  position: absolute;
+  top: -2px;
+  left: calc(50% - 8px);
+  z-index: 3;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--tige);
+  transition: background-color 0.4s ease;
+}
+
+[data-face='production'] :is(.rail--devops, .bras--devops),
+[data-face='devops'] :is(.rail--production, .bras--production) {
+  opacity: var(--filigrane);
+}
+
+@media (max-width: 47.99rem) {
+  [data-face='production'] :is(.rail--devops, .bras--devops),
+  [data-face='devops'] :is(.rail--production, .bras--production) {
+    opacity: 0;
   }
 }
 

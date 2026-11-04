@@ -23,88 +23,91 @@ const annonces = { neutre: '', production: t.annonceProduction, devops: t.annonc
 
 <div class="faces" data-titres={JSON.stringify(titres)} data-annonces={JSON.stringify(annonces)}>
   <section class="heros" aria-labelledby="nom">
-    <i class="rail rail--production" aria-hidden="true"></i>
-    <i class="rail rail--devops" aria-hidden="true"></i>
-
     <h1 id="nom" class="heros__nom">{p.nom}</h1>
-    <p class="heros__accroche">
-      <span data-pour="neutre">{t.accroche}</span>
-      <span data-pour="production">{t.accrocheProduction}</span>
-      <span data-pour="devops">{t.accrocheDevops}</span>
-    </p>
-    <p class="heros__situation">
-      <span class="pastille" aria-hidden="true"></span>
-      <span><strong>{t.maintenant}</strong> {p.situation}</span>
-    </p>
 
-    <div class="piece-zone">
-      <a
-        class="fleche fleche--production"
-        href="/production/"
-        data-vers="production"
-        aria-label={t.voirProduction}
-        aria-current={face === 'production' ? 'page' : undefined}
-      >
-        <span class="fleche__rond">
-          <svg aria-hidden="true" width="30" height="20" viewBox="0 0 30 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M28 10H3" /><path d="M10 3 3 10l7 7" />
-          </svg>
-        </span>
-        {t.production}
-      </a>
+    <div class="heros__corps">
+      <i class="bras bras--production" aria-hidden="true"></i>
+      <i class="bras bras--devops" aria-hidden="true"></i>
+      <i class="racine" aria-hidden="true"></i>
+      <p class="heros__accroche">
+        <span data-pour="neutre">{t.accroche}</span>
+        <span data-pour="production">{t.accrocheProduction}</span>
+        <span data-pour="devops">{t.accrocheDevops}</span>
+      </p>
+      <p class="heros__situation">
+        <span class="pastille" aria-hidden="true"></span>
+        <span><strong>{t.maintenant}</strong> {p.situation}</span>
+      </p>
 
-      <Piece face={face} libelle={t.lancerPiece} nom={p.nom} />
-
-      <a
-        class="fleche fleche--devops"
-        href="/devops/"
-        data-vers="devops"
-        aria-label={t.voirDevops}
-        aria-current={face === 'devops' ? 'page' : undefined}
-      >
-        <span class="fleche__rond">
-          <svg aria-hidden="true" width="30" height="20" viewBox="0 0 30 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 10h25" /><path d="m20 3 7 7-7 7" />
-          </svg>
-        </span>
-        {t.devops}
-      </a>
-    </div>
-
-    <p class="heros__consigne">
-      <span data-pour="neutre">
-        <span class="si-souris">{t.consigneNeutre}</span>
-        <span class="si-tactile">{t.consigneNeutreTactile}</span>
-      </span>
-      <span data-pour="production">
-        <span class="si-souris">{t.consigneProduction}</span>
-        <span class="si-tactile">{t.consigneProductionTactile}</span>
-      </span>
-      <span data-pour="devops">
-        <span class="si-souris">{t.consigneDevops}</span>
-        <span class="si-tactile">{t.consigneDevopsTactile}</span>
-      </span>
-    </p>
-
-    <details class="legende">
-      <summary>{t.legende}</summary>
-      <ul class="legende__liste">
-        <li><span class="glyphe" aria-hidden="true"><i class="g-tronc"></i></span>{t.legendeTronc}</li>
-        <li><span class="glyphe" aria-hidden="true"><i class="g-branche"></i></span>{t.legendeBranche}</li>
-        <li><span class="glyphe" aria-hidden="true"><i class="g-sous-projet"></i></span>{t.legendeSousProjet}</li>
-        <li>
-          <span class="glyphe" aria-hidden="true">
-            <svg class="g-en-cours" viewBox="0 0 28 28">
-              <circle class="tete__piste" cx="14" cy="14" r="12" />
-              <circle class="tete__arc" cx="14" cy="14" r="12" pathLength="100" />
-              <circle class="tete__point" cx="14" cy="14" r="6" />
+      <div class="piece-zone">
+        <a
+          class="fleche fleche--production"
+          href="/production/"
+          data-vers="production"
+          aria-label={t.voirProduction}
+          aria-current={face === 'production' ? 'page' : undefined}
+        >
+          <span class="fleche__rond">
+            <svg aria-hidden="true" width="30" height="20" viewBox="0 0 30 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M28 10H3" /><path d="M10 3 3 10l7 7" />
             </svg>
-          </span>{t.legendeEnCours}
-        </li>
-        <li><span class="glyphe" aria-hidden="true"><i class="g-losange"></i></span>{t.legendeLosange}</li>
-        <li><span class="glyphe" aria-hidden="true"><i class="g-solution"></i></span>{t.legendeSolution}</li>
-      </ul>
-    </details>
+          </span>
+          {t.production}
+        </a>
+
+        <Piece face={face} libelle={t.lancerPiece} nom={p.nom} />
+
+        <a
+          class="fleche fleche--devops"
+          href="/devops/"
+          data-vers="devops"
+          aria-label={t.voirDevops}
+          aria-current={face === 'devops' ? 'page' : undefined}
+        >
+          <span class="fleche__rond">
+            <svg aria-hidden="true" width="30" height="20" viewBox="0 0 30 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 10h25" /><path d="m20 3 7 7-7 7" />
+            </svg>
+          </span>
+          {t.devops}
+        </a>
+      </div>
+
+      <p class="heros__consigne">
+        <span data-pour="neutre">
+          <span class="si-souris">{t.consigneNeutre}</span>
+          <span class="si-tactile">{t.consigneNeutreTactile}</span>
+        </span>
+        <span data-pour="production">
+          <span class="si-souris">{t.consigneProduction}</span>
+          <span class="si-tactile">{t.consigneProductionTactile}</span>
+        </span>
+        <span data-pour="devops">
+          <span class="si-souris">{t.consigneDevops}</span>
+          <span class="si-tactile">{t.consigneDevopsTactile}</span>
+        </span>
+      </p>
+
+      <details class="legende">
+        <summary>{t.legende}</summary>
+        <ul class="legende__liste">
+          <li><span class="glyphe" aria-hidden="true"><i class="g-tronc"></i></span>{t.legendeTronc}</li>
+          <li><span class="glyphe" aria-hidden="true"><i class="g-branche"></i></span>{t.legendeBranche}</li>
+          <li><span class="glyphe" aria-hidden="true"><i class="g-sous-projet"></i></span>{t.legendeSousProjet}</li>
+          <li>
+            <span class="glyphe" aria-hidden="true">
+              <svg class="g-en-cours" viewBox="0 0 28 28">
+                <circle class="tete__piste" cx="14" cy="14" r="12" />
+                <circle class="tete__arc" cx="14" cy="14" r="12" pathLength="100" />
+                <circle class="tete__point" cx="14" cy="14" r="6" />
+              </svg>
+            </span>{t.legendeEnCours}
+          </li>
+          <li><span class="glyphe" aria-hidden="true"><i class="g-losange"></i></span>{t.legendeLosange}</li>
+          <li><span class="glyphe" aria-hidden="true"><i class="g-solution"></i></span>{t.legendeSolution}</li>
+        </ul>
+      </details>
+    </div>
   </section>
 
   <div class="queue" data-pour="neutre">
@@ -113,8 +116,11 @@ const annonces = { neutre: '', production: t.annonceProduction, devops: t.annonc
     <p>{t.choisirFace}</p>
   </div>
 
-  <Fil face="production" langue={langue} />
-  <Fil face="devops" langue={langue} />
+  <div class="fils">
+    <Fil face="production" langue={langue} />
+    <Fil face="devops" langue={langue} />
+    <i class="fondu" aria-hidden="true"></i>
+  </div>
 
   <p class="annonce visuellement-cache" aria-live="polite"></p>
 </div>

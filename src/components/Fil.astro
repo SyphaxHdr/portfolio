@@ -153,18 +153,16 @@ const nombre = (e: Element) => (e.type === 'commit' ? 1 : e.solutions.length);
         <i class="bloc__tronc" aria-hidden="true" />
         <h2 class="bloc__titre">{devops ? t.parcoursDevops : t.parcours}</h2>
         <ol class="parcours">
-          {etapes.map((e, i) => {
-            const derniere = i === etapes.length - 1;
-            return (
-              <li class:list={['etape', { 'etape--fin': derniere }]}>
-                {derniere && <i class="etape__fin" aria-hidden="true" />}
-                <span class="etape__annees">{e.annees}</span>
-                <span class="etape__texte">{e.texte}</span>
-              </li>
-            );
-          })}
+          {etapes.map((e, i) => (
+            <li class:list={['etape', { 'etape--fin': i === etapes.length - 1 }]}>
+              <span class="etape__annees">{e.annees}</span>
+              <span class="etape__texte">{e.texte}</span>
+            </li>
+          ))}
         </ol>
       </section>
     )
   }
+
+  <i class="fil__queue" aria-hidden="true"></i>
 </div>
