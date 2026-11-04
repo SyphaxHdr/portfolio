@@ -1,0 +1,313 @@
+/* Couleurs des deux faces, utilisables partout (boutons, portes). */
+:root {
+  --prod-fond: #efe4cc;
+  --prod-surface: #f7f0e0;
+  --prod-texte: #2b211a;
+  --prod-accent: #b5452f;
+  --devops-fond: #14172a;
+  --devops-surface: #1d2240;
+  --devops-texte: #efe6d2;
+  --devops-accent: #d4ae5e;
+
+  --police-texte: var(--font-instrument-sans), system-ui, sans-serif;
+  --police-serif: var(--font-fraunces), Georgia, serif;
+  --police-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --largeur: 72rem;
+  --marge: clamp(1rem, 4vw, 2.5rem);
+  --rayon: 0.5rem;
+}
+
+/* Les trois états de la page. */
+[data-face='neutre'] {
+  color-scheme: light;
+  --fond: #ece8e1;
+  --surface: #f6f3ee;
+  --texte: #22201c;
+  --accent: #22201c;
+  --ligne-production: #2b211a;
+  --ligne-devops: #2e3a6e;
+  --police-titre: var(--police-serif);
+}
+
+[data-face='production'] {
+  color-scheme: light;
+  --fond: var(--prod-fond);
+  --surface: var(--prod-surface);
+  --texte: var(--prod-texte);
+  --accent: var(--prod-accent);
+  --tronc: #2b211a;
+  --branche-1: #b5452f;
+  --branche-2: #3e7a4e;
+  --branche-3: #8a5a9e;
+  --branche-4: #c27c1e;
+  --sous-projet: #d07a5a;
+  --police-titre: var(--police-serif);
+}
+
+[data-face='devops'] {
+  color-scheme: dark;
+  --fond: var(--devops-fond);
+  --surface: var(--devops-surface);
+  --texte: var(--devops-texte);
+  --accent: var(--devops-accent);
+  --tronc: #d4ae5e;
+  --branche-1: #e8875a;
+  --branche-2: #9cc28a;
+  --branche-3: #e06c75;
+  --branche-4: #c9a0dc;
+  --sous-projet: #f2b880;
+  --police-titre: var(--police-mono);
+}
+
+:root {
+  --texte-doux: color-mix(in srgb, var(--texte) 72%, var(--fond));
+  --bordure: color-mix(in srgb, var(--texte) 15%, var(--fond));
+}
+
+/* Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--fond);
+  color: var(--texte);
+  font-family: var(--police-texte);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--police-titre);
+  font-weight: 600;
+  line-height: 1.2;
+  text-wrap: balance;
+  margin: 0 0 0.5em;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+}
+
+h2 {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+}
+
+h3 {
+  font-size: 1.1rem;
+}
+
+p {
+  margin: 0 0 1em;
+  max-width: 65ch;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+code,
+.etiquette {
+  font-family: var(--police-mono);
+  font-size: 0.875em;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.conteneur {
+  width: min(100% - 2 * var(--marge), var(--largeur));
+  margin-inline: auto;
+}
+
+.principal {
+  flex: 1;
+  padding-block: clamp(2rem, 6vw, 4rem);
+}
+
+/* Barre du haut */
+.entete {
+  border-bottom: 1px solid var(--bordure);
+}
+
+.entete__contenu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding-block: 1rem;
+}
+
+.entete__nom {
+  font-family: var(--police-titre);
+  font-weight: 600;
+  font-size: 1.15rem;
+  text-decoration: none;
+}
+
+.entete__faces {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bouton-face {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.bouton-face--production {
+  background: var(--prod-fond);
+  color: var(--prod-texte);
+  font-family: var(--police-serif);
+}
+
+.bouton-face--devops {
+  background: var(--devops-fond);
+  color: var(--devops-texte);
+  font-family: var(--police-mono);
+}
+
+.bouton-face[aria-current='page'] {
+  border-color: var(--accent);
+}
+
+/* Accueil neutre */
+.accroche {
+  font-family: var(--police-serif);
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+}
+
+.portes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.porte {
+  display: block;
+  padding: 2.5rem 1.5rem;
+  border-radius: var(--rayon);
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+}
+
+.porte--production {
+  background: var(--prod-fond);
+  color: var(--prod-texte);
+  font-family: var(--police-serif);
+  border-top: 6px solid var(--ligne-production);
+}
+
+.porte--devops {
+  background: var(--devops-fond);
+  color: var(--devops-texte);
+  font-family: var(--police-mono);
+  border-top: 6px solid var(--ligne-devops);
+}
+
+/* Projets */
+.projets {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.projet {
+  padding: 1.5rem;
+  background: var(--surface);
+  border-left: 6px solid var(--couleur-branche, var(--accent));
+  border-radius: var(--rayon);
+}
+
+.projet__resume {
+  color: var(--texte-doux);
+}
+
+.projet__sous-titre {
+  margin-top: 1.25rem;
+}
+
+.solutions {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.solution code {
+  margin-left: 0.5rem;
+}
+
+.etiquette {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+/* Pied de page */
+.pied {
+  border-top: 1px solid var(--bordure);
+}
+
+.pied__contenu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding-block: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.pied__liens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pied__date {
+  margin: 0;
+  color: var(--texte-doux);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
