@@ -4,6 +4,18 @@ Format : une section par version, la plus récente en haut.
 
 ## [Non publié]
 
+## [0.3.0] - 2026-11-04
+
+Contenu en fichiers.
+
+### Ajouté
+
+- Le contenu du site vit dans des fichiers : un fichier par projet, un fichier par problème réglé.
+- Un schéma vérifie chaque fichier : un champ manquant ou mal rempli fait échouer le build.
+- Premiers contenus : les projets Amachahou et Gravewell, et trois problèmes réglés.
+- Structure prête pour l'anglais : un dossier par langue et les textes de l'interface dans `src/content/i18n/`.
+- La page d'accueil liste les projets et leurs problèmes réglés, lus depuis les fichiers.
+
 ## [0.2.0] - 2026-11-04
 
 Pipeline : vérification et publication.
