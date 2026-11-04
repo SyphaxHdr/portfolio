@@ -1,41 +1,27 @@
 ---
-import { profil, textes, type Face, type Langue } from '../lib/contenu';
+import { profil, textes, type Langue } from '../lib/contenu';
 
 interface Props {
-  face: Face;
   langue: Langue;
 }
 
-const { face, langue } = Astro.props;
+const { langue } = Astro.props;
 const t = await textes(langue);
 const p = await profil();
-
-const faces = [
-  { id: 'production', href: '/production/', label: t.production },
-  { id: 'devops', href: '/devops/', label: t.devops },
-];
+const faces = ['production', 'devops'];
 ---
 
 <header class="entete">
   <div class="conteneur entete__contenu">
     <a class="entete__nom" href="/">{p.nom}</a>
-    <nav aria-label={t.faces}>
-      <ul class="entete__faces">
-        {
-          faces.map((f) => (
-            <li>
-              <a
-                href={f.href}
-                data-vers={f.id}
-                class:list={['bouton-face', `bouton-face--${f.id}`]}
-                aria-current={face === f.id ? 'page' : undefined}
-              >
-                {f.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
+    <div class="entete__actions">
+      {
+        faces.map((f) => (
+          <a class="entete__lien" href={`#parcours-${f}`} data-pour={f}>
+            {t.parcours}
+          </a>
+        ))
+      }
+    </div>
   </div>
 </header>
