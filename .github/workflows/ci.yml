@@ -1,16 +1,12 @@
-# Vérification : à chaque pull request vers main, le site doit se construire.
-# Si le build échoue, la fusion est bloquée (règle de protection de main).
 name: Vérification
 
 on:
   pull_request:
     branches: [main]
 
-# Moindre privilège : ce workflow lit le code et n'écrit rien.
 permissions:
   contents: read
 
-# Un nouveau commit sur la même PR annule la vérification en cours.
 concurrency:
   group: ci-${{ github.event.pull_request.number }}
   cancel-in-progress: true
@@ -21,19 +17,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      # Chaque action est épinglée sur un SHA complet : un tag peut être déplacé, un SHA jamais.
       - name: Récupérer le code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          persist-credentials: false # le jeton GitHub n'est pas gardé sur la machine
+          persist-credentials: false
 
       - name: Installer Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 26 # la même version qu'en local
+          node-version: 26
           cache: npm
 
-      # npm ci installe exactement ce que dit package-lock.json, sans jamais le modifier.
       - name: Installer les dépendances
         run: npm ci
 

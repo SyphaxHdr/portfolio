@@ -1,17 +1,13 @@
-# Publication : à chaque fusion sur main, le site est construit puis mis en ligne
-# sur GitHub Pages (https://syphaxhdr.github.io).
 name: Publication
 
 on:
   push:
     branches: [main]
-  workflow_dispatch: # bouton « Run workflow » pour relancer à la main
+  workflow_dispatch:
 
-# Par défaut, lecture seule. Seul le job deploy reçoit le droit de publier.
 permissions:
   contents: read
 
-# Une seule publication à la fois ; celle en cours n'est jamais coupée.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -39,7 +35,6 @@ jobs:
       - name: Construire le site
         run: npm run build
 
-      # Le dossier dist/ (le site construit) est envoyé au job suivant.
       - name: Envoyer le site construit
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
@@ -47,12 +42,13 @@ jobs:
 
   deploy:
     name: deploy
-    needs: build # attend que le build ait réussi
+    needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # Seul ce job a le droit de publier.
     permissions:
-      pages: write # publier sur GitHub Pages
-      id-token: write # prouver à Pages que c'est bien ce workflow qui publie
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
