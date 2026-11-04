@@ -9,7 +9,7 @@
   --rail-devops: var(--tronc);
   --tige: var(--tronc);
   position: relative;
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom;
 }
 
 [data-face='neutre'] .faces {
@@ -499,6 +499,28 @@
   .piece-scene {
     width: 144px;
     height: 144px;
+  }
+}
+
+@media (max-width: 23.49rem) {
+  .piece-zone {
+    gap: 0.25rem;
+  }
+
+  .fleche {
+    min-width: 0;
+    padding: 0.25rem;
+    font-size: 0.8rem;
+  }
+
+  .fleche__rond {
+    width: 44px;
+    height: 44px;
+  }
+
+  .piece-scene {
+    width: 116px;
+    height: 116px;
   }
 }
 

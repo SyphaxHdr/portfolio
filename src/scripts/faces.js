@@ -127,7 +127,7 @@ if (faces) {
   faces.addEventListener('pointerdown', (e) => {
     depart = null;
     if (e.pointerType === 'mouse' || !(e.target instanceof Element)) return;
-    if (e.target.closest('a, button, summary, input, textarea, select, label')) return;
+    if (e.target.closest('a, button, summary, input, textarea, select, label, dialog')) return;
     depart = { x: e.clientX, y: e.clientY };
   });
   window.addEventListener('pointercancel', () => {
