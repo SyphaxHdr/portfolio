@@ -6,6 +6,7 @@ pistes: [production, devops]
 importance: 1
 branche: feature/validate-branch-flow
 commit: "feat(ci): validate-branch-flow"
+noteDevops: feature → develop → main, vérifié à chaque PR
 ---
 
 ## Le problème

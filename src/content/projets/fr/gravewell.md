@@ -3,6 +3,8 @@ titre: Gravewell
 titreDevops: gravewell
 type: solo
 periode: "2026"
+debut: 2026-09-30
+fin: 2026-10-10
 statut: sorti
 role: Design, direction, tests, sortie et DevOps
 equipe: 1
@@ -12,6 +14,7 @@ couleur: 2
 version: "v1.0 · 10 oct. 2026"
 resume: "Roguelike en pixel art autour d'un trou noir : 21 étapes, 97 cartes, 14 reliques. Conçu et sorti en une dizaine de jours sur itch.io."
 resumeDevops: "Projet Unity solo ; la version 1.1 automatisera les builds et la publication sur itch.io."
+pile: [Unity, main protégée, une branche par tâche]
 liens:
   - label: itch.io
     url: https://syphax-hadri.itch.io/gravewell

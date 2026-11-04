@@ -3,6 +3,7 @@ titre: Amachahou
 titreDevops: amachahou
 type: equipe
 periode: "2026-27"
+debut: 2026-09-01
 statut: en-cours
 role: Production et DevOps
 equipe: 16
@@ -11,6 +12,11 @@ importance: 1
 couleur: 1
 resume: "Jeu d'action-aventure 2.5D inspiré de la mythologie berbère et du mythe d'Anzar, fait à 16 en master MAJIC. Objectif : une démo jouable au FIJ en février 2027."
 resumeDevops: "Dépôt Unity 6 URP partagé par 16 personnes : flux de branches vérifié, modèles d'issues par métier, automatisations GitHub Actions."
+pile: [Unity 6, URP, Git LFS, GitHub Actions]
+sousProjets:
+  - id: balance-sheets
+    titre: Gameplay Balance Sheets
+    titreDevops: "package · unity-gameplay-balance-sheets"
 ---
 
 Une équipe de 16 étudiants : 3 développeurs, 3 artistes 2D, 1 artiste 3D, 3 sound designers, 1 game et level designer, 1 scénariste, et des aides extérieures pour les VFX et les animations. Chacun choisit ses tâches dans la semaine, chaque milestone a une date de fin.

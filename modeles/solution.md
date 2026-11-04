@@ -6,7 +6,8 @@ pistes: [production, devops]
 importance: 1
 branche: feature/alerte-conflit-scene   # obligatoire si la piste devops est cochée
 commit: "feat(ci): alerte-conflit-scene" # obligatoire si la piste devops est cochée
-sousProjet: ""          # ex. "balance-sheets", sinon supprimer la ligne
+noteDevops: deux tâches sur la même scène # une ligne sous le commit, face DevOps
+sousProjet: ""          # un id déclaré dans sousProjets du projet, sinon supprimer la ligne
 brouillon: false
 ---
 
