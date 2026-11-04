@@ -36,3 +36,40 @@ legendeLosange: Un losange = une version sortie.
 legendeSolution: Un petit rond = une solution.
 publiePar: publié par GitHub Actions
 construitEnLocal: construit en local
+navigationProjet: Autour du projet
+retourFil: Retour au fil
+ficheRole: Rôle
+ficheEquipe: Équipe
+fichePeriode: Période
+fichePile: Outils
+personnes: personnes
+problemes: Les problèmes réglés
+problemesDevops: git log --graph
+aideProblemes: Ouvre un problème pour voir comment il a été réglé.
+aideProblemesDevops: Une branche feature = une solution. Ouvre-la pour voir le détail.
+voirSolution: Voir la solution
+masquerSolution: Masquer
+ouvrir: Ouvrir
+fermer: Fermer
+blocProbleme: Le problème
+blocCompte: Ce qui comptait
+blocOptions: Les options
+retenue: retenue
+ecartee: écartée
+blocSolution: La solution
+schemaSolution: Schéma de la solution
+blocLaisse: Laissé de côté
+blocResultat: Le résultat
+blocPreuves: Preuves
+blocDeclencheur: Déclencheur
+blocFichier: Fichier
+blocEtapesDevops: Ce que ça fait
+blocChoix: Choix
+blocLie: Lié à
+solutionPrecedente: Solution précédente
+solutionSuivante: Solution suivante
+debut: Début du projet
+debutDevops: début
+autresProjets: Autres projets
+plusRecent: Plus récent
+plusAncien: Plus ancien

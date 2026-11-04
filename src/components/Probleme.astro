@@ -1,0 +1,176 @@
+---
+import { ancreSolution, type FaceProjet, type Solution, type Textes } from '../lib/contenu';
+
+interface Props {
+  solution: Solution;
+  face: FaceProjet;
+  t: Textes;
+  sousProjet?: string;
+  precedente?: Solution;
+  suivante?: Solution;
+}
+
+const { solution, face, t, sousProjet, precedente, suivante } = Astro.props;
+const s = solution.data;
+const devops = face === 'devops';
+---
+
+<li class:list={['probleme', { 'probleme--sp': sousProjet }]} id={ancreSolution(solution)}>
+  <i class="probleme__feature" aria-hidden="true"></i>
+  <i class="probleme__fusion" aria-hidden="true"></i>
+
+  <details class="probleme__details">
+    <summary class="probleme__resume">
+      <h3 class="probleme__titre">
+        {devops && <span class="probleme__branche">{s.branche}</span>}
+        <span class="probleme__texte">{devops ? s.commit : s.titre}</span>
+      </h3>
+      {
+        sousProjet && (
+          <span class="probleme__sp">
+            {!devops && <span class="sp__type">{t.sousProjet}</span>}
+            {sousProjet}
+          </span>
+        )
+      }
+      <span class="probleme__bouton">
+        <span class="si-ferme">{devops ? t.ouvrir : t.voirSolution}</span>
+        <span class="si-ouvert">{devops ? t.fermer : t.masquerSolution}</span>
+        <i class="chevron" aria-hidden="true"></i>
+      </span>
+    </summary>
+
+    <div class="solution">
+      {
+        devops && s.devops ? (
+          <>
+            {s.devops.declencheur && (
+              <section class="bloc-s">
+                <h4>{t.blocDeclencheur}</h4>
+                <p>{s.devops.declencheur}</p>
+              </section>
+            )}
+            {s.devops.fichier && (
+              <section class="bloc-s">
+                <h4>{t.blocFichier}</h4>
+                <p class="code">{s.devops.fichier}</p>
+              </section>
+            )}
+            <section class="bloc-s bloc-s--large">
+              <h4>{t.blocEtapesDevops}</h4>
+              <ol class="code code--etapes">
+                {s.devops.etapes.map((e) => (
+                  <li>{e}</li>
+                ))}
+              </ol>
+            </section>
+            {s.devops.choix && (
+              <section class="bloc-s">
+                <h4>{t.blocChoix}</h4>
+                <p>{s.devops.choix}</p>
+              </section>
+            )}
+            {s.devops.lie && (
+              <section class="bloc-s">
+                <h4>{t.blocLie}</h4>
+                <p>{s.devops.lie}</p>
+              </section>
+            )}
+          </>
+        ) : (
+          <>
+            <section class="bloc-s bloc-s--large">
+              <h4>{t.blocProbleme}</h4>
+              <p>{s.probleme}</p>
+            </section>
+            <section class="bloc-s">
+              <h4>{t.blocCompte}</h4>
+              <ul class="pastilles">
+                {s.compte.map((c) => (
+                  <li>{c}</li>
+                ))}
+              </ul>
+            </section>
+            <section class="bloc-s">
+              <h4>{t.blocOptions}</h4>
+              <ul class="options">
+                {s.options.map((o) => (
+                  <li class:list={['option', { 'option--retenue': o.retenue }]}>
+                    <span class="option__texte">
+                      {o.texte}
+                      {o.raison && <span class="option__raison">{o.raison}</span>}
+                    </span>
+                    <span class="option__verdict">{o.retenue ? t.retenue : t.ecartee}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+            <section class="bloc-s bloc-s--large">
+              <h4>{t.blocSolution}</h4>
+              {s.schema && (
+                <ol class="schema" aria-label={t.schemaSolution}>
+                  {s.schema.map((etape) => (
+                    <li>
+                      <span>{etape}</span>
+                    </li>
+                  ))}
+                </ol>
+              )}
+              <ol class="etapes">
+                {s.etapes.map((e) => (
+                  <li>{e}</li>
+                ))}
+              </ol>
+            </section>
+            {s.laisse && (
+              <section class="bloc-s">
+                <h4>{t.blocLaisse}</h4>
+                <p>{s.laisse}</p>
+              </section>
+            )}
+            <section class:list={['bloc-s', { 'bloc-s--large': !s.laisse }]}>
+              <h4>{t.blocResultat}</h4>
+              <p>{s.resultat}</p>
+            </section>
+          </>
+        )
+      }
+
+      {
+        s.preuves.length > 0 && (
+          <section class="bloc-s bloc-s--large">
+            <h4>{t.blocPreuves}</h4>
+            <ul class="preuves">
+              {s.preuves.map((p) => (
+                <li>
+                  <a href={p.url}>
+                    {p.label} <span aria-hidden="true">→</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        (precedente || suivante) && (
+          <p class="solution__voisines">
+            {precedente && (
+              <a href={`#${ancreSolution(precedente)}`}>
+                <span aria-hidden="true">← </span>
+                {t.solutionPrecedente}
+              </a>
+            )}
+            {suivante && (
+              <a class="solution__suivante" href={`#${ancreSolution(suivante)}`}>
+                {t.solutionSuivante}
+                <span aria-hidden="true"> →</span>
+              </a>
+            )}
+          </p>
+        )
+      }
+    </div>
+  </details>
+</li>

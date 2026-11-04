@@ -22,7 +22,6 @@
    face, le fil de l'autre face reste en filigrane : ses lignes seulement,
    très pâles, sans texte (ni à l'écran, ni pour les lecteurs d'écran). */
 .fils {
-  --fondu: min(32vh, 300px);
   display: grid;
 }
 
@@ -41,21 +40,6 @@
   .fil {
     opacity: 0;
   }
-}
-
-/* Le bas de l'écran : un fondu vers la couleur de la page, collé au bas de
-   l'écran. Le fil y devient de plus en plus transparent, et s'éclaire en
-   montant, au rythme du défilement. En bas de la page, il ne couvre plus que
-   la queue du fil. */
-.fondu {
-  position: sticky;
-  bottom: 0;
-  align-self: end;
-  height: var(--fondu);
-  background: var(--fond);
-  mask-image: linear-gradient(transparent, #000);
-  pointer-events: none;
-  transition: background-color 0.4s ease;
 }
 
 [data-face='neutre'] .fils {

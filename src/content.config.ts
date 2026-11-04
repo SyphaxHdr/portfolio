@@ -32,6 +32,7 @@ const projets = defineCollection({
   }),
 });
 
+// Une solution est une fiche : chaque champ a sa place dans la page projet.
 const solutions = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: './src/content/solutions' }),
   schema: z
@@ -45,11 +46,34 @@ const solutions = defineCollection({
       commit: z.string().optional(),
       noteDevops: z.string().optional(),
       sousProjet: z.string().optional(),
+      probleme: z.string(),
+      compte: z.array(z.string()).min(1),
+      options: z
+        .array(z.object({ texte: z.string(), raison: z.string().optional(), retenue: z.boolean().default(false) }))
+        .min(2),
+      schema: z.array(z.string()).min(2).optional(),
+      etapes: z.array(z.string()).min(1),
+      laisse: z.string().optional(),
+      resultat: z.string(),
+      preuves: z.array(z.object({ label: z.string(), url: z.url() })).default([]),
+      devops: z
+        .object({
+          declencheur: z.string().optional(),
+          fichier: z.string().optional(),
+          etapes: z.array(z.string()).min(1),
+          choix: z.string().optional(),
+          lie: z.string().optional(),
+        })
+        .optional(),
       brouillon: z.boolean().default(false),
     })
-    .refine((s) => !s.pistes.includes('devops') || (s.branche && s.commit), {
-      error: 'Une solution de la piste devops doit avoir une branche et un commit.',
-      path: ['commit'],
+    .refine((s) => s.options.some((o) => o.retenue), {
+      error: 'Une des options doit être retenue (retenue: true).',
+      path: ['options'],
+    })
+    .refine((s) => !s.pistes.includes('devops') || (s.branche && s.commit && s.devops), {
+      error: 'Une solution de la piste devops doit avoir une branche, un commit et une partie devops.',
+      path: ['devops'],
     }),
 });
 
@@ -95,6 +119,43 @@ const ui = defineCollection({
     legendeSolution: z.string(),
     publiePar: z.string(),
     construitEnLocal: z.string(),
+    navigationProjet: z.string(),
+    retourFil: z.string(),
+    ficheRole: z.string(),
+    ficheEquipe: z.string(),
+    fichePeriode: z.string(),
+    fichePile: z.string(),
+    personnes: z.string(),
+    problemes: z.string(),
+    problemesDevops: z.string(),
+    aideProblemes: z.string(),
+    aideProblemesDevops: z.string(),
+    voirSolution: z.string(),
+    masquerSolution: z.string(),
+    ouvrir: z.string(),
+    fermer: z.string(),
+    blocProbleme: z.string(),
+    blocCompte: z.string(),
+    blocOptions: z.string(),
+    retenue: z.string(),
+    ecartee: z.string(),
+    blocSolution: z.string(),
+    schemaSolution: z.string(),
+    blocLaisse: z.string(),
+    blocResultat: z.string(),
+    blocPreuves: z.string(),
+    blocDeclencheur: z.string(),
+    blocFichier: z.string(),
+    blocEtapesDevops: z.string(),
+    blocChoix: z.string(),
+    blocLie: z.string(),
+    solutionPrecedente: z.string(),
+    solutionSuivante: z.string(),
+    debut: z.string(),
+    debutDevops: z.string(),
+    autresProjets: z.string(),
+    plusRecent: z.string(),
+    plusAncien: z.string(),
   }),
 });
 

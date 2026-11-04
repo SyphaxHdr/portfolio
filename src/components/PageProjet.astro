@@ -1,0 +1,202 @@
+---
+import '../styles/fil.css';
+import '../styles/projet.css';
+import Probleme from './Probleme.astro';
+import {
+  adresseProjet,
+  elementsDe,
+  etatProjet,
+  slug,
+  solutions,
+  textes,
+  type FaceProjet,
+  type Langue,
+  type Projet,
+} from '../lib/contenu';
+
+interface Props {
+  face: FaceProjet;
+  langue: Langue;
+  projet: Projet;
+  plusRecent?: Projet;
+  plusAncien?: Projet;
+}
+
+const { face, langue, projet, plusRecent, plusAncien } = Astro.props;
+const t = await textes(langue);
+const devops = face === 'devops';
+const d = projet.data;
+
+// L'autre face : la même page projet si elle existe, sinon le fil.
+const autreFace: FaceProjet = devops ? 'production' : 'devops';
+const versAutreFace = d.pistes.includes(autreFace) ? adresseProjet(autreFace, projet) : `/${autreFace}/`;
+
+// Les solutions dans l'ordre ; celles d'un sous-projet portent son nom.
+const liste = elementsDe(projet, await solutions(langue, face)).flatMap((el) =>
+  el.type === 'solution'
+    ? [{ solution: el.solution, sousProjet: undefined }]
+    : el.solutions.map((solution) => ({
+        solution,
+        sousProjet: devops ? el.sousProjet.titreDevops : el.sousProjet.titre,
+      })),
+);
+const enCours = d.statut === 'en-cours';
+const titre = (p: Projet) => (devops ? p.data.titreDevops : p.data.titre);
+const equipe = d.equipe === 1 ? t.seul : `${d.equipe} ${t.personnes}`;
+const debut = devops
+  ? `${t.debutDevops} · ${d.debut.toISOString().slice(0, 7)}`
+  : `${t.debut} · ${new Intl.DateTimeFormat(langue === 'fr' ? 'fr-FR' : 'en-GB', {
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }).format(d.debut)}`;
+---
+
+<div
+  class:list={['projet', `projet--${face}`]}
+  style={`--sc: var(--branche-${d.couleur}); --sf: var(--branche-${(d.couleur % 4) + 1})`}
+>
+  <nav class="projet__nav" aria-label={t.navigationProjet}>
+    <a class="projet__lien" href={`/${face}/#${face}-${slug(projet.id)}`}>
+      <span aria-hidden="true">←</span>
+      <span>{t.retourFil}</span>
+    </a>
+    <a class="projet__lien projet__lien--face" href={versAutreFace} data-autre-face>
+      {!devops && <span>{t.voirDevops}</span>}
+      <span aria-hidden="true">{devops ? '←' : '→'}</span>
+      {devops && <span>{t.voirProduction}</span>}
+    </a>
+  </nav>
+
+  <div class="projet__fil">
+    <div class:list={['fil', `fil--${face}`]}>
+      <header class="bloc bloc--fiche">
+        <i class="bloc__tronc" aria-hidden="true"></i>
+        <i class="fiche__point" aria-hidden="true"></i>
+
+        <div class="bloc__entete">
+          <h1 class="bloc__titre">{titre(projet)}</h1>
+          <span class:list={['etat', { 'etat--plein': enCours }]}>{etatProjet(projet, t)}</span>
+        </div>
+        <p class="fiche__resume">{devops ? d.resumeDevops : d.resume}</p>
+
+        {
+          devops && d.pile.length > 0 && (
+            <ul class="etiquettes" aria-label={t.fichePile}>
+              {d.pile.map((outil) => (
+                <li>{outil}</li>
+              ))}
+            </ul>
+          )
+        }
+
+        <dl class="fiche">
+          <div>
+            <dt>{t.ficheRole}</dt>
+            <dd>{d.role}</dd>
+          </div>
+          <div>
+            <dt>{t.ficheEquipe}</dt>
+            <dd>{equipe}</dd>
+          </div>
+          <div>
+            <dt>{t.fichePeriode}</dt>
+            <dd>{d.periode}</dd>
+          </div>
+        </dl>
+
+        {projet.rendered?.html && <div class="fiche__texte" set:html={projet.rendered.html} />}
+
+        {
+          d.liens.length > 0 && (
+            <ul class="fiche__liens">
+              {d.liens.map((l) => (
+                <li>
+                  <a href={l.url}>
+                    {l.label} <span aria-hidden="true">↗</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </header>
+
+      {
+        liste.length > 0 && (
+          <section
+            class:list={['bloc', 'bloc--flux', { 'bloc--en-cours': enCours }]}
+            id="problemes"
+            aria-labelledby="titre-problemes"
+          >
+            <i class="bloc__tronc" aria-hidden="true"></i>
+            <i class="bloc__branche" aria-hidden="true"></i>
+            {
+              enCours ? (
+                <svg class="bloc__tete" viewBox="0 0 28 28" aria-hidden="true">
+                  <circle class="tete__piste" cx="14" cy="14" r="12" />
+                  <circle class="tete__arc" cx="14" cy="14" r="12" pathLength="100" />
+                  <circle class="tete__point" cx="14" cy="14" r="6" />
+                </svg>
+              ) : (
+                <i class="bloc__losange" aria-hidden="true" />
+              )
+            }
+
+            <div class="bloc__entete">
+              <h2 class="bloc__titre" id="titre-problemes">{devops ? t.problemesDevops : t.problemes}</h2>
+            </div>
+            <p class="flux__aide">{devops ? t.aideProblemesDevops : t.aideProblemes}</p>
+
+            <ol class="problemes">
+              {liste.map(({ solution, sousProjet }, i) => (
+                <Probleme
+                  solution={solution}
+                  face={face}
+                  t={t}
+                  sousProjet={sousProjet}
+                  precedente={liste[i - 1]?.solution}
+                  suivante={liste[i + 1]?.solution}
+                />
+              ))}
+            </ol>
+
+            <div class="flux__debut"><span>{debut}</span></div>
+          </section>
+        )
+      }
+
+      <i class="fil__queue" aria-hidden="true"></i>
+    </div>
+    <i class="fondu" aria-hidden="true"></i>
+  </div>
+
+  {
+    (plusRecent || plusAncien) && (
+      <nav class="voisins" aria-label={t.autresProjets}>
+        {plusRecent && (
+          <a class="voisin" href={adresseProjet(face, plusRecent)} rel="prev">
+            <span class="voisin__sens">
+              <span aria-hidden="true">← </span>
+              {t.plusRecent}
+            </span>
+            <span class="voisin__titre">{titre(plusRecent)}</span>
+          </a>
+        )}
+        {plusAncien && (
+          <a class="voisin voisin--ancien" href={adresseProjet(face, plusAncien)} rel="next">
+            <span class="voisin__sens">
+              {t.plusAncien}
+              <span aria-hidden="true"> →</span>
+            </span>
+            <span class="voisin__titre">{titre(plusAncien)}</span>
+          </a>
+        )}
+      </nav>
+    )
+  }
+</div>
+
+<script>
+  import '../scripts/projet.js';
+</script>
