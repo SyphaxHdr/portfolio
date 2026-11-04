@@ -1,0 +1,36 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import Entete from '../components/Entete.astro';
+import PiedDePage from '../components/PiedDePage.astro';
+import type { Face, Langue } from '../lib/contenu';
+
+interface Props {
+  titre: string;
+  face: Face;
+  langue?: Langue;
+}
+
+const { titre, face, langue = 'fr' } = Astro.props;
+---
+
+<html lang={langue} data-face={face}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <Font cssVariable="--font-instrument-sans" preload />
+    <Font cssVariable="--font-fraunces" />
+    <Font cssVariable="--font-jetbrains-mono" />
+    <title>{titre}</title>
+  </head>
+  <body>
+    <Entete face={face} langue={langue} />
+    <main class="conteneur principal">
+      <slot />
+    </main>
+    <PiedDePage langue={langue} />
+  </body>
+</html>

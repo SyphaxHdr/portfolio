@@ -4,6 +4,22 @@ Format : une section par version, la plus récente en haut.
 
 ## [Non publié]
 
+## [0.4.0] - 2026-11-04
+
+Base visuelle.
+
+### Ajouté
+
+- Les couleurs des trois états : accueil neutre, face production (jour), face DevOps (nuit).
+- Les polices Fraunces, Instrument Sans et JetBrains Mono, servies par le site lui-même.
+- Une barre du haut avec les deux faces, et un pied de page avec les liens.
+- La date « Mis à jour le », prise automatiquement du dernier commit.
+- Les pages `/production` et `/devops`, chacune avec ses projets et ses problèmes réglés.
+
+### Changé
+
+- L'accueil devient neutre : il propose de choisir une face.
+
 ## [0.3.0] - 2026-11-04
 
 Contenu en fichiers.
