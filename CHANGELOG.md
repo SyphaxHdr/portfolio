@@ -4,6 +4,31 @@ Format : une section par version, la plus récente en haut.
 
 ## [Non publié]
 
+## [0.8.0] - 2026-11-04
+
+Une page par projet.
+
+### Ajouté
+
+- Une page par projet, sur chaque face : `/production/projets/<projet>/` et `/devops/projets/<projet>/`.
+- En haut de la page : le titre, l'état, le résumé, le rôle, l'équipe, la période, le texte du projet et ses liens ; sur la face DevOps, les outils en étiquettes.
+- Les problèmes réglés dessinés comme un historique Git : la branche du projet part du tronc au début du projet et y revient à sa sortie ; chaque solution est une branche feature qui part de la branche du projet et la rejoint au niveau de son titre. Sur la face DevOps, le nom de la branche s'affiche au-dessus du commit.
+- « Voir la solution » ouvre une fiche qui se lit d'un coup d'œil : le problème, ce qui comptait (en pastilles), les options écartées et celle retenue, la solution en schéma et en étapes numérotées, ce qui a été laissé de côté, le résultat et les preuves. Sur la face DevOps : le déclencheur, le fichier, ce que ça fait, le choix et ce à quoi c'est lié.
+- On passe d'une solution à la précédente ou à la suivante sans refermer.
+- Sur le fil, le titre d'un projet et chacune de ses solutions mènent à la page projet ; une solution s'y ouvre directement.
+- Sur une page projet, ← → et le glissement au doigt passent à l'autre face du même projet en gardant la solution ouverte ; un lien en haut fait la même chose.
+- « Retour au fil » ramène au projet sur le fil ; en bas, les projets voisins.
+- Un fondu enchaîné d'une page à l'autre, coupé si le mouvement est réduit.
+
+### Changé
+
+- Une solution s'écrit en champs (problème, ce qui comptait, options, étapes, résultat, partie DevOps) au lieu d'un texte libre ; le site refuse de se construire si un champ obligatoire manque. Le modèle `modeles/solution.md` montre tous les champs.
+
+### Corrigé
+
+- « Parcours » dans la barre du haut fonctionne aussi depuis une page projet.
+- Le README et `MAINTENANCE.md` n'annoncent plus comme faites des vérifications qui arrivent avant la version 1.0.
+
 ## [0.7.0] - 2026-11-04
 
 Le fil au défilement, l'autre face en filigrane.

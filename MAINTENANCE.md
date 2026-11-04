@@ -4,7 +4,7 @@ Ce site est géré comme un petit projet d'équipe, même si je suis seul dessus
 
 1. **Le contenu est séparé du code.** Chaque projet et chaque solution est un fichier texte. Changer un texte ne demande pas de toucher au code.
 2. **Ajouter un projet prend quelques minutes.** On copie un modèle, on le remplit, on ouvre une pull request.
-3. **Rien n'est publié sans vérification.** À chaque pull request, GitHub Actions construit le site et vérifie les champs, les liens, le poids des images et l'orthographe. Si quelque chose ne va pas, la fusion est bloquée.
+3. **Rien n'est publié sans vérification.** À chaque pull request, GitHub Actions construit le site et vérifie les champs ; les liens, le poids des images et l'orthographe s'ajoutent avant la version 1.0. Si quelque chose ne va pas, la fusion est bloquée.
 4. **La publication est automatique.** À la fusion sur `main`, le site est reconstruit et mis en ligne. La date de mise à jour vient du dernier commit.
 5. **Chaque version est notée.** Un jalon, un tag Git et une release pour chaque version, de la 0.1 à la 1.0.
 
