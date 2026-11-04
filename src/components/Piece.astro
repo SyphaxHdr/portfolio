@@ -1,0 +1,173 @@
+---
+import type { Face } from '../lib/contenu';
+
+interface Props {
+  face: Face;
+  libelle: string;
+  nom: string;
+}
+
+const { face, libelle, nom } = Astro.props;
+const haut = nom.toUpperCase();
+const tranches = [-4, -2.7, -1.3, 0, 1.3, 2.7, 4];
+// Stries fines des deux métaux, comme sur une pièce frappée.
+const striesOr = Array.from({ length: 23 }, (_, i) => 4 + i * 2.4);
+const striesArgent = Array.from({ length: 7 }, (_, i) => 64 + i * 3.2);
+// Étoiles gravées sur l'anneau, entre les deux inscriptions.
+const etoiles = [64, 80, 96, -64, -80, -96];
+const etoile = 'M0-3.2.9-1 3.2-1 1.3.4 2 2.7 0 1.3-2 2.7-1.3.4-3.2-1-.9-1Z';
+const infini = 'M30 16C22 4 6 4 6 16s16 12 24 0 24-12 24 0-16 12-24 0Z';
+---
+
+<div class="piece-socle">
+  <div class="piece-scene">
+    <button
+      type="button"
+      class="piece piece--repos"
+      data-cote={face === 'devops' ? 'devops' : 'production'}
+      aria-label={libelle}
+      hidden
+    >
+      <span class="piece__rotation" style={`--angle: ${face === 'devops' ? 180 : 0}deg`}>
+        {tranches.map((z) => <span class="piece__tranche" style={`--z: ${z}px`} />)}
+
+        <span class="piece__face piece__face--production">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <use href="#piece-base" />
+            <!-- Accueil : le ∞ de DevOps porte les trois nœuds de la production. -->
+            <g class="embleme embleme--neutre" filter="url(#piece-relief)">
+              <g transform="translate(62.5 75) scale(1.25)">
+                <path class="piece__trait piece__trait--epais" d={infini} />
+                <circle class="piece__noeud" cx="6" cy="16" r="5.2" />
+                <circle class="piece__noeud" cx="30" cy="16" r="5.2" />
+                <circle class="piece__noeud" cx="54" cy="16" r="5.2" />
+                <circle class="piece__coeur" cx="6" cy="16" r="1.6" />
+                <circle class="piece__coeur" cx="30" cy="16" r="1.6" />
+                <circle class="piece__coeur" cx="54" cy="16" r="1.6" />
+              </g>
+              <text class="piece__mot" x="100" y="134">PILE OU FACE</text>
+            </g>
+            <g class="embleme embleme--production" filter="url(#piece-relief)">
+              <g transform="translate(67.5 57) scale(1.25)">
+                <path class="piece__trait" d="M23.5 13.5 11.5 30.5M28.5 13.5l12 17M15 35h22" />
+                <circle class="piece__noeud" cx="26" cy="9" r="6" />
+                <circle class="piece__noeud" cx="9" cy="35" r="6" />
+                <circle class="piece__noeud" cx="43" cy="35" r="6" />
+                <circle class="piece__coeur" cx="26" cy="9" r="1.9" />
+                <circle class="piece__coeur" cx="9" cy="35" r="1.9" />
+                <circle class="piece__coeur" cx="43" cy="35" r="1.9" />
+              </g>
+              <text class="piece__mot" x="100" y="134">PRODUCTION</text>
+            </g>
+            <use href="#piece-lumiere" />
+          </svg>
+        </span>
+
+        <span class="piece__face piece__face--devops">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <use href="#piece-base" />
+            <g class="embleme" filter="url(#piece-relief)">
+              <g transform="translate(62.5 75) scale(1.25)" class="piece__trait piece__trait--epais">
+                <path d={infini} />
+                <path d="M42.2 3.6 46 7l-3.8 3.4" />
+                <path d="M12.2 21.6 16 25l-3.8 3.4" />
+              </g>
+              <text class="piece__mot" x="100" y="134">DEVOPS</text>
+            </g>
+            <use href="#piece-lumiere" />
+          </svg>
+        </span>
+      </span>
+    </button>
+  </div>
+  <i class="piece-ombre" aria-hidden="true"></i>
+
+  <svg class="piece-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Deux métaux plats, éclairés en haut à gauche. -->
+      <linearGradient id="piece-argent" x1="0.15" y1="0" x2="0.85" y2="1">
+        <stop offset="0" stop-color="#f3f0e9" />
+        <stop offset="0.5" stop-color="#c9c5bc" />
+        <stop offset="1" stop-color="#948f86" />
+      </linearGradient>
+      <linearGradient id="piece-or" x1="0.15" y1="0" x2="0.85" y2="1">
+        <stop offset="0" stop-color="#f0d993" />
+        <stop offset="0.55" stop-color="#d1ad5f" />
+        <stop offset="1" stop-color="#a5823d" />
+      </linearGradient>
+      <!-- Le rebord : un biseau clair en haut à gauche, sombre en bas à droite. -->
+      <linearGradient id="piece-biseau" x1="0.1" y1="0" x2="0.9" y2="1">
+        <stop offset="0" stop-color="#ffffff" />
+        <stop offset="0.45" stop-color="#d8d4cc" />
+        <stop offset="1" stop-color="#5f5a52" />
+      </linearGradient>
+      <!-- La marche entre l'anneau et le cœur : sombre en haut, claire en bas. -->
+      <linearGradient id="piece-marche" x1="0.1" y1="0" x2="0.9" y2="1">
+        <stop offset="0" stop-color="#4c473f" stop-opacity="0.75" />
+        <stop offset="1" stop-color="#fffbe9" stop-opacity="0.85" />
+      </linearGradient>
+      <radialGradient id="piece-reflet" cx="0.3" cy="0.24" r="0.62">
+        <stop offset="0" stop-color="#fff" stop-opacity="0.5" />
+        <stop offset="0.55" stop-color="#fff" stop-opacity="0.08" />
+        <stop offset="1" stop-color="#fff" stop-opacity="0" />
+      </radialGradient>
+      <radialGradient id="piece-penombre" cx="0.72" cy="0.78" r="0.6">
+        <stop offset="0" stop-color="#000" stop-opacity="0.14" />
+        <stop offset="1" stop-color="#000" stop-opacity="0" />
+      </radialGradient>
+
+      <!-- Relief : le symbole sort du métal (lumière en haut à gauche). -->
+      <filter id="piece-relief" x="-15%" y="-15%" width="130%" height="130%">
+        <feDropShadow dx="-0.6" dy="-0.7" stdDeviation="0.1" flood-color="#fffdf0" flood-opacity="0.9" />
+        <feDropShadow dx="0.8" dy="1" stdDeviation="0.25" flood-color="#2e2108" flood-opacity="0.5" />
+      </filter>
+      <!-- Gravure : les lettres sont creusées dans l'anneau. -->
+      <filter id="piece-grave" x="-10%" y="-10%" width="120%" height="120%">
+        <feDropShadow dx="0.5" dy="0.7" stdDeviation="0" flood-color="#ffffff" flood-opacity="0.85" />
+        <feDropShadow dx="-0.4" dy="-0.5" stdDeviation="0" flood-color="#2f2b25" flood-opacity="0.55" />
+      </filter>
+      <!-- Grain du métal -->
+      <filter id="piece-grain" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="7" result="bruit" />
+        <feColorMatrix in="bruit" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.1 0" result="voile" />
+        <feComposite in="voile" in2="SourceGraphic" operator="in" result="grain" />
+        <feMerge><feMergeNode in="SourceGraphic" /><feMergeNode in="grain" /></feMerge>
+      </filter>
+
+      <path id="piece-arc-haut" d="M29 100a71 71 0 0 1 142 0" />
+      <path id="piece-arc-bas" d="M21 100a79 79 0 0 0 158 0" />
+
+      <g id="piece-base">
+        <g filter="url(#piece-grain)">
+          <!-- Rebord -->
+          <circle cx="100" cy="100" r="90" fill="#4f4b44" />
+          <circle cx="100" cy="100" r="89.3" fill="url(#piece-biseau)" />
+          <circle cx="100" cy="100" r="86.2" fill="url(#piece-argent)" />
+          <circle cx="100" cy="100" r="86.2" fill="none" stroke="#3f3b35" stroke-opacity="0.45" stroke-width="0.7" />
+          <!-- Anneau argenté -->
+          <g fill="none" stroke="#3f3b35" stroke-opacity="0.06" stroke-width="0.5">
+            {striesArgent.map((r) => <circle cx="100" cy="100" r={r} />)}
+          </g>
+          <!-- Cœur doré, posé un cran plus bas que l'anneau -->
+          <circle cx="100" cy="100" r="61.6" fill="url(#piece-marche)" />
+          <circle cx="100" cy="100" r="60.2" fill="url(#piece-or)" />
+          <g fill="none" stroke="#5e4416" stroke-opacity="0.08" stroke-width="0.4">
+            {striesOr.map((r) => <circle cx="100" cy="100" r={r} />)}
+          </g>
+        </g>
+        <!-- Inscriptions et étoiles gravées -->
+        <g class="piece__legende" filter="url(#piece-grave)">
+          <text><textPath href="#piece-arc-haut" startOffset="50%">{haut}</textPath></text>
+          <text><textPath href="#piece-arc-bas" startOffset="50%">PRODUCTION • DEVOPS</textPath></text>
+          {etoiles.map((a) => <path transform={`rotate(${a} 100 100) translate(100 25)`} d={etoile} />)}
+        </g>
+      </g>
+
+      <!-- Lumière posée sur la pièce, par-dessus tout le reste -->
+      <g id="piece-lumiere">
+        <circle cx="100" cy="100" r="89" fill="url(#piece-reflet)" />
+        <circle cx="100" cy="100" r="89" fill="url(#piece-penombre)" />
+      </g>
+    </defs>
+  </svg>
+</div>

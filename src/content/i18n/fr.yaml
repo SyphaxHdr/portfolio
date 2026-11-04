@@ -3,8 +3,6 @@ choisirFace: Choisis une face pour voir les projets.
 faces: Changer de face
 production: Production
 devops: DevOps
-projets: Projets
-solutions: Problèmes réglés
 liens: Mes liens
 miseAJour: Mis à jour le
 enCours: en cours
@@ -16,3 +14,26 @@ autresSolutions: autres solutions
 autresCommits: autres commits
 parcours: Parcours
 parcoursDevops: git log main
+accrocheProduction: J'organise une équipe de jeu et je débloque son travail.
+accrocheDevops: J'automatise le travail d'une équipe de jeu pour qu'elle livre sans friction.
+maintenant: "En ce moment :"
+consigneNeutre: Production ou DevOps ? Clique sur une flèche, appuie sur ← → ou lance la pièce.
+consigneNeutreTactile: Production ou DevOps ? Glisse la page, touche une flèche ou lance la pièce.
+consigneProduction: Face production. Clique sur la flèche de droite ou appuie sur → pour retourner la pièce.
+consigneProductionTactile: Face production. Glisse la page vers la gauche ou touche la flèche de droite pour retourner la pièce.
+consigneDevops: Face DevOps. Clique sur la flèche de gauche ou appuie sur ← pour retourner la pièce.
+consigneDevopsTactile: Face DevOps. Glisse la page vers la droite ou touche la flèche de gauche pour retourner la pièce.
+lancerPiece: Lancer la pièce
+voirProduction: Voir la face Production
+voirDevops: Voir la face DevOps
+annonceProduction: Face production affichée.
+annonceDevops: Face DevOps affichée.
+legende: Comment lire le fil ?
+legendeTronc: "Le tronc : la face choisie, du plus récent (en haut) au plus ancien."
+legendeBranche: Une branche colorée = un projet. Elle part du tronc et y revient.
+legendeSousProjet: Une petite branche dans un projet = un sous-projet.
+legendeEnCours: Un point entouré d'un arc qui tourne = un projet en cours.
+legendeLosange: Un losange = une version sortie.
+legendeSolution: Un petit rond = une solution.
+publiePar: publié par GitHub Actions
+construitEnLocal: construit en local

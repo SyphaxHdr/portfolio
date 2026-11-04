@@ -26,6 +26,7 @@ const faces = [
             <li>
               <a
                 href={f.href}
+                data-vers={f.id}
                 class:list={['bouton-face', `bouton-face--${f.id}`]}
                 aria-current={face === f.id ? 'page' : undefined}
               >

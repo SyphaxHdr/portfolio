@@ -40,3 +40,12 @@ export async function parcours(langue: Langue) {
   const entree = await getEntry('parcours', langue);
   return entree?.data.etapes ?? [];
 }
+
+type Textes = Awaited<ReturnType<typeof textes>>;
+type Profil = Awaited<ReturnType<typeof profil>>;
+
+export function titrePage(face: Face, t: Textes, p: Profil) {
+  if (face === 'production') return `${t.production} · ${p.nom}`;
+  if (face === 'devops') return `${t.devops} · ${p.nom}`;
+  return p.nom;
+}

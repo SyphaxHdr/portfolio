@@ -1,0 +1,568 @@
+/* Les deux faces : l'accueil, la pièce et le passage d'une face à l'autre. */
+.principal:has(.faces) {
+  padding-top: 0;
+}
+
+.faces {
+  position: relative;
+  touch-action: pan-y;
+}
+
+/* Ce qui ne concerne qu'une face est masqué sur les autres. */
+[data-face='neutre'] .fil,
+[data-face='production'] .fil--devops,
+[data-face='devops'] .fil--production,
+[data-face='neutre'] [data-pour]:not([data-pour='neutre']),
+[data-face='production'] [data-pour]:not([data-pour='production']),
+[data-face='devops'] [data-pour]:not([data-pour='devops']) {
+  display: none;
+}
+
+/* Les deux lignes qui descendent du haut. La ligne de la face choisie
+   devient le tronc ; l'autre s'efface. */
+.rail {
+  position: absolute;
+  inset-block: 0;
+  width: var(--trait);
+  background: var(--tronc);
+  transition:
+    opacity 0.4s ease,
+    background-color 0.4s ease;
+}
+
+.rail--production {
+  inset-inline-start: var(--x-tronc);
+}
+
+.rail--devops {
+  inset-inline-end: var(--x-tronc);
+}
+
+[data-face='neutre'] .rail--production {
+  background: var(--ligne-production);
+}
+
+[data-face='neutre'] .rail--devops {
+  background: var(--ligne-devops);
+}
+
+[data-face='production'] .rail--devops,
+[data-face='devops'] .rail--production {
+  opacity: 0;
+}
+
+/* En-tête de la page */
+.heros {
+  position: relative;
+  padding: clamp(2.5rem, 6vw, 3.5rem) calc(var(--x-tronc) + var(--trait) + 1.25rem) 2.5rem;
+  text-align: center;
+}
+
+@media (min-width: 48rem) {
+  .heros {
+    padding-inline: calc(var(--pad) - 2rem);
+  }
+}
+
+.heros__nom {
+  margin: 0;
+  font-size: clamp(2.4rem, 6vw, 3.5rem);
+  line-height: 1.05;
+}
+
+.heros__accroche {
+  margin: 0.75rem auto 0;
+  max-width: 36ch;
+  font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.heros__situation {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  max-width: 100%;
+  margin: 1.25rem auto 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--bordure);
+  border-radius: 1.25rem;
+  background: var(--surface);
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.pastille {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* La pièce et ses flèches */
+.piece-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.5rem, 4vw, 2rem);
+  margin-top: 2rem;
+}
+
+.fleche {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 6.5rem;
+  padding: 0.5rem;
+  border-radius: var(--rayon);
+  color: var(--texte);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.fleche__rond {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+}
+
+.fleche svg {
+  animation: pousse-gauche 1.4s ease-in-out infinite;
+}
+
+.fleche--devops svg {
+  animation-name: pousse-droite;
+}
+
+.fleche[aria-current='page'] {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.fleche[aria-current='page'] svg {
+  animation: none;
+}
+
+@keyframes pousse-gauche {
+  50% {
+    transform: translateX(-6px);
+  }
+}
+
+@keyframes pousse-droite {
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+.piece-socle {
+  position: relative;
+  flex: none;
+}
+
+.piece-scene {
+  width: 184px;
+  height: 184px;
+  perspective: 900px;
+}
+
+.piece-scene.lancer {
+  animation: saut 1.2s cubic-bezier(0.3, 0.6, 0.3, 1);
+}
+
+@keyframes saut {
+  40% {
+    transform: translateY(-110px);
+  }
+
+  80% {
+    transform: translateY(0);
+  }
+
+  90% {
+    transform: translateY(-8px);
+  }
+}
+
+/* L'ombre sous la pièce : elle rétrécit quand la pièce saute. */
+.piece-ombre {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: -8px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.22), transparent);
+}
+
+.piece-socle:has(.lancer) .piece-ombre {
+  animation: ombre 1.2s cubic-bezier(0.3, 0.6, 0.3, 1);
+}
+
+@keyframes ombre {
+  40% {
+    transform: scale(0.45);
+    opacity: 0.35;
+  }
+
+  80% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.piece {
+  display: block;
+  overflow: visible;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.piece[hidden] {
+  display: none;
+}
+
+.piece__rotation {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--angle, 0deg));
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.lancer .piece__rotation {
+  transition-duration: 1.2s;
+  transition-timing-function: cubic-bezier(0.2, 0.55, 0.25, 1);
+}
+
+/* L'épaisseur de la pièce : des disques empilés, visibles quand elle tourne. */
+/* La tranche striée, visible quand la pièce tourne. */
+.piece__tranche {
+  position: absolute;
+  inset: 5.5%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(#8d887f 0 1.5deg, #cfcac0 1.5deg 3deg);
+  transform: translateZ(var(--z));
+}
+
+.piece__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+}
+
+.piece__face svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Au repos, la pièce est dessinée à plat, sans 3D : le navigateur n'a pas à
+   ré-étirer son image, elle reste nette au pixel près. La 3D ne sert que
+   pendant qu'elle tourne. */
+.piece--repos .piece__rotation {
+  transform: none;
+  transition: none;
+}
+
+.piece--repos .piece__tranche,
+.piece--repos[data-cote='production'] .piece__face--devops,
+.piece--repos[data-cote='devops'] .piece__face--production {
+  display: none;
+}
+
+.piece--repos .piece__face {
+  transform: none;
+  backface-visibility: visible;
+}
+
+.piece__face--production {
+  transform: translateZ(4.5px);
+}
+
+.piece__face--devops {
+  transform: rotateY(180deg) translateZ(4.5px);
+}
+
+.piece__trait {
+  fill: none;
+  stroke: #5c4417;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.piece__trait--epais {
+  stroke-width: 3.2;
+}
+
+/* Les nœuds du réseau : un anneau en relief avec un point au centre. */
+.piece__noeud {
+  fill: #d8b668;
+  stroke: #5c4417;
+  stroke-width: 2.4;
+}
+
+.piece__coeur {
+  fill: #5c4417;
+}
+
+.piece__mot,
+.piece__legende {
+  font-family: var(--police-mono);
+  font-weight: 600;
+}
+
+.piece__mot {
+  fill: #5c4417;
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  text-anchor: middle;
+}
+
+.piece__legende {
+  fill: #5d5850;
+  font-size: 10px;
+  letter-spacing: 2.6px;
+  text-anchor: middle;
+}
+
+/* Sur l'accueil, la pièce montre l'emblème d'accueil ; sinon, la face choisie. */
+.embleme {
+  transition: opacity 0.3s ease;
+}
+
+[data-face='neutre'] .embleme--production,
+[data-face='production'] .embleme--neutre,
+[data-face='devops'] .embleme--neutre {
+  opacity: 0;
+}
+
+.piece-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 47.99rem) {
+  .fleche {
+    min-width: 4.75rem;
+    font-size: 0.85rem;
+  }
+
+  .fleche__rond {
+    width: 48px;
+    height: 48px;
+  }
+
+  .piece-scene {
+    width: 144px;
+    height: 144px;
+  }
+}
+
+/* La consigne parle du geste qui marche sur l'appareil : souris et clavier
+   sur ordinateur, glissement sur écran tactile. */
+.si-tactile {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .si-souris {
+    display: none;
+  }
+
+  .si-tactile {
+    display: inline;
+  }
+}
+
+.heros__consigne {
+  max-width: 42ch;
+  text-wrap: balance;
+  margin: 1rem auto 0;
+  color: var(--texte-doux);
+  font-size: 0.95rem;
+}
+
+/* Comment lire le fil ? */
+.legende {
+  margin-top: 1rem;
+}
+
+.legende summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1.5px solid var(--bordure);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+}
+
+.legende summary::-webkit-details-marker {
+  display: none;
+}
+
+.legende summary::after {
+  content: '';
+  width: 0.5em;
+  height: 0.5em;
+  margin-left: 0.6em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-0.15em) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.legende[open] summary::after {
+  transform: translateY(0.1em) rotate(-135deg);
+}
+
+.legende__liste {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.75rem 1.75rem;
+  max-width: 42rem;
+  margin: 0.75rem auto 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--bordure);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  text-align: left;
+  list-style: none;
+}
+
+.legende__liste li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.glyphe {
+  position: relative;
+  flex: none;
+  width: 30px;
+  height: 24px;
+}
+
+.glyphe i,
+.glyphe svg {
+  position: absolute;
+}
+
+.g-tronc {
+  inset-block: 0;
+  left: 12px;
+  width: 6px;
+  background: var(--texte);
+}
+
+.g-branche,
+.g-sous-projet {
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 16px;
+  border: 4px solid var(--branche-1, #b5452f);
+  border-left-width: 0;
+  border-bottom-width: 0;
+  border-top-right-radius: 10px;
+}
+
+.g-sous-projet {
+  border-width: 3px 3px 0 0;
+  border-color: var(--sous-projet, #d07a5a);
+  border-top-right-radius: 8px;
+}
+
+.g-losange {
+  top: 5px;
+  left: 8px;
+  width: 14px;
+  height: 14px;
+  background: var(--branche-2, #3e7a4e);
+  transform: rotate(45deg);
+}
+
+.g-solution {
+  top: 5px;
+  left: 8px;
+  width: 14px;
+  height: 14px;
+  border: 3px solid var(--branche-1, #b5452f);
+  border-radius: 50%;
+  background: var(--fond);
+}
+
+.g-en-cours {
+  top: 0;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+}
+
+.g-en-cours .tete__piste {
+  stroke: color-mix(in srgb, var(--branche-1, #b5452f) 30%, transparent);
+}
+
+.g-en-cours .tete__arc {
+  stroke: var(--branche-1, #b5452f);
+  animation: none;
+}
+
+.g-en-cours .tete__point {
+  fill: var(--branche-1, #b5452f);
+}
+
+/* Accueil neutre : les lignes continuent, puis s'effacent. */
+.queue {
+  position: relative;
+  height: 160px;
+}
+
+.queue .rail {
+  mask: linear-gradient(#000, transparent);
+}
+
+.queue p {
+  position: absolute;
+  inset-inline: 0;
+  top: 40px;
+  max-width: none;
+  margin: 0;
+  color: var(--texte-doux);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .piece-scene.lancer,
+  .piece-socle:has(.lancer) .piece-ombre {
+    animation: none;
+  }
+
+  .piece__rotation {
+    transition: none;
+  }
+}
