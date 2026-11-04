@@ -4,6 +4,31 @@ Format : une section par version, la plus récente en haut.
 
 ## [Non publié]
 
+## [0.6.0] - 2026-11-04
+
+Faces et pièce.
+
+### Ajouté
+
+- L'accueil neutre : deux lignes descendent du haut, puis « Choisis une face pour voir les projets ».
+- La pièce en 3D, bimétal comme une vraie pièce : rebord biseauté, grain du métal, stries, anneau argenté gravé (nom, étoiles, « Production • DevOps »), cœur doré avec le symbole de la face en relief, tranche striée visible quand elle tourne. Sur l'accueil, elle montre « Pile ou face » et un symbole qui mêle les deux faces : le ∞ DevOps portant les trois nœuds de la production.
+- Quatre façons de changer de face : les flèches, les boutons du haut, les touches ← → et le glissement au doigt (sur écran tactile).
+- Les adresses `/production` et `/devops` suivent la face affichée, et le bouton « retour » du navigateur fonctionne.
+- Un message lu par les lecteurs d'écran à chaque changement de face.
+- La légende « Comment lire le fil ? ».
+- Une consigne adaptée à l'appareil : flèches et clavier sur ordinateur, glissement sur écran tactile.
+- Dans le pied de page : la version du site, le commit et un lien vers la publication GitHub Actions qui l'a mise en ligne.
+
+### Changé
+
+- Face DevOps : miroir exact de la face production ; le tronc est à droite, le texte s'aligne contre lui, chaque projet revient sur le tronc à la hauteur de son titre et le parcours garde ses années collées au texte.
+- Le nom d'un sous-projet a la taille d'une solution, avec une étiquette « Sous-projet ».
+- Le point d'un projet en cours est un arc qui tourne, dessiné en SVG : net et fluide à tous les zooms.
+- La pièce est dessinée à plat au repos (nette au pixel près) ; la 3D ne s'active que pendant qu'elle tourne.
+- La page est plus large, et le texte un peu plus grand sur les très grands écrans.
+- Le titre « Parcours » s'aligne sur les projets ; les années se placent entre le tronc et le texte.
+- Sans JavaScript, les flèches et les boutons restent des liens qui fonctionnent.
+
 ## [0.5.0] - 2026-11-04
 
 Le fil.
