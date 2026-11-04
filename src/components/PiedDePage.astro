@@ -1,0 +1,38 @@
+---
+import { profil, textes, type Langue } from '../lib/contenu';
+import { dateDernierCommit } from '../lib/date';
+
+interface Props {
+  langue: Langue;
+}
+
+const { langue } = Astro.props;
+const t = await textes(langue);
+const p = await profil();
+
+const date = dateDernierCommit();
+const dateLisible = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-FR' : 'en-GB', {
+  dateStyle: 'long',
+}).format(date);
+---
+
+<footer class="pied">
+  <div class="conteneur pied__contenu">
+    <nav aria-label={t.liens}>
+      <ul class="pied__liens">
+        {
+          p.liens.map((lien) => (
+            <li>
+              <a href={lien.url} rel="me">
+                {lien.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <p class="pied__date">
+      {t.miseAJour} <time datetime={date.toISOString()}>{dateLisible}</time>
+    </p>
+  </div>
+</footer>

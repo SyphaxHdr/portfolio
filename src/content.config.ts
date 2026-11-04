@@ -50,14 +50,24 @@ const solutions = defineCollection({
 const ui = defineCollection({
   loader: glob({ pattern: '*.yaml', base: './src/content/i18n' }),
   schema: z.object({
-    nomSite: z.string(),
     accroche: z.string(),
+    choisirFace: z.string(),
+    faces: z.string(),
     production: z.string(),
     devops: z.string(),
     projets: z.string(),
     solutions: z.string(),
+    liens: z.string(),
     miseAJour: z.string(),
   }),
 });
 
-export const collections = { projets, solutions, ui };
+const profil = defineCollection({
+  loader: glob({ pattern: 'profil.yaml', base: './src/content' }),
+  schema: z.object({
+    nom: z.string(),
+    liens: z.array(z.object({ label: z.string(), url: z.url() })).min(1),
+  }),
+});
+
+export const collections = { projets, solutions, ui, profil };
