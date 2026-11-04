@@ -1,0 +1,162 @@
+---
+import '../styles/fil.css';
+import {
+  parcours,
+  projets,
+  solutions,
+  textes,
+  type FaceProjet,
+  type Langue,
+} from '../lib/contenu';
+
+interface Props {
+  face: FaceProjet;
+  langue: Langue;
+}
+
+const { face, langue } = Astro.props;
+const t = await textes(langue);
+const listeProjets = await projets(langue, face);
+const listeSolutions = await solutions(langue, face);
+const etapes = await parcours(langue);
+const devops = face === 'devops';
+const MAX_ELEMENTS = 5;
+
+type Projet = (typeof listeProjets)[number];
+type Solution = (typeof listeSolutions)[number];
+type Element =
+  | { type: 'commit'; ordre: number; solution: Solution }
+  | { type: 'sous-projet'; ordre: number; titre: string; solutions: Solution[] };
+
+// Les solutions d'un projet, regroupées par sous-projet, dans l'ordre.
+function elementsDe(projet: Projet): Element[] {
+  const siennes = listeSolutions.filter((s) => s.data.projet.id === projet.id);
+
+  const inconnue = siennes.find(
+    (s) => s.data.sousProjet && !projet.data.sousProjets.some((sp) => sp.id === s.data.sousProjet),
+  );
+  if (inconnue) {
+    throw new Error(`${inconnue.id} : le sous-projet « ${inconnue.data.sousProjet} » n'existe pas dans ${projet.id}`);
+  }
+
+  const elements: Element[] = siennes
+    .filter((s) => !s.data.sousProjet)
+    .map((s): Element => ({ type: 'commit', ordre: s.data.ordre, solution: s }));
+
+  for (const sp of projet.data.sousProjets) {
+    const groupe = siennes.filter((s) => s.data.sousProjet === sp.id);
+    if (groupe.length === 0) continue;
+    elements.push({
+      type: 'sous-projet',
+      ordre: Math.min(...groupe.map((s) => s.data.ordre)),
+      titre: devops ? sp.titreDevops : `${t.sousProjet} · ${sp.titre}`,
+      solutions: groupe,
+    });
+  }
+
+  return elements.sort((a, b) => a.ordre - b.ordre);
+}
+
+function etat(projet: Projet) {
+  if (projet.data.statut === 'en-cours') return t.enCours;
+  if (projet.data.statut === 'arrete') return t.arrete;
+  return `◆ ${projet.data.version || projet.data.periode}`;
+}
+
+function meta(projet: Projet) {
+  if (devops) return projet.data.pile.join(' · ');
+  const equipe = projet.data.equipe === 1 ? t.seul : `${t.equipeDe} ${projet.data.equipe}`;
+  return [projet.data.role, equipe, projet.data.periode].join(' · ');
+}
+
+const libelle = (s: Solution) => (devops ? s.data.commit : s.data.titre);
+const nombre = (e: Element) => (e.type === 'commit' ? 1 : e.solutions.length);
+---
+
+<div class:list={['fil', `fil--${face}`]}>
+  {
+    listeProjets.map((projet) => {
+      const elements = elementsDe(projet);
+      const visibles = elements.slice(0, MAX_ELEMENTS);
+      const reste = elements.slice(MAX_ELEMENTS).reduce((n, e) => n + nombre(e), 0);
+      const enCours = projet.data.statut === 'en-cours';
+
+      return (
+        <section
+          class:list={['bloc', { 'bloc--en-cours': enCours }]}
+          style={`--sc: var(--branche-${projet.data.couleur})`}
+        >
+          <i class="bloc__tronc" aria-hidden="true" />
+          <i class="bloc__branche" aria-hidden="true" />
+          {enCours ? (
+            <i class="bloc__tete" aria-hidden="true" />
+          ) : (
+            <i class="bloc__losange" aria-hidden="true" />
+          )}
+
+          <div class="bloc__entete">
+            <h2 class="bloc__titre">{devops ? projet.data.titreDevops : projet.data.titre}</h2>
+            <span class:list={['etat', { 'etat--plein': enCours }]}>{etat(projet)}</span>
+          </div>
+          {meta(projet) && <p class="bloc__meta">{meta(projet)}</p>}
+
+          {visibles.length > 0 && (
+            <ul class="commits">
+              {visibles.map((el) =>
+                el.type === 'commit' ? (
+                  <li class="commit">
+                    <span class="commit__texte">{libelle(el.solution)}</span>
+                    {devops && el.solution.data.noteDevops && (
+                      <span class="commit__note">{el.solution.data.noteDevops}</span>
+                    )}
+                  </li>
+                ) : (
+                  <li class="sous-projet">
+                    <i class="sp__branche" aria-hidden="true" />
+                    <i class="sp__losange" aria-hidden="true" />
+                    <span class="sp__titre">{el.titre}</span>
+                    <ul>
+                      {el.solutions.map((s) => (
+                        <li>
+                          <span class="commit__texte">{libelle(s)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ),
+              )}
+              {reste > 0 && (
+                <li class="commit commit--plus">
+                  <span>
+                    + {reste} {devops ? t.autresCommits : t.autresSolutions}
+                  </span>
+                </li>
+              )}
+            </ul>
+          )}
+        </section>
+      );
+    })
+  }
+
+  {
+    etapes.length > 0 && (
+      <section class="bloc bloc--parcours" id="parcours">
+        <i class="bloc__tronc" aria-hidden="true" />
+        <h2 class="bloc__titre">{devops ? t.parcoursDevops : t.parcours}</h2>
+        <ol class="parcours">
+          {etapes.map((e, i) => {
+            const derniere = i === etapes.length - 1;
+            return (
+              <li class:list={['etape', { 'etape--fin': derniere }]}>
+                {derniere && <i class="etape__fin" aria-hidden="true" />}
+                <span class="etape__annees">{e.annees}</span>
+                <span class="etape__texte">{e.texte}</span>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+    )
+  }
+</div>

@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import ListeProjets from '../components/ListeProjets.astro';
+import Fil from '../components/Fil.astro';
 import { profil, textes } from '../lib/contenu';
 
 const t = await textes('fr');
@@ -9,5 +9,5 @@ const p = await profil();
 
 <Base titre={`${t.production} · ${p.nom}`} face="production">
   <h1>{t.production}</h1>
-  <ListeProjets face="production" langue="fr" />
+  <Fil face="production" langue="fr" />
 </Base>

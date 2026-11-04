@@ -21,8 +21,10 @@ export async function projets(langue: Langue, face: FaceProjet) {
     'projets',
     ({ id, data }) => id.startsWith(`${langue}/`) && !data.brouillon && data.pistes.includes(face),
   );
+  // Le plus récent en haut : les projets en cours d'abord, puis par date de fin.
+  const fin = (p: (typeof liste)[number]) => p.data.fin?.getTime() ?? Infinity;
   return liste.sort(
-    (a, b) => a.data.importance - b.data.importance || a.data.titre.localeCompare(b.data.titre),
+    (a, b) => fin(b) - fin(a) || b.data.debut.getTime() - a.data.debut.getTime(),
   );
 }
 
@@ -32,4 +34,9 @@ export async function solutions(langue: Langue, face: FaceProjet) {
     ({ id, data }) => id.startsWith(`${langue}/`) && !data.brouillon && data.pistes.includes(face),
   );
   return liste.sort((a, b) => a.data.ordre - b.data.ordre);
+}
+
+export async function parcours(langue: Langue) {
+  const entree = await getEntry('parcours', langue);
+  return entree?.data.etapes ?? [];
 }

@@ -6,6 +6,7 @@ pistes: [production, devops]
 importance: 1
 branche: feature/alerte-conflit-scene
 commit: "feat(ci): alerte-conflit-scene"
+noteDevops: deux tâches sur la même scène
 ---
 
 ## Le problème

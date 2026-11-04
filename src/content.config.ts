@@ -12,6 +12,8 @@ const projets = defineCollection({
     titreDevops: z.string(),
     type: z.enum(['equipe', 'solo', 'jam', 'etudes', 'outil']),
     periode: z.string(),
+    debut: z.coerce.date(),
+    fin: z.coerce.date().optional(),
     statut: z.enum(['en-cours', 'sorti', 'arrete']),
     role: z.string(),
     equipe: z.number().int().positive(),
@@ -21,6 +23,10 @@ const projets = defineCollection({
     version: z.string().optional(),
     resume: z.string(),
     resumeDevops: z.string(),
+    pile: z.array(z.string()).default([]),
+    sousProjets: z
+      .array(z.object({ id: z.string(), titre: z.string(), titreDevops: z.string() }))
+      .default([]),
     liens: z.array(z.object({ label: z.string(), url: z.url() })).default([]),
     brouillon: z.boolean().default(false),
   }),
@@ -37,6 +43,7 @@ const solutions = defineCollection({
       importance,
       branche: z.string().optional(),
       commit: z.string().optional(),
+      noteDevops: z.string().optional(),
       sousProjet: z.string().optional(),
       brouillon: z.boolean().default(false),
     })
@@ -59,6 +66,15 @@ const ui = defineCollection({
     solutions: z.string(),
     liens: z.string(),
     miseAJour: z.string(),
+    enCours: z.string(),
+    arrete: z.string(),
+    equipeDe: z.string(),
+    seul: z.string(),
+    sousProjet: z.string(),
+    autresSolutions: z.string(),
+    autresCommits: z.string(),
+    parcours: z.string(),
+    parcoursDevops: z.string(),
   }),
 });
 
@@ -70,4 +86,11 @@ const profil = defineCollection({
   }),
 });
 
-export const collections = { projets, solutions, ui, profil };
+const parcours = defineCollection({
+  loader: glob({ pattern: '*.yaml', base: './src/content/parcours' }),
+  schema: z.object({
+    etapes: z.array(z.object({ annees: z.string(), texte: z.string() })).min(1),
+  }),
+});
+
+export const collections = { projets, solutions, ui, profil, parcours };
