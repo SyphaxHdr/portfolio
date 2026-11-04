@@ -1,6 +1,6 @@
-// Changement de face : flèches, boutons du haut, pièce, clavier (← →),
-// glissement au doigt et bouton « retour » du navigateur.
-// Sans JavaScript, les flèches et les boutons restent de simples liens.
+// Changement de face : flèches, pièce, clavier (← →), glissement au doigt
+// et bouton « retour » du navigateur.
+// Sans JavaScript, les flèches restent de simples liens.
 
 const racine = document.documentElement;
 const faces = document.querySelector('.faces');

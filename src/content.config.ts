@@ -59,7 +59,6 @@ const ui = defineCollection({
   schema: z.object({
     accroche: z.string(),
     choisirFace: z.string(),
-    faces: z.string(),
     production: z.string(),
     devops: z.string(),
     liens: z.string(),

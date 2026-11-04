@@ -19,6 +19,12 @@
   }
 }
 
+/* Le fil est une colonne : la queue prend la place qui reste en bas. */
+.fil {
+  display: flex;
+  flex-direction: column;
+}
+
 .fil--devops {
   direction: rtl;
 }
@@ -40,6 +46,14 @@
 .fil--devops .bloc {
   --titre: 1.3rem;
   text-align: right;
+}
+
+/* Sur ordinateur, le texte laisse la place au fil de l'autre face, en
+   filigrane de l'autre côté. */
+@media (min-width: 48rem) {
+  .bloc {
+    padding-inline-end: var(--pad);
+  }
 }
 
 @media (max-width: 47.99rem) {
@@ -361,14 +375,14 @@
   right: calc(var(--x-tronc) + 26px - var(--pad));
 }
 
-/* Le tronc s'arrête sur le dernier point. */
-.etape__fin {
-  position: absolute;
-  top: calc(10px + var(--lh) / 2);
-  bottom: -9px;
-  inset-inline-start: calc(var(--x-tronc) - var(--pad));
+/* Après le dernier bloc, le tronc continue jusqu'au pied de page, sous le
+   fondu (voir faces.css). Si l'autre face est plus longue, la queue
+   s'allonge d'autant. */
+.fil__queue {
+  flex: 1 0 var(--fondu);
   width: var(--trait);
-  background: var(--fond);
+  margin-inline-start: var(--x-tronc);
+  background: var(--tronc);
 }
 
 /* Sur téléphone, la marge est trop étroite : l'année passe au-dessus. */

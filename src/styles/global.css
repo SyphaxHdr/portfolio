@@ -1,4 +1,4 @@
-/* Couleurs des deux faces, utilisables partout (boutons du haut). */
+/* Couleurs des deux faces. */
 :root {
   --prod-fond: #efe4cc;
   --prod-surface: #f7f0e0;
@@ -146,18 +146,34 @@ code {
   padding-block: clamp(2rem, 6vw, 4rem);
 }
 
-/* Barre du haut */
+/* Barre du haut : elle reste visible au défilement. On change de face avec
+   la pièce, les flèches, le clavier ou le doigt ; la barre garde sa place
+   pour les boutons à venir (CV, contact). */
+html {
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 .entete {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   border-bottom: 1px solid var(--bordure);
+  background: var(--fond);
+  transition: background-color 0.4s ease;
 }
 
 .entete__contenu {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem 1.5rem;
-  padding-block: 1rem;
+  gap: 1rem;
+  min-height: 4.25rem;
 }
 
 .entete__nom {
@@ -167,39 +183,22 @@ code {
   text-decoration: none;
 }
 
-.entete__faces {
+.entete__actions {
   display: flex;
   gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
-.bouton-face {
+.entete__lien {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  padding: 0 1.1rem;
-  border-radius: 999px;
-  border: 2px solid transparent;
+  padding: 0 0.5rem;
   font-weight: 600;
   text-decoration: none;
 }
 
-.bouton-face--production {
-  background: var(--prod-fond);
-  color: var(--prod-texte);
-  font-family: var(--police-serif);
-}
-
-.bouton-face--devops {
-  background: var(--devops-fond);
-  color: var(--devops-texte);
-  font-family: var(--police-mono);
-}
-
-.bouton-face[aria-current='page'] {
-  border-color: var(--accent);
+.entete__lien:hover {
+  text-decoration: underline;
 }
 
 /* Pied de page */
@@ -259,6 +258,13 @@ code {
   .pied__build {
     justify-content: flex-start;
   }
+}
+
+/* Ce qui ne concerne qu'une face est masqué sur les autres. */
+[data-face='neutre'] [data-pour]:not([data-pour='neutre']),
+[data-face='production'] [data-pour]:not([data-pour='production']),
+[data-face='devops'] [data-pour]:not([data-pour='devops']) {
+  display: none;
 }
 
 /* Lu par les lecteurs d'écran, invisible à l'écran. */

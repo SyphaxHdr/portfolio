@@ -27,7 +27,7 @@ const { titre, face, langue = 'fr' } = Astro.props;
     <title>{titre}</title>
   </head>
   <body>
-    <Entete face={face} langue={langue} />
+    <Entete langue={langue} />
     <main class="conteneur principal">
       <slot />
     </main>

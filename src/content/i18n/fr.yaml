@@ -1,6 +1,5 @@
 accroche: Je transforme les problèmes d'une équipe de jeu en outils et en process.
 choisirFace: Choisis une face pour voir les projets.
-faces: Changer de face
 production: Production
 devops: DevOps
 liens: Mes liens
@@ -19,10 +18,10 @@ accrocheDevops: J'automatise le travail d'une équipe de jeu pour qu'elle livre 
 maintenant: "En ce moment :"
 consigneNeutre: Production ou DevOps ? Clique sur une flèche, appuie sur ← → ou lance la pièce.
 consigneNeutreTactile: Production ou DevOps ? Glisse la page, touche une flèche ou lance la pièce.
-consigneProduction: Face production. Clique sur la flèche de droite ou appuie sur → pour retourner la pièce.
-consigneProductionTactile: Face production. Glisse la page vers la gauche ou touche la flèche de droite pour retourner la pièce.
-consigneDevops: Face DevOps. Clique sur la flèche de gauche ou appuie sur ← pour retourner la pièce.
-consigneDevopsTactile: Face DevOps. Glisse la page vers la droite ou touche la flèche de gauche pour retourner la pièce.
+consigneProduction: Face production. Clique sur la pièce ou sur la flèche DevOps pour la retourner.
+consigneProductionTactile: Face production. Pour retourner la pièce, touche-la, touche la flèche DevOps ou glisse la page vers la gauche.
+consigneDevops: Face DevOps. Clique sur la pièce ou sur la flèche Production pour la retourner.
+consigneDevopsTactile: Face DevOps. Pour retourner la pièce, touche-la, touche la flèche Production ou glisse la page vers la droite.
 lancerPiece: Lancer la pièce
 voirProduction: Voir la face Production
 voirDevops: Voir la face DevOps

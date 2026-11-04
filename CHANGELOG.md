@@ -4,6 +4,27 @@ Format : une section par version, la plus récente en haut.
 
 ## [Non publié]
 
+## [0.7.0] - 2026-11-04
+
+Le fil au défilement, l'autre face en filigrane.
+
+### Ajouté
+
+- Le bas de l'écran est un fondu : le fil y devient de plus en plus transparent et s'éclaire en montant, au rythme du défilement, sans attendre.
+- En haut de la page, les deux lignes partent d'un point sous le nom : une tige commune qui se sépare en deux, chaque ligne rejoint son bord puis descend.
+- Après le dernier bloc, le tronc continue jusqu'au pied de page et s'y fond (le fil le plus court s'allonge pour finir au même endroit).
+- Sur ordinateur, le fil de l'autre face reste visible en filigrane : ses lignes et ses points, très pâles, sans texte.
+- Au changement de face, un fil pâlit pendant que l'autre s'éclaire.
+- La barre du haut reste visible au défilement, avec un lien « Parcours ».
+
+### Changé
+
+- Les boutons Production et DevOps quittent la barre du haut : on change de face avec la pièce, les flèches, le clavier ou le doigt, et la barre garde sa place pour les boutons à venir.
+
+### Corrigé
+
+- La consigne des faces production et DevOps ne répète plus la même information : elle indique la pièce ou la flèche (et le glissement sur écran tactile).
+
 ## [0.6.0] - 2026-11-04
 
 Faces et pièce.
