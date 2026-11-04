@@ -1,4 +1,4 @@
-/* Couleurs des deux faces, utilisables partout (boutons, portes). */
+/* Couleurs des deux faces, utilisables partout (boutons du haut). */
 :root {
   --prod-fond: #efe4cc;
   --prod-surface: #f7f0e0;
@@ -13,7 +13,7 @@
   --police-serif: var(--font-fraunces), Georgia, serif;
   --police-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
-  --largeur: 72rem;
+  --largeur: 84rem;
   --marge: clamp(1rem, 4vw, 2.5rem);
   --rayon: 0.5rem;
 }
@@ -67,6 +67,13 @@
   --bordure: color-mix(in srgb, var(--texte) 15%, var(--fond));
 }
 
+/* Sur les très grands écrans, tout grandit un peu pour occuper la place. */
+@media (min-width: 112.5rem) {
+  html {
+    font-size: 112.5%;
+  }
+}
+
 /* Base */
 *,
 *::before,
@@ -91,8 +98,7 @@ body {
 }
 
 h1,
-h2,
-h3 {
+h2 {
   font-family: var(--police-titre);
   font-weight: 600;
   line-height: 1.2;
@@ -108,9 +114,6 @@ h2 {
   font-size: clamp(1.4rem, 3vw, 1.9rem);
 }
 
-h3 {
-  font-size: 1.1rem;
-}
 
 p {
   margin: 0 0 1em;
@@ -173,8 +176,10 @@ code {
 }
 
 .bouton-face {
-  display: inline-block;
-  padding: 0.4rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1.1rem;
   border-radius: 999px;
   border: 2px solid transparent;
   font-weight: 600;
@@ -195,45 +200,6 @@ code {
 
 .bouton-face[aria-current='page'] {
   border-color: var(--accent);
-}
-
-/* Accueil neutre */
-.accroche {
-  font-family: var(--police-serif);
-  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-}
-
-.portes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  gap: 1rem;
-  margin: 2rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.porte {
-  display: block;
-  padding: 2.5rem 1.5rem;
-  border-radius: var(--rayon);
-  font-size: 1.4rem;
-  font-weight: 600;
-  text-align: center;
-  text-decoration: none;
-}
-
-.porte--production {
-  background: var(--prod-fond);
-  color: var(--prod-texte);
-  font-family: var(--police-serif);
-  border-top: 6px solid var(--ligne-production);
-}
-
-.porte--devops {
-  background: var(--devops-fond);
-  color: var(--devops-texte);
-  font-family: var(--police-mono);
-  border-top: 6px solid var(--ligne-devops);
 }
 
 /* Pied de page */
@@ -260,9 +226,52 @@ code {
   list-style: none;
 }
 
+.pied__meta {
+  display: grid;
+  gap: 0.25rem;
+  justify-items: end;
+  text-align: right;
+}
+
 .pied__date {
   margin: 0;
   color: var(--texte-doux);
+}
+
+/* Tampon de build : version, commit, publication. */
+.pied__build {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0 0.5rem;
+  margin: 0;
+  font-family: var(--police-mono);
+  font-size: 0.8rem;
+  color: var(--texte-doux);
+}
+
+@media (max-width: 47.99rem) {
+  .pied__meta {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .pied__build {
+    justify-content: flex-start;
+  }
+}
+
+/* Lu par les lecteurs d'écran, invisible à l'écran. */
+.visuellement-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

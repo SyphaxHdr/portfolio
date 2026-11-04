@@ -1,15 +1,17 @@
 /* Le fil : un tronc, une branche par projet, un point par solution.
-   Écrit pour la face production (tronc à gauche). Sur grand écran, la face
-   DevOps passe en miroir (tronc à droite) grâce aux propriétés logiques. */
+   Écrit pour la face production (tronc à gauche). La face DevOps est son
+   miroir exact (tronc à droite, texte aligné contre lui) grâce aux propriétés
+   logiques et à direction: rtl ; le texte lui-même reste en sens normal. */
+.faces,
 .fil {
-  --pad: 150px;
-  --x-tronc: 24px;
-  --x-branche: 66px;
+  --pad: 150px; /* du tronc au début du texte */
+  --x-tronc: 24px; /* position du tronc */
+  --x-branche: 66px; /* position du trait vertical de la branche */
   --trait: 6px;
-  margin-top: 2rem;
 }
 
 @media (max-width: 47.99rem) {
+  .faces,
   .fil {
     --pad: 96px;
     --x-tronc: 4px;
@@ -17,14 +19,8 @@
   }
 }
 
-@media (min-width: 48rem) {
-  .fil--devops {
-    direction: rtl;
-  }
-
-  .fil--devops .bloc {
-    text-align: right;
-  }
+.fil--devops {
+  direction: rtl;
 }
 
 /* Le texte garde toujours le sens de lecture normal. */
@@ -43,6 +39,7 @@
 
 .fil--devops .bloc {
   --titre: 1.3rem;
+  text-align: right;
 }
 
 @media (max-width: 47.99rem) {
@@ -64,7 +61,8 @@
   background: var(--tronc);
 }
 
-/* La branche du projet, en un seul trait : départ en bas, retour en haut. */
+/* La branche, en un seul trait : départ en bas, retour en haut, au niveau
+   du titre du projet. */
 .bloc__branche {
   position: absolute;
   top: calc(var(--y-titre) - var(--trait) / 2);
@@ -84,7 +82,7 @@
   border-start-end-radius: 0;
 }
 
-/* Losange : projet sorti, posé sur le tronc. */
+/* Losange : projet sorti, posé sur le tronc à la hauteur du titre. */
 .bloc__losange {
   position: absolute;
   top: calc(var(--y-titre) - 8px);
@@ -98,7 +96,7 @@
 }
 
 /* Projet en cours : un point plein et un arc qui tourne autour.
-   Point et arc sont dans la même boîte, donc toujours centrés. */
+   Dessiné en SVG : le trait garde la même épaisseur à tous les zooms. */
 .bloc__tete {
   position: absolute;
   top: calc(var(--y-titre) - 14px);
@@ -106,33 +104,31 @@
   inset-inline-start: calc(var(--x-branche) + var(--trait) / 2 - 14px);
   width: 28px;
   height: 28px;
-  border-radius: 50%;
-  background: var(--fond);
+  overflow: visible;
 }
 
-.bloc__tete::before {
-  content: '';
-  position: absolute;
-  inset: 7px;
-  border-radius: 50%;
-  background: var(--sc);
+.tete__piste {
+  fill: var(--fond);
+  stroke: color-mix(in srgb, var(--sc) 30%, transparent);
+  stroke-width: 2;
 }
 
-.bloc__tete::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 2px solid color-mix(in srgb, var(--sc) 25%, transparent);
-  border-top-color: var(--sc);
-  border-right-color: var(--sc);
-  animation: tour 1.6s linear infinite;
-  will-change: transform;
+.tete__arc {
+  fill: none;
+  stroke: var(--sc);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 24 76;
+  animation: arc 1.6s linear infinite;
 }
 
-@keyframes tour {
+.tete__point {
+  fill: var(--sc);
+}
+
+@keyframes arc {
   to {
-    transform: rotate(1turn);
+    stroke-dashoffset: -100;
   }
 }
 
@@ -250,11 +246,31 @@
   box-shadow: 0 0 0 3px var(--fond);
 }
 
+/* Le nom du sous-projet a la taille d'une solution, précédé d'une étiquette. */
 .sp__titre {
   display: block;
+  font-weight: 700;
+}
+
+.fil--devops .sp__titre {
   font-family: var(--police-mono);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.sp__type {
+  display: inline-block;
+  margin-right: 0.6rem;
+  padding: 0 0.45rem;
+  border: 1px solid var(--sous-projet);
+  border-radius: 999px;
+  font-family: var(--police-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: 0.15em;
 }
 
 .sous-projet ul {
@@ -280,11 +296,11 @@
   border: 3px solid var(--sous-projet);
 }
 
-/* Parcours : des commits posés directement sur le tronc,
-   donc écrits tout près de lui, reliés par un court pointillé. */
+/* Parcours : des commits posés directement sur le tronc.
+   Le titre et le texte s'alignent sur les projets ; l'année se place dans
+   la marge, entre le tronc et le texte, comme une colonne de dates. */
 .bloc--parcours {
   padding-block-end: 8px;
-  padding-inline-start: calc(var(--x-tronc) + var(--trait) + 34px);
 }
 
 .parcours {
@@ -294,28 +310,28 @@
 }
 
 .etape {
+  --lh: calc(1.0625rem * 1.6);
   position: relative;
-  display: grid;
-  grid-template-columns: 6.5rem 1fr;
-  align-items: baseline;
-  gap: 0 1rem;
   padding-block: 10px;
+  line-height: var(--lh);
 }
 
+/* Pointillé entre le tronc et l'année */
 .etape::before {
   content: '';
   position: absolute;
-  top: calc(10px + 0.5lh - 1px);
-  inset-inline-start: -28px;
-  width: 20px;
+  top: calc(10px + var(--lh) / 2 - 1px);
+  inset-inline-start: calc(var(--x-tronc) + 12px - var(--pad));
+  width: 10px;
   border-top: 2px dotted var(--tronc);
 }
 
+/* Point sur le tronc */
 .etape::after {
   content: '';
   position: absolute;
-  top: calc(10px + 0.5lh - 7px);
-  inset-inline-start: -44px;
+  top: calc(10px + var(--lh) / 2 - 7px);
+  inset-inline-start: calc(var(--x-tronc) + var(--trait) / 2 - 7px - var(--pad));
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -327,24 +343,42 @@
   background: var(--tronc);
 }
 
+.etape__annees {
+  position: absolute;
+  top: 10px;
+  left: calc(var(--x-tronc) + 26px - var(--pad));
+  font-family: var(--police-mono);
+  font-size: 0.8rem;
+  line-height: var(--lh);
+  white-space: nowrap;
+  color: var(--texte-doux);
+}
+
+/* L'année est en sens normal : sur la face DevOps, on place sa boîte
+   côté tronc avec une propriété physique. */
+.fil--devops .etape__annees {
+  left: auto;
+  right: calc(var(--x-tronc) + 26px - var(--pad));
+}
+
 /* Le tronc s'arrête sur le dernier point. */
 .etape__fin {
   position: absolute;
-  top: calc(10px + 0.5lh);
+  top: calc(10px + var(--lh) / 2);
   bottom: -9px;
-  inset-inline-start: -40px;
+  inset-inline-start: calc(var(--x-tronc) - var(--pad));
   width: var(--trait);
   background: var(--fond);
 }
 
-.etape__annees {
-  font-family: var(--police-mono);
-  font-size: 0.8rem;
-  color: var(--texte-doux);
-}
-
+/* Sur téléphone, la marge est trop étroite : l'année passe au-dessus. */
 @media (max-width: 47.99rem) {
-  .etape {
-    grid-template-columns: 1fr;
+  .etape::before {
+    width: calc(var(--pad) - var(--x-tronc) - 22px);
+  }
+
+  .etape__annees {
+    position: static;
+    display: block;
   }
 }
