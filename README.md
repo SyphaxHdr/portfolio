@@ -24,18 +24,19 @@ Tout le texte du site est dans `src/content/`. Il n'y a aucun texte dans le code
 
 | Dossier | Ce qu'il contient |
 |---|---|
-| `src/content/projets/` | un fichier par projet |
-| `src/content/solutions/` | un fichier par problème réglé (les deux faces dans le même fichier) |
+| `src/content.config.ts` | le schéma : les champs obligatoires de chaque type de fichier |
+| `src/content/projets/fr/` | un fichier par projet (un dossier par langue) |
+| `src/content/solutions/fr/` | un fichier par problème réglé (les deux faces dans le même fichier) |
 | `src/content/parcours/` | les étapes du parcours |
 | `src/content/profil.yaml` | nom, accroche, liens |
-| `src/content/i18n/` | les textes de l'interface, en français (anglais plus tard) |
+| `src/content/i18n/` | les textes de l'interface : `fr.yaml` (puis `en.yaml`) |
 | `src/assets/` | les images d'origine (le build les convertit en WebP) |
 | `public/cv/` | les CV en PDF (un par face) et leur aperçu |
 
 ## Ajouter un projet
 
 1. Créer une branche : `content/nom-du-projet`.
-2. Copier le modèle `modeles/projet.md` dans `src/content/projets/`.
+2. Copier le modèle `modeles/projet.md` dans `src/content/projets/fr/`.
 3. Remplir les champs. Le site refuse de se construire si un champ obligatoire manque.
 4. Ouvrir une pull request. La CI vérifie tout.
 5. Fusionner : le site est publié tout seul.

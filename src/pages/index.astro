@@ -1,16 +1,55 @@
 ---
+import { getCollection, getEntry } from 'astro:content';
+
+const langue = 'fr';
+
+const ui = await getEntry('ui', langue);
+if (!ui) throw new Error(`Textes d'interface manquants pour la langue « ${langue} »`);
+const t = ui.data;
+
+const projets = (
+  await getCollection('projets', ({ id, data }) => id.startsWith(`${langue}/`) && !data.brouillon)
+).sort((a, b) => a.data.importance - b.data.importance || a.data.titre.localeCompare(b.data.titre));
+
+const solutions = (
+  await getCollection('solutions', ({ id, data }) => id.startsWith(`${langue}/`) && !data.brouillon)
+).sort((a, b) => a.data.ordre - b.data.ordre);
+
+const solutionsDe = (idProjet: string) => solutions.filter((s) => s.data.projet.id === idProjet);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang={langue}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{t.nomSite}</title>
+  </head>
+  <body>
+    <h1>{t.nomSite}</h1>
+    <p>{t.accroche}</p>
+
+    <h2>{t.projets}</h2>
+    {
+      projets.map((projet) => (
+        <section>
+          <h3>
+            {projet.data.titre} <code>{projet.data.titreDevops}</code>
+          </h3>
+          <p>{projet.data.resume}</p>
+          <h4>{t.solutions}</h4>
+          <ul>
+            {solutionsDe(projet.id).map((s) => (
+              <li>
+                {s.data.titre}
+                {s.data.commit && <code>{s.data.commit}</code>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </body>
 </html>
