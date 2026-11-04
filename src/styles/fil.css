@@ -1,0 +1,350 @@
+/* Le fil : un tronc, une branche par projet, un point par solution.
+   Écrit pour la face production (tronc à gauche). Sur grand écran, la face
+   DevOps passe en miroir (tronc à droite) grâce aux propriétés logiques. */
+.fil {
+  --pad: 150px;
+  --x-tronc: 24px;
+  --x-branche: 66px;
+  --trait: 6px;
+  margin-top: 2rem;
+}
+
+@media (max-width: 47.99rem) {
+  .fil {
+    --pad: 96px;
+    --x-tronc: 4px;
+    --x-branche: 36px;
+  }
+}
+
+@media (min-width: 48rem) {
+  .fil--devops {
+    direction: rtl;
+  }
+
+  .fil--devops .bloc {
+    text-align: right;
+  }
+}
+
+/* Le texte garde toujours le sens de lecture normal. */
+.fil :is(h2, p, span) {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.bloc {
+  --titre: 1.75rem;
+  --y-titre: calc(8px + 0.6 * var(--titre));
+  position: relative;
+  padding-block: 8px 64px;
+  padding-inline-start: var(--pad);
+}
+
+.fil--devops .bloc {
+  --titre: 1.3rem;
+}
+
+@media (max-width: 47.99rem) {
+  .bloc {
+    --titre: 1.45rem;
+  }
+
+  .fil--devops .bloc {
+    --titre: 1.15rem;
+  }
+}
+
+/* Tronc */
+.bloc__tronc {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: var(--x-tronc);
+  width: var(--trait);
+  background: var(--tronc);
+}
+
+/* La branche du projet, en un seul trait : départ en bas, retour en haut. */
+.bloc__branche {
+  position: absolute;
+  top: calc(var(--y-titre) - var(--trait) / 2);
+  bottom: 20px;
+  inset-inline-start: calc(var(--x-tronc) + var(--trait));
+  width: calc(var(--x-branche) - var(--x-tronc));
+  border: var(--trait) solid var(--sc);
+  border-inline-start-width: 0;
+  border-start-end-radius: 18px;
+  border-end-end-radius: 18px;
+}
+
+/* Projet en cours : la branche n'est pas encore revenue sur le tronc. */
+.bloc--en-cours .bloc__branche {
+  top: var(--y-titre);
+  border-top-width: 0;
+  border-start-end-radius: 0;
+}
+
+/* Losange : projet sorti, posé sur le tronc. */
+.bloc__losange {
+  position: absolute;
+  top: calc(var(--y-titre) - 8px);
+  top: round(var(--y-titre) - 8px, 1px);
+  inset-inline-start: calc(var(--x-tronc) + var(--trait) / 2 - 8px);
+  width: 16px;
+  height: 16px;
+  background: var(--sc);
+  transform: rotate(45deg);
+  box-shadow: 0 0 0 3px var(--fond);
+}
+
+/* Projet en cours : un point plein et un arc qui tourne autour.
+   Point et arc sont dans la même boîte, donc toujours centrés. */
+.bloc__tete {
+  position: absolute;
+  top: calc(var(--y-titre) - 14px);
+  top: round(var(--y-titre) - 14px, 1px);
+  inset-inline-start: calc(var(--x-branche) + var(--trait) / 2 - 14px);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--fond);
+}
+
+.bloc__tete::before {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border-radius: 50%;
+  background: var(--sc);
+}
+
+.bloc__tete::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--sc) 25%, transparent);
+  border-top-color: var(--sc);
+  border-right-color: var(--sc);
+  animation: tour 1.6s linear infinite;
+  will-change: transform;
+}
+
+@keyframes tour {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* En-tête du projet */
+.bloc__entete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+}
+
+.bloc__titre {
+  margin: 0;
+  font-size: var(--titre);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.etat {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  border: 1.5px solid var(--sc);
+  border-radius: 999px;
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.etat--plein {
+  background: var(--sc);
+  color: var(--sur-accent);
+  font-weight: 600;
+}
+
+.bloc__meta {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  color: var(--texte-doux);
+}
+
+/* Commits (solutions) : un point sur la branche, centré sur la 1re ligne. */
+.commits {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.commits > li {
+  position: relative;
+  padding-block: 8px;
+}
+
+.commits > .commit::before {
+  content: '';
+  position: absolute;
+  top: calc(8px + 0.5lh - 7px);
+  inset-inline-start: calc(var(--x-branche) + var(--trait) / 2 - 7px - var(--pad));
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--fond);
+  border: 3px solid var(--sc);
+}
+
+.commit__texte {
+  font-weight: 600;
+}
+
+.fil--devops .commit__texte {
+  font-family: var(--police-mono);
+  font-size: 0.9rem;
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+
+.commit__note {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--texte-doux);
+}
+
+.commit--plus {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Sous-projet : une petite branche dans la branche, en un seul trait. */
+.sous-projet {
+  --y-sp: calc(14px + 0.5lh);
+  padding-block: 14px 26px !important;
+}
+
+.sp__branche {
+  position: absolute;
+  top: calc(var(--y-sp) - 2px);
+  bottom: 12px;
+  inset-inline-start: calc(var(--x-branche) + var(--trait) - var(--pad));
+  width: 38px;
+  border: 4px solid var(--sous-projet);
+  border-inline-start-width: 0;
+  border-start-end-radius: 14px;
+  border-end-end-radius: 14px;
+}
+
+/* Le sous-projet revient sur la branche du projet : un petit losange. */
+.sp__losange {
+  position: absolute;
+  top: calc(var(--y-sp) - 6px);
+  inset-inline-start: calc(var(--x-branche) + var(--trait) / 2 - 6px - var(--pad));
+  width: 12px;
+  height: 12px;
+  background: var(--sous-projet);
+  transform: rotate(45deg);
+  box-shadow: 0 0 0 3px var(--fond);
+}
+
+.sp__titre {
+  display: block;
+  font-family: var(--police-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.sous-projet ul {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sous-projet li {
+  position: relative;
+  padding-block: 6px;
+}
+
+.sous-projet li::before {
+  content: '';
+  position: absolute;
+  top: calc(6px + 0.5lh - 6px);
+  inset-inline-start: calc(var(--x-branche) + var(--trait) + 38px - 2px - 6px - var(--pad));
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--fond);
+  border: 3px solid var(--sous-projet);
+}
+
+/* Parcours : des commits posés directement sur le tronc,
+   donc écrits tout près de lui, reliés par un court pointillé. */
+.bloc--parcours {
+  padding-block-end: 8px;
+  padding-inline-start: calc(var(--x-tronc) + var(--trait) + 34px);
+}
+
+.parcours {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.etape {
+  position: relative;
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  align-items: baseline;
+  gap: 0 1rem;
+  padding-block: 10px;
+}
+
+.etape::before {
+  content: '';
+  position: absolute;
+  top: calc(10px + 0.5lh - 1px);
+  inset-inline-start: -28px;
+  width: 20px;
+  border-top: 2px dotted var(--tronc);
+}
+
+.etape::after {
+  content: '';
+  position: absolute;
+  top: calc(10px + 0.5lh - 7px);
+  inset-inline-start: -44px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--fond);
+  border: 3px solid var(--tronc);
+}
+
+.etape--fin::after {
+  background: var(--tronc);
+}
+
+/* Le tronc s'arrête sur le dernier point. */
+.etape__fin {
+  position: absolute;
+  top: calc(10px + 0.5lh);
+  bottom: -9px;
+  inset-inline-start: -40px;
+  width: var(--trait);
+  background: var(--fond);
+}
+
+.etape__annees {
+  font-family: var(--police-mono);
+  font-size: 0.8rem;
+  color: var(--texte-doux);
+}
+
+@media (max-width: 47.99rem) {
+  .etape {
+    grid-template-columns: 1fr;
+  }
+}
