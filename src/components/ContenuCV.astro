@@ -1,0 +1,57 @@
+---
+import { cv, FACES, textes, type Langue } from '../lib/contenu';
+
+interface Props {
+  langue: Langue;
+  // Dans la fenêtre, on montre le CV de la face affichée ; sur la page /cv/,
+  // les deux.
+  tous?: boolean;
+}
+
+const { langue, tous = false } = Astro.props;
+const t = await textes(langue);
+const nomFace = { production: t.production, devops: t.devops };
+const liste = FACES.flatMap((face) => {
+  const fichier = cv(face);
+  return fichier ? [{ face, ...fichier, titre: `${t.cv} ${nomFace[face]}` }] : [];
+});
+---
+
+{
+  !tous &&
+    liste.map((c) => (
+      <div class="cv" data-pour={c.face}>
+        <iframe class="cv__lecteur" title={`${c.titre} (PDF)`} data-src={`${c.pdf}#view=FitH`} />
+        {c.apercu && <img class="cv__apercu" src={c.apercu} alt={t.cvApercu} loading="lazy" />}
+        <p class="cv__actions">
+          <a class="bouton" href={c.pdf} target="_blank" rel="noopener">
+            {t.cvOuvrir}
+          </a>
+          <a class="bouton bouton--plein" href={c.pdf} download>
+            {t.cvTelecharger}
+          </a>
+        </p>
+      </div>
+    ))
+}
+
+<div class="cv-choix" data-pour={tous ? undefined : 'neutre'}>
+  <p>{t.cvChoisir}</p>
+  <ul>
+    {
+      liste.map((c) => (
+        <li class="cv-choix__carte">
+          <span class="cv-choix__titre">{c.titre}</span>
+          <span class="cv__actions">
+            <a class="bouton" href={c.pdf} target="_blank" rel="noopener">
+              {t.cvOuvrir}
+            </a>
+            <a class="bouton bouton--plein" href={c.pdf} download>
+              {t.cvTelecharger}
+            </a>
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

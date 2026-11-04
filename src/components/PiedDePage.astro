@@ -23,6 +23,15 @@ const dateLisible = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-FR' : 'en-GB',
     <nav aria-label={t.liens}>
       <ul class="pied__liens">
         {
+          p.formulaire && (
+            <li>
+              <a href="/contact/" data-fenetre="contact">
+                {t.meContacter}
+              </a>
+            </li>
+          )
+        }
+        {
           p.liens.map((lien) => (
             <li>
               <a href={lien.url} rel="me">
@@ -34,6 +43,11 @@ const dateLisible = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-FR' : 'en-GB',
       </ul>
     </nav>
     <div class="pied__meta">
+      <p class="pied__maintenu">
+        <a href="/maintenance/" data-fenetre="maintenance">
+          {t.commentMaintenu}
+        </a>
+      </p>
       <p class="pied__date">
         {t.miseAJour} <time datetime={date.toISOString()}>{dateLisible}</time>
       </p>

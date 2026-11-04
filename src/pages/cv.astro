@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import ContenuCV from '../components/ContenuCV.astro';
+import { profil, textes } from '../lib/contenu';
+
+const t = await textes('fr');
+const p = await profil();
+---
+
+<Base titre={`${t.cvTitre} · ${p.nom}`} face="neutre">
+  <section class="page-simple">
+    <h1>{t.cvTitre}</h1>
+    <ContenuCV langue="fr" tous />
+  </section>
+</Base>

@@ -66,6 +66,7 @@
 :root {
   --texte-doux: color-mix(in srgb, var(--texte) 72%, var(--fond));
   --bordure: color-mix(in srgb, var(--texte) 15%, var(--fond));
+  --bordure-champ: color-mix(in srgb, var(--texte) 50%, var(--fond));
 }
 
 /* Sur les très grands écrans, tout grandit un peu pour occuper la place. */
@@ -183,6 +184,7 @@ html {
 }
 
 .entete__nom {
+  white-space: nowrap;
   font-family: var(--police-titre);
   font-weight: 600;
   font-size: 1.15rem;
@@ -191,6 +193,7 @@ html {
 
 .entete__actions {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -205,6 +208,92 @@ html {
 
 .entete__lien:hover {
   text-decoration: underline;
+}
+
+/* CV et Me contacter : des pastilles, la seconde pleine. */
+.entete__bouton {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 1rem;
+  border: 1.5px solid var(--texte);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.entete__bouton:hover {
+  border-color: var(--accent);
+}
+
+.entete__bouton--plein {
+  background: var(--texte);
+  color: var(--fond);
+}
+
+.entete__bouton--plein:hover {
+  background: var(--accent);
+  color: var(--sur-accent, var(--fond));
+}
+
+.si-etroit {
+  display: none;
+}
+
+@media (max-width: 47.99rem) {
+  .entete__nom {
+    font-size: 1.05rem;
+  }
+
+  [data-face='devops'] .entete__nom {
+    font-size: 0.95rem;
+  }
+
+  .entete__actions {
+    gap: 0.35rem;
+  }
+
+  .entete__lien {
+    padding: 0 0.35rem;
+  }
+
+  .entete__bouton {
+    padding: 0 0.8rem;
+  }
+
+  .si-large {
+    display: none;
+  }
+
+  .si-etroit {
+    display: inline;
+  }
+}
+
+/* Très petits écrans : le parcours reste au bout du fil, sans lien en haut. */
+@media (max-width: 23.49rem) {
+  .entete__lien {
+    display: none;
+  }
+}
+
+/* Lien « Aller au contenu » : le premier arrêt du clavier, visible au focus. */
+.aller-au-contenu {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 30;
+  padding: 0.6rem 1rem;
+  border-radius: var(--rayon);
+  background: var(--texte);
+  color: var(--fond);
+  font-weight: 600;
+}
+
+.aller-au-contenu:focus {
+  top: 0.75rem;
 }
 
 /* Pied de page */
@@ -238,9 +327,15 @@ html {
   text-align: right;
 }
 
-.pied__date {
+.pied__date,
+.pied__maintenu {
   margin: 0;
   color: var(--texte-doux);
+}
+
+.pied__maintenu a {
+  color: var(--texte);
+  font-weight: 600;
 }
 
 /* Tampon de build : version, commit, publication. */
@@ -252,6 +347,7 @@ html {
   margin: 0;
   font-family: var(--police-mono);
   font-size: 0.8rem;
+  line-height: 1.6rem;
   color: var(--texte-doux);
 }
 

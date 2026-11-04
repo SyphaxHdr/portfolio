@@ -1,5 +1,5 @@
 ---
-import { FACES, profil, textes, type Langue } from '../lib/contenu';
+import { cv, FACES, profil, textes, type Langue } from '../lib/contenu';
 
 interface Props {
   langue: Langue;
@@ -8,6 +8,15 @@ interface Props {
 const { langue } = Astro.props;
 const t = await textes(langue);
 const p = await profil();
+// Le bouton CV ouvre la fenêtre ; sans JavaScript, il mène au PDF de la face
+// affichée, ou à la page /cv/ sur l'accueil.
+const liensCV = [
+  ...(FACES.some((face) => cv(face)) ? [{ pour: 'neutre', href: '/cv/' }] : []),
+  ...FACES.flatMap((face) => {
+    const fichier = cv(face);
+    return fichier ? [{ pour: face, href: fichier.pdf }] : [];
+  }),
+];
 ---
 
 <header class="entete">
@@ -20,6 +29,21 @@ const p = await profil();
             {t.parcours}
           </a>
         ))
+      }
+      {
+        liensCV.map((l) => (
+          <a class="entete__bouton" href={l.href} data-pour={l.pour} data-fenetre="cv">
+            {t.cv}
+          </a>
+        ))
+      }
+      {
+        p.formulaire && (
+          <a class="entete__bouton entete__bouton--plein" href="/contact/" data-fenetre="contact">
+            <span class="si-large">{t.meContacter}</span>
+            <span class="si-etroit">{t.contact}</span>
+          </a>
+        )
       }
     </div>
   </div>

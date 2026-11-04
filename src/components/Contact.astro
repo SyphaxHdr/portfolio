@@ -1,0 +1,52 @@
+---
+import { profil, textes, type Langue } from '../lib/contenu';
+
+interface Props {
+  langue: Langue;
+  // Préfixe des id des champs : le formulaire peut être deux fois dans la page
+  // (fenêtre et page /contact/).
+  prefixe: string;
+}
+
+const { langue, prefixe } = Astro.props;
+const t = await textes(langue);
+const p = await profil();
+const linkedin = p.liens.find((l) => l.label === 'LinkedIn');
+const id = (champ: string) => `${prefixe}-${champ}`;
+---
+
+{
+  p.formulaire ? (
+    <form
+      class="contact"
+      action={`https://formspree.io/f/${p.formulaire}`}
+      method="POST"
+      data-envoi={t.contactEnvoi}
+      data-merci={t.contactMerci}
+      data-erreur={t.contactErreur}
+    >
+      <p class="contact__intro">{t.contactIntro}</p>
+      <div class="contact__champs">
+        <label for={id('nom')}>{t.contactNom}</label>
+        <input id={id('nom')} name="nom" type="text" autocomplete="name" required />
+        <label for={id('email')}>{t.contactEmail}</label>
+        <input id={id('email')} name="email" type="email" autocomplete="email" required />
+        <label for={id('message')}>{t.contactMessage}</label>
+        <textarea id={id('message')} name="message" rows="6" required />
+        <div class="contact__piege" aria-hidden="true">
+          <label for={id('piege')}>{t.contactPiege}</label>
+          <input id={id('piege')} name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="_subject" value={t.contactSujet} />
+        <button class="bouton bouton--plein" type="submit">
+          {t.contactEnvoyer}
+        </button>
+      </div>
+      <p class="contact__etat" role="status" />
+    </form>
+  ) : (
+    <p class="contact__intro">
+      {t.contactAbsent} {linkedin && <a href={linkedin.url}>LinkedIn</a>}
+    </p>
+  )
+}
