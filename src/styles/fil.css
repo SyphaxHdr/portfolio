@@ -30,7 +30,7 @@
 }
 
 /* Le texte garde toujours le sens de lecture normal. */
-.fil :is(h2, p, span) {
+.fil :is(h2, p, span, a) {
   direction: ltr;
   unicode-bidi: isolate;
 }
@@ -64,6 +64,16 @@
   .fil--devops .bloc {
     --titre: 1.15rem;
   }
+}
+
+/* Les titres et les solutions mènent à la page projet. */
+.fil a {
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+}
+
+.fil a:hover {
+  text-decoration-color: currentColor;
 }
 
 /* Tronc */
@@ -376,7 +386,7 @@
 }
 
 /* Après le dernier bloc, le tronc continue jusqu'au pied de page, sous le
-   fondu (voir faces.css). Si l'autre face est plus longue, la queue
+   fondu (plus bas). Si l'autre face est plus longue, la queue
    s'allonge d'autant. */
 .fil__queue {
   flex: 1 0 var(--fondu);
@@ -395,4 +405,19 @@
     position: static;
     display: block;
   }
+}
+
+/* Le bas de l'écran : un fondu vers la couleur de la page, collé au bas de
+   l'écran. Le fil y devient de plus en plus transparent, et s'éclaire en
+   montant, au rythme du défilement. En bas de la page, il ne couvre plus que
+   la queue du fil. */
+.fondu {
+  position: sticky;
+  bottom: 0;
+  align-self: end;
+  height: var(--fondu);
+  background: var(--fond);
+  mask-image: linear-gradient(transparent, #000);
+  pointer-events: none;
+  transition: background-color 0.4s ease;
 }

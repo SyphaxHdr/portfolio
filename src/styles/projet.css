@@ -1,0 +1,658 @@
+/* La page projet : le fil vu de près. Le tronc (main) longe la fiche du
+   projet ; plus bas, la branche du projet (develop) part de main et y revient,
+   et chaque solution est une branche feature qui part de develop et la
+   rejoint. Même géométrie que le fil (fil.css) ; la face DevOps en est le
+   miroir. */
+.projet {
+  --l-feature: 42px;
+  touch-action: pan-y pinch-zoom;
+}
+
+@media (max-width: 47.99rem) {
+  .projet {
+    --l-feature: 30px;
+  }
+}
+
+.projet .fil :is(h1, h3, .solution) {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Retour au fil, autre face */
+.projet__nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1.5rem;
+  margin-bottom: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.projet--devops .projet__nav {
+  direction: rtl;
+}
+
+.projet__lien {
+  direction: ltr;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.projet__lien:hover span:not([aria-hidden]) {
+  text-decoration: underline;
+}
+
+.projet__lien--face {
+  color: var(--texte-doux);
+}
+
+/* Le fil et son fondu en bas de l'écran, comme sur l'accueil. */
+.projet__fil {
+  display: grid;
+}
+
+.projet__fil > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+/* La fiche : le haut du tronc, un point plein au niveau du titre. */
+.fil .bloc--fiche {
+  --titre: clamp(2rem, 5vw, 3.25rem);
+  padding-block-end: clamp(3rem, 8vw, 4.5rem);
+}
+
+.fil--devops .bloc--fiche {
+  --titre: clamp(1.6rem, 4vw, 2.4rem);
+}
+
+.bloc--fiche .bloc__tronc {
+  top: var(--y-titre);
+}
+
+.fiche__point {
+  position: absolute;
+  top: calc(var(--y-titre) - 9px);
+  top: round(var(--y-titre) - 9px, 1px);
+  inset-inline-start: calc(var(--x-tronc) + var(--trait) / 2 - 9px);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--tronc);
+}
+
+.bloc--fiche .etat {
+  font-size: 0.8rem;
+}
+
+.fiche__resume {
+  margin-top: 1rem;
+  max-width: 46ch;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+.etiquettes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.fil--devops .etiquettes {
+  direction: ltr;
+  justify-content: flex-end;
+}
+
+.etiquettes li {
+  padding: 0.1rem 0.65rem;
+  border: 1px solid var(--bordure);
+  border-radius: 999px;
+  background: var(--surface);
+  font-family: var(--police-mono);
+  font-size: 0.8rem;
+}
+
+.fiche {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr));
+  gap: 1rem 1.5rem;
+  max-width: 46rem;
+  margin: 0 0 1.5rem;
+}
+
+.fil--devops .fiche {
+  direction: ltr;
+}
+
+.fiche dt {
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texte-doux);
+}
+
+.fiche dd {
+  margin: 0.15rem 0 0;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.fiche__texte p {
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+
+.fiche__liens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fiche__liens a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border: 1.5px solid var(--sc);
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.fiche__liens a:hover {
+  background: var(--sc);
+  color: var(--sur-accent);
+}
+
+/* Le flux : la branche du projet part de main en bas (début du projet) et y
+   revient en haut, au niveau du titre (losange), sauf s'il est en cours. */
+.bloc--flux {
+  padding-block-end: 72px;
+}
+
+.flux__aide {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  color: var(--texte-doux);
+}
+
+.problemes {
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Une solution = une branche feature : elle part de la branche du projet en
+   bas et la rejoint en haut, au niveau de son titre (point de fusion). */
+.probleme {
+  --sf-sol: var(--sf);
+  --l1: 1.875rem; /* hauteur de la première ligne du titre */
+  --y: calc(18px + var(--l1) / 2);
+  position: relative;
+  padding-block: 18px 40px;
+}
+
+.fil--devops .probleme {
+  --l1: 1.5rem;
+}
+
+.probleme--sp {
+  --sf-sol: var(--sous-projet);
+}
+
+.probleme__feature {
+  position: absolute;
+  top: calc(var(--y) - var(--trait) / 2);
+  bottom: 16px;
+  inset-inline-start: calc(var(--x-branche) + var(--trait) - var(--pad));
+  width: var(--l-feature);
+  border: var(--trait) solid var(--sf-sol);
+  border-inline-start-width: 0;
+  border-start-end-radius: 18px;
+  border-end-end-radius: 18px;
+}
+
+.probleme__fusion {
+  position: absolute;
+  top: calc(var(--y) - 8px);
+  inset-inline-start: calc(var(--x-branche) + var(--trait) / 2 - 8px - var(--pad));
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--sc);
+  box-shadow: 0 0 0 3px var(--fond);
+}
+
+/* Le titre entier ouvre la solution. */
+.probleme__resume {
+  display: block;
+  list-style: none;
+  cursor: pointer;
+}
+
+.probleme__resume::-webkit-details-marker {
+  display: none;
+}
+
+.probleme__titre {
+  margin: 0;
+  font-weight: 600;
+}
+
+.probleme__texte {
+  display: block;
+  max-width: 30ch;
+  font-family: var(--police-titre);
+  font-size: 1.5rem;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.fil--devops .probleme__texte {
+  max-width: 38ch;
+  margin-left: auto;
+  font-size: 1.125rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.probleme__resume:hover .probleme__texte {
+  color: var(--accent);
+}
+
+.probleme__branche {
+  display: block;
+  font-family: var(--police-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  color: var(--sf-sol);
+  overflow-wrap: anywhere;
+}
+
+.probleme__sp {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.fil--devops .probleme__sp {
+  font-family: var(--police-mono);
+  font-size: 0.8125rem;
+}
+
+.probleme__bouton {
+  direction: ltr;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 40px;
+  margin-top: 0.7rem;
+  padding: 0 1rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  user-select: none;
+}
+
+.probleme__details[open] .probleme__bouton {
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+
+.si-ouvert,
+.probleme__details[open] .si-ferme {
+  display: none;
+}
+
+.probleme__details[open] .si-ouvert {
+  display: inline;
+}
+
+.chevron {
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.probleme__details[open] .chevron {
+  transform: translateY(2px) rotate(225deg);
+}
+
+/* La fiche de la solution : des blocs courts, à lire d'un coup d'œil. */
+.solution {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 1.75rem;
+  max-width: 46rem;
+  margin-top: 1rem;
+  padding: 1.4rem 1.5rem;
+  border: 1px solid var(--bordure);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  text-align: left;
+}
+
+.probleme__details[open] .solution {
+  animation: deplie 0.3s ease;
+}
+
+@keyframes deplie {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.bloc-s--large {
+  grid-column: 1 / -1;
+}
+
+.bloc-s h4 {
+  margin: 0 0 0.45rem;
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texte-doux);
+}
+
+.bloc-s p {
+  max-width: none;
+  margin: 0;
+}
+
+.pastilles,
+.options,
+.preuves,
+.schema {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pastilles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.pastilles li {
+  padding: 0.2rem 0.7rem;
+  border: 1px solid var(--bordure);
+  border-radius: 999px;
+  background: var(--fond);
+  font-size: 0.875rem;
+}
+
+.option {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--bordure);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.option:first-child {
+  padding-top: 0;
+}
+
+.option__raison {
+  display: block;
+  font-weight: 400;
+  font-size: 0.8125rem;
+  color: var(--texte-doux);
+}
+
+.option__verdict {
+  flex: none;
+  align-self: flex-start;
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  line-height: 1.5rem;
+  color: var(--texte-doux);
+}
+
+.option--retenue .option__texte {
+  font-weight: 700;
+}
+
+.option--retenue .option__verdict {
+  background: var(--accent);
+  color: var(--sur-accent);
+  font-weight: 600;
+}
+
+/* Le schéma : des cases reliées par des flèches, la dernière en couleur. */
+.schema {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.schema li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.schema li:not(:last-child)::after {
+  content: '→';
+  color: var(--texte-doux);
+}
+
+.schema span {
+  padding: 0.4rem 0.8rem;
+  border: 1.5px solid var(--texte);
+  border-radius: var(--rayon);
+  background: var(--fond);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.schema li:last-child span {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--sur-accent);
+}
+
+.etapes {
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.schema + .etapes {
+  margin-top: 1rem;
+}
+
+.etapes li + li {
+  margin-top: 0.3rem;
+}
+
+.etapes li::marker,
+.code--etapes li::marker {
+  color: var(--accent);
+  font-family: var(--police-mono);
+  font-weight: 700;
+}
+
+.code {
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: var(--fond);
+  font-family: var(--police-mono);
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+.code--etapes {
+  padding-left: 2.2rem;
+}
+
+.code--etapes li + li {
+  margin-top: 0.2rem;
+}
+
+.preuves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.preuves a {
+  font-weight: 600;
+}
+
+.solution__voisines {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  max-width: none;
+  margin: 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--bordure);
+  font-size: 0.95rem;
+}
+
+.solution__voisines a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.solution__voisines a:hover {
+  text-decoration: underline;
+}
+
+.solution__suivante {
+  margin-left: auto;
+}
+
+@media (max-width: 47.99rem) {
+  .probleme {
+    --l1: 1.5625rem;
+  }
+
+  .fil--devops .probleme {
+    --l1: 1.5rem;
+  }
+
+  .probleme__texte {
+    font-size: 1.25rem;
+  }
+
+  .fil--devops .probleme__texte {
+    font-size: 1rem;
+  }
+
+  .solution {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1.1rem 1rem;
+  }
+
+  .schema {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .schema li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .schema li:not(:last-child)::after {
+    content: '↓';
+    padding-left: 0.9rem;
+  }
+}
+
+/* Le début du projet : la branche quitte main, tout en bas. */
+.flux__debut {
+  position: absolute;
+  bottom: calc(23px - 0.75rem);
+  inset-inline: var(--pad) 0;
+  margin: 0;
+  font-family: var(--police-mono);
+  font-size: 0.8rem;
+  line-height: 1.5rem;
+  color: var(--texte-doux);
+}
+
+.flux__debut::before {
+  content: '';
+  position: absolute;
+  bottom: calc(0.75rem - 1px);
+  inset-inline-start: calc(var(--x-branche) + var(--trait) + 10px - var(--pad));
+  width: calc(var(--pad) - var(--x-branche) - var(--trait) - 22px);
+  border-top: 2px dotted var(--sc);
+}
+
+/* Projets voisins sur le fil */
+.voisins {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.voisin {
+  display: grid;
+  align-content: start;
+  gap: 0.15rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: var(--surface);
+  text-decoration: none;
+}
+
+.voisin:hover {
+  border-color: var(--texte);
+}
+
+.voisin--ancien {
+  grid-column: 2;
+  text-align: right;
+}
+
+.voisin__sens {
+  font-family: var(--police-mono);
+  font-size: 0.8rem;
+  color: var(--texte-doux);
+}
+
+.voisin__titre {
+  font-family: var(--police-titre);
+  font-size: 1.15rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}

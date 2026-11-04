@@ -1,5 +1,5 @@
 ---
-import { profil, textes, type Langue } from '../lib/contenu';
+import { FACES, profil, textes, type Langue } from '../lib/contenu';
 
 interface Props {
   langue: Langue;
@@ -8,7 +8,6 @@ interface Props {
 const { langue } = Astro.props;
 const t = await textes(langue);
 const p = await profil();
-const faces = ['production', 'devops'];
 ---
 
 <header class="entete">
@@ -16,8 +15,8 @@ const faces = ['production', 'devops'];
     <a class="entete__nom" href="/">{p.nom}</a>
     <div class="entete__actions">
       {
-        faces.map((f) => (
-          <a class="entete__lien" href={`#parcours-${f}`} data-pour={f}>
+        FACES.map((f) => (
+          <a class="entete__lien" href={`/${f}/#parcours-${f}`} data-pour={f}>
             {t.parcours}
           </a>
         ))

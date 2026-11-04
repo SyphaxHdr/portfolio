@@ -28,10 +28,10 @@ Tout le texte du site est dans `src/content/`. Il n'y a aucun texte dans le code
 | `src/content/projets/fr/` | un fichier par projet (un dossier par langue) |
 | `src/content/solutions/fr/` | un fichier par problème réglé (les deux faces dans le même fichier) |
 | `src/content/parcours/` | les étapes du parcours |
-| `src/content/profil.yaml` | nom, accroche, liens |
-| `src/content/i18n/` | les textes de l'interface : `fr.yaml` (puis `en.yaml`) |
-| `src/assets/` | les images d'origine (le build les convertit en WebP) |
-| `public/cv/` | les CV en PDF (un par face) et leur aperçu |
+| `src/content/profil.yaml` | nom, situation, liens |
+| `src/content/i18n/` | les textes de l'interface, accroches comprises : `fr.yaml` (puis `en.yaml`) |
+| `src/assets/` | les images d'origine, converties en WebP au build (à venir) |
+| `public/cv/` | les CV en PDF, un par face, et leur aperçu (à venir) |
 
 ## Ajouter un projet
 
@@ -41,21 +41,28 @@ Tout le texte du site est dans `src/content/`. Il n'y a aucun texte dans le code
 4. Ouvrir une pull request. La CI vérifie tout.
 5. Fusionner : le site est publié tout seul.
 
+Le projet apparaît sur le fil de chaque face listée dans `pistes`, avec sa page : `/production/projets/<nom-du-fichier>/` et `/devops/projets/<nom-du-fichier>/`.
+
+## Ajouter une solution
+
+1. Copier le modèle `modeles/solution.md` dans `src/content/solutions/fr/` et le nommer `<projet>-<sujet>.md`.
+2. Remplir les champs : le problème, ce qui comptait, les options (une avec `retenue: true`), les étapes, le résultat et, si la piste DevOps est cochée, la partie `devops`.
+3. Ouvrir une pull request comme pour un projet.
+
 ## Ce que vérifie la CI
 
 À chaque pull request, la fusion est bloquée si :
 
 - le site ne se construit pas ;
-- un fichier de contenu a un champ manquant ;
-- un lien est cassé ;
-- une image est trop lourde ;
-- un mot est mal écrit (les noms propres et les mots kabyles sont dans `cspell.json`).
+- un fichier de contenu a un champ manquant.
+
+Avant la version 1.0 s'ajoutent : les liens cassés, le poids des images et l'orthographe (les noms propres et les mots kabyles sont dans `cspell.json`).
 
 À chaque fusion sur `main` : le site est publié sur GitHub Pages. La date « Mis à jour le » vient du dernier commit.
 
 ## Technique
 
-Astro (site statique), CSS sans framework, un peu de JavaScript (pièce, changement de face, apparition des branches). Hébergé sur GitHub Pages.
+Astro (site statique), CSS sans framework, un peu de JavaScript (pièce, changement de face). Le fondu au défilement est en CSS pur. Hébergé sur GitHub Pages.
 
 ## Versions
 
