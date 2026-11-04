@@ -1,10 +1,13 @@
 ---
-projet: amachahou
+projet: fr/amachahou    # langue/nom du fichier du projet
 ordre: 1
 titre: Deux personnes sur la même scène → une alerte avant le conflit
-branche: feature/alerte-conflit-scene
-commit: "feat(ci): alerte-conflit-scene"
-sousProjet: ""          # ex. "balance-sheets"
+pistes: [production, devops]
+importance: 1
+branche: feature/alerte-conflit-scene   # obligatoire si la piste devops est cochée
+commit: "feat(ci): alerte-conflit-scene" # obligatoire si la piste devops est cochée
+sousProjet: ""          # ex. "balance-sheets", sinon supprimer la ligne
+brouillon: false
 ---
 
 ## Le problème

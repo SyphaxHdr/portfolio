@@ -5,7 +5,8 @@
   "words": [
     "Amachahou", "Gravewell", "Drealm", "Wildline", "EasyPay", "Ormoras", "Cerdes",
     "Sefar", "Aeon", "Laika", "Earthopia", "Bobine", "Nocturne", "Béjaïa", "MAJIC",
-    "kabyle", "Anzar", "itch", "Bandcamp", "Astro", "WebP", "Formspree", "Unity", "URP", "LFS"
+    "kabyle", "Anzar", "itch", "Bandcamp", "Astro", "WebP", "Formspree", "Unity", "URP", "LFS",
+    "roguelike", "prefab", "FIJ", "Jira", "devops"
   ],
   "ignorePaths": ["node_modules", "dist", "public"]
 }
