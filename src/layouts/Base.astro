@@ -3,7 +3,8 @@ import { Font } from 'astro:assets';
 import '../styles/global.css';
 import Entete from '../components/Entete.astro';
 import PiedDePage from '../components/PiedDePage.astro';
-import type { Face, Langue } from '../lib/contenu';
+import Fenetres from '../components/Fenetres.astro';
+import { textes, type Face, type Langue } from '../lib/contenu';
 
 interface Props {
   titre: string;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const { titre, face, langue = 'fr' } = Astro.props;
+const t = await textes(langue);
 ---
 
 <html lang={langue} data-face={face}>
@@ -27,10 +29,12 @@ const { titre, face, langue = 'fr' } = Astro.props;
     <title>{titre}</title>
   </head>
   <body>
+    <a class="aller-au-contenu" href="#contenu">{t.allerAuContenu}</a>
     <Entete langue={langue} />
-    <main class="conteneur principal">
+    <main class="conteneur principal" id="contenu">
       <slot />
     </main>
     <PiedDePage langue={langue} />
+    <Fenetres langue={langue} />
   </body>
 </html>

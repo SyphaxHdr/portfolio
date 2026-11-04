@@ -73,3 +73,43 @@ debutDevops: début
 autresProjets: Autres projets
 plusRecent: Plus récent
 plusAncien: Plus ancien
+allerAuContenu: Aller au contenu
+fermerFenetre: Fermer
+cv: CV
+cvTitre: Mon CV
+cvChoisir: "Deux CV, un par face :"
+cvOuvrir: Ouvrir le PDF
+cvTelecharger: Télécharger
+cvApercu: Aperçu de la première page du CV
+meContacter: Me contacter
+contact: Contact
+contactIntro: Un stage, une question sur un projet ? Écris-moi ici, le message arrive directement dans ma boîte.
+contactNom: Nom
+contactEmail: E-mail
+contactMessage: Message
+contactEnvoyer: Envoyer
+contactEnvoi: Envoi en cours…
+contactMerci: Merci, ton message est bien parti.
+contactErreur: L'envoi n'a pas marché. Réessaie dans un moment, ou écris-moi sur LinkedIn.
+contactSujet: Message depuis le portfolio
+contactPiege: Ne remplis pas ce champ
+contactAbsent: Le formulaire n'est pas encore en ligne. En attendant, écris-moi sur LinkedIn.
+commentMaintenu: Comment ce site est maintenu ?
+maintenuIntro: "Ce site est géré comme un petit projet d'équipe, même si je suis seul dessus. Chaque changement suit le même chemin :"
+etapesPipeline:
+  - nom: Pull request
+    texte: "Une branche courte par changement, puis une pull request : rien n'est poussé directement sur main."
+  - nom: Vérification
+    texte: GitHub Actions construit le site et vérifie chaque fichier de contenu. Si quelque chose casse, la fusion est bloquée.
+  - nom: Fusion
+    texte: "Squash and merge : un commit propre par changement."
+  - nom: Publication
+    texte: Le site est reconstruit et mis en ligne sur GitHub Pages. La date de mise à jour vient du dernier commit.
+cetteVersion: Cette version
+dernierePublication: "Dernière publication :"
+runReussi: réussie
+runEchoue: échouée
+runEnCours: en cours
+voirRun: voir le run
+lireMaintenance: Les choix et leurs raisons
+voirDepot: Le code du site

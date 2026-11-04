@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 
 export type Langue = 'fr' | 'en';
@@ -52,6 +54,15 @@ export function titrePage(face: Face, t: Textes, p: Profil) {
   if (face === 'production') return `${t.production} · ${p.nom}`;
   if (face === 'devops') return `${t.devops} · ${p.nom}`;
   return p.nom;
+}
+
+// Un CV par face, dans public/cv/ : il n'apparaît sur le site que si son PDF
+// existe. L'aperçu (première page en WebP) sert sur téléphone.
+export function cv(face: FaceProjet) {
+  const existe = (fichier: string) => existsSync(join(process.cwd(), 'public', fichier));
+  const pdf = `/cv/cv-${face}.pdf`;
+  const apercu = `/cv/cv-${face}.webp`;
+  return existe(pdf) ? { pdf, apercu: existe(apercu) ? apercu : undefined } : undefined;
 }
 
 // « fr/amachahou » → « amachahou »

@@ -4,6 +4,30 @@ Format : une section par version, la plus récente en haut.
 
 ## [Non publié]
 
+## [0.9.0] - 2026-11-04
+
+Fenêtres et accessibilité.
+
+### Ajouté
+
+- Dans la barre du haut, « CV » et « Me contacter » ; dans le pied de page, « Me contacter » et « Comment ce site est maintenu ? ».
+- Une fenêtre pour le CV de la face affichée : le PDF dans le lecteur du navigateur, avec « Ouvrir le PDF » et « Télécharger » ; sur téléphone, un aperçu en image. Sur l'accueil, les deux CV au choix. Le bouton n'apparaît que si le PDF est en ligne.
+- Une fenêtre de contact : nom, e-mail et message, envoyés sans quitter la page. Mon adresse n'apparaît nulle part.
+- « Comment ce site est maintenu ? » : le chemin d'un changement dessiné comme le fil (pull request, vérification, fusion, publication), la version en ligne et le statut de la dernière publication.
+- Sans JavaScript, chaque bouton mène à une page (`/cv/`, `/contact/`, `/maintenance/`) ou directement au PDF.
+- Un lien « Aller au contenu », premier arrêt du clavier.
+
+### Changé
+
+- Les fenêtres se ferment avec Échap, la croix ou un clic à côté ; le clavier reste dans la fenêtre, puis revient au bouton qui l'a ouverte.
+- Le zoom à deux doigts fonctionne aussi sur l'accueil.
+- Sur les très petits écrans, la barre du haut se resserre et la pièce rétrécit pour tenir dans la largeur.
+
+### Corrigé
+
+- Les liens courts (tampon de build, pipeline) ont une cible d'au moins 24 px de haut.
+- Sur un écran de 320 px, « Production » ne déborde plus sous sa flèche.
+
 ## [0.8.0] - 2026-11-04
 
 Une page par projet.

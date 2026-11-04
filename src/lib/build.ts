@@ -20,10 +20,13 @@ export function infosBuild() {
   const racine = depot ? `${serveur}/${depot}` : undefined;
 
   return {
+    depot,
     version,
     court: sha.slice(0, 7),
     lienVersion: racine && `${racine}/releases/tag/${version}`,
     lienCommit: racine && sha ? `${racine}/commit/${sha}` : undefined,
     lienPublication: racine && run ? `${racine}/actions/runs/${run}` : undefined,
+    lienDepot: racine,
+    lienMaintenance: racine && `${racine}/blob/main/MAINTENANCE.md`,
   };
 }

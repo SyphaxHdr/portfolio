@@ -1,0 +1,430 @@
+/* Fenêtres (CV, contact, maintenance) et leurs pages de repli. */
+.fenetre {
+  --fond-bloc: var(--fond);
+  width: min(100% - 2rem, 36rem);
+  max-height: min(100dvh - 2rem, 58rem);
+  padding: 0;
+  border: 1px solid var(--bordure);
+  border-radius: 0.9rem;
+  background: var(--surface);
+  color: var(--texte);
+  box-shadow: 0 24px 64px rgb(0 0 0 / 0.28);
+}
+
+.fenetre--large {
+  width: min(100% - 2rem, 62rem);
+}
+
+.fenetre[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.fenetre::backdrop {
+  background: rgb(18 16 14 / 0.6);
+}
+
+html:has(.fenetre[open]) {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fenetre,
+  .fenetre::backdrop {
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      display 0.2s allow-discrete,
+      overlay 0.2s allow-discrete;
+  }
+
+  .fenetre:not([open]),
+  .fenetre:not([open])::backdrop {
+    opacity: 0;
+  }
+
+  .fenetre:not([open]) {
+    transform: translateY(10px);
+  }
+
+  @starting-style {
+    .fenetre[open],
+    .fenetre[open]::backdrop {
+      opacity: 0;
+    }
+
+    .fenetre[open] {
+      transform: translateY(10px);
+    }
+  }
+}
+
+.fenetre__entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0.75rem 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--bordure);
+}
+
+.fenetre__titre {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.fenetre__entete form {
+  display: flex;
+}
+
+.fenetre__fermer {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1.5px solid var(--bordure-champ);
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.fenetre__fermer:hover {
+  border-color: var(--texte);
+}
+
+.fenetre__corps {
+  overflow: auto;
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.page-simple {
+  --fond-bloc: var(--surface);
+  max-width: 50rem;
+  margin-inline: auto;
+}
+
+/* Boutons */
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border: 1.5px solid var(--texte);
+  border-radius: 999px;
+  background: none;
+  color: var(--texte);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bouton:hover {
+  border-color: var(--accent);
+}
+
+.bouton--plein {
+  background: var(--texte);
+  color: var(--fond);
+}
+
+.bouton--plein:hover {
+  background: var(--accent);
+  color: var(--sur-accent, var(--fond));
+}
+
+.bouton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* CV : le PDF dans le lecteur du navigateur ; sur téléphone, un aperçu. */
+.cv__lecteur {
+  display: block;
+  width: 100%;
+  height: min(70vh, 56rem);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: #fff;
+}
+
+.cv__apercu {
+  display: none;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+}
+
+.cv__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
+}
+
+.cv-choix > p {
+  margin: 0 0 0.75rem;
+}
+
+.cv-choix ul {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cv-choix__carte {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: var(--fond-bloc);
+}
+
+.cv-choix__titre {
+  font-family: var(--police-titre);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.cv-choix__carte .cv__actions {
+  margin: 0;
+}
+
+@media (max-width: 47.99rem) {
+  .cv__lecteur {
+    display: none;
+  }
+
+  .cv__apercu {
+    display: block;
+  }
+}
+
+/* Contact */
+.contact__intro {
+  margin: 0 0 1rem;
+}
+
+.contact__champs {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.contact__champs label {
+  margin-top: 0.6rem;
+  font-weight: 600;
+}
+
+.contact__champs label:first-child {
+  margin-top: 0;
+}
+
+.contact__champs :is(input, textarea) {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  border: 1.5px solid var(--bordure-champ);
+  border-radius: var(--rayon);
+  background: var(--fond);
+  color: var(--texte);
+  font: inherit;
+}
+
+.contact__champs textarea {
+  resize: vertical;
+}
+
+.contact__champs .bouton {
+  justify-self: start;
+  margin-top: 1rem;
+}
+
+.contact__piege {
+  position: absolute;
+  left: -9999px;
+}
+
+.contact__etat {
+  margin: 1rem 0 0;
+  font-weight: 600;
+}
+
+.contact__etat:empty {
+  display: none;
+}
+
+.contact--envoye .contact__champs {
+  display: none;
+}
+
+/* « Comment ce site est maintenu ? » : le chemin d'un changement, dessiné
+   comme le fil (un trait, un point par étape). */
+.pipeline {
+  --p: var(--tronc, var(--texte));
+  --ok: #3e7a4e;
+  --ko: #b5452f;
+  --attente: #c27c1e;
+  container-type: inline-size;
+}
+
+[data-face='devops'] .pipeline {
+  --ok: #9cc28a;
+  --ko: #e06c75;
+  --attente: #d4ae5e;
+}
+
+.pipeline__intro {
+  margin: 0 0 1.75rem;
+}
+
+.pipeline__etapes {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin: 0 0 1.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.pipeline__etapes::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 12px;
+  right: calc((100% - 3.75rem) / 4 - 12px);
+  height: var(--trait, 6px);
+  background: var(--p);
+}
+
+.pipeline__etape {
+  position: relative;
+  padding-top: 2.4rem;
+}
+
+.pipeline__etape::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border: 4px solid var(--p);
+  border-radius: 50%;
+  background: var(--fond-bloc, var(--fond));
+}
+
+.pipeline__etape:last-child::before {
+  background: var(--p);
+}
+
+.pipeline__nom {
+  display: block;
+  font-family: var(--police-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.pipeline__texte {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--texte-doux);
+}
+
+@container (max-width: 34rem) {
+  .pipeline__etapes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pipeline__etapes::before {
+    top: 12px;
+    bottom: 12px;
+    left: 9px;
+    right: auto;
+    width: var(--trait, 6px);
+    height: auto;
+  }
+
+  .pipeline__etape {
+    padding-top: 0;
+    padding-left: 2.5rem;
+  }
+}
+
+.pipeline__version {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: var(--fond-bloc, var(--fond));
+}
+
+.pipeline__sous-titre {
+  margin: 0 0 0.4rem;
+  font-family: var(--police-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texte-doux);
+}
+
+.pipeline__tampon,
+.pipeline__statut {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 0.5rem;
+  margin: 0;
+  font-family: var(--police-mono);
+  font-size: 0.85rem;
+  line-height: 1.6rem;
+}
+
+.pipeline__statut {
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.pipeline__statut[hidden] {
+  display: none;
+}
+
+.pipeline__pastille {
+  display: inline-block;
+  margin-right: 0.5rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--attente);
+}
+
+[data-etat='reussi'] .pipeline__pastille {
+  background: var(--ok);
+}
+
+[data-etat='echoue'] .pipeline__pastille {
+  background: var(--ko);
+}
+
+.pipeline__liens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 1.25rem 0 0;
+  font-weight: 600;
+}
+
+.pipeline__liens a {
+  padding-block: 0.15rem;
+}

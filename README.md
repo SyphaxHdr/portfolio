@@ -28,10 +28,10 @@ Tout le texte du site est dans `src/content/`. Il n'y a aucun texte dans le code
 | `src/content/projets/fr/` | un fichier par projet (un dossier par langue) |
 | `src/content/solutions/fr/` | un fichier par problème réglé (les deux faces dans le même fichier) |
 | `src/content/parcours/` | les étapes du parcours |
-| `src/content/profil.yaml` | nom, situation, liens |
+| `src/content/profil.yaml` | nom, situation, liens, identifiant du formulaire de contact (Formspree) |
 | `src/content/i18n/` | les textes de l'interface, accroches comprises : `fr.yaml` (puis `en.yaml`) |
 | `src/assets/` | les images d'origine, converties en WebP au build (à venir) |
-| `public/cv/` | les CV en PDF, un par face, et leur aperçu (à venir) |
+| `public/cv/` | les CV en PDF (`cv-production.pdf`, `cv-devops.pdf`) et l'aperçu de leur première page en WebP ; le bouton CV n'apparaît que si le PDF est là |
 
 ## Ajouter un projet
 
@@ -62,7 +62,7 @@ Avant la version 1.0 s'ajoutent : les liens cassés, le poids des images et l'or
 
 ## Technique
 
-Astro (site statique), CSS sans framework, un peu de JavaScript (pièce, changement de face). Le fondu au défilement est en CSS pur. Hébergé sur GitHub Pages.
+Astro (site statique), CSS sans framework, un peu de JavaScript (pièce, changement de face, fenêtres). Sans JavaScript, tout reste accessible par des liens et des pages. Le fondu au défilement est en CSS pur. Hébergé sur GitHub Pages.
 
 ## Versions
 

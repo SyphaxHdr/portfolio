@@ -1,0 +1,30 @@
+---
+interface Props {
+  nom: string;
+  titre: string;
+  fermer: string;
+  large?: boolean;
+}
+
+const { nom, titre, fermer, large = false } = Astro.props;
+---
+
+<dialog
+  class:list={['fenetre', { 'fenetre--large': large }]}
+  id={`fenetre-${nom}`}
+  aria-labelledby={`fenetre-${nom}-titre`}
+>
+  <div class="fenetre__entete">
+    <h2 class="fenetre__titre" id={`fenetre-${nom}-titre`}>{titre}</h2>
+    <form method="dialog">
+      <button class="fenetre__fermer" aria-label={fermer}>
+        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M3 3l10 10M13 3 3 13" />
+        </svg>
+      </button>
+    </form>
+  </div>
+  <div class="fenetre__corps">
+    <slot />
+  </div>
+</dialog>

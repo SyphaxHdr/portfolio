@@ -1,0 +1,72 @@
+---
+import { textes, type Langue } from '../lib/contenu';
+import { infosBuild } from '../lib/build';
+
+interface Props {
+  langue: Langue;
+}
+
+const { langue } = Astro.props;
+const t = await textes(langue);
+const b = infosBuild();
+// Le statut de la dernière publication est lu en direct dans l'API GitHub,
+// à l'ouverture (dépôt public, sans jeton).
+const statut = {
+  avant: t.dernierePublication,
+  reussi: t.runReussi,
+  echoue: t.runEchoue,
+  enCours: t.runEnCours,
+  voir: t.voirRun,
+  langue,
+};
+---
+
+<div class="pipeline" data-depot={b.depot} data-statut={JSON.stringify(statut)}>
+  <p class="pipeline__intro">{t.maintenuIntro}</p>
+
+  <ol class="pipeline__etapes">
+    {
+      t.etapesPipeline.map((etape) => (
+        <li class="pipeline__etape">
+          <span class="pipeline__nom">{etape.nom}</span>
+          <span class="pipeline__texte">{etape.texte}</span>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="pipeline__version">
+    <p class="pipeline__sous-titre">{t.cetteVersion}</p>
+    <p class="pipeline__tampon">
+      {b.lienVersion ? <a href={b.lienVersion}>{b.version}</a> : <span>{b.version}</span>}
+      {
+        b.court && (
+          <>
+            <span aria-hidden="true">·</span>
+            {b.lienCommit ? <a href={b.lienCommit}>{b.court}</a> : <span>{b.court}</span>}
+          </>
+        )
+      }
+      <span aria-hidden="true">·</span>
+      {b.lienPublication ? <a href={b.lienPublication}>{t.publiePar}</a> : <span>{t.construitEnLocal}</span>}
+    </p>
+    <p class="pipeline__statut" hidden>
+      <span class="pipeline__pastille" aria-hidden="true"></span>
+      <span class="pipeline__statut-texte"></span>
+      <a class="pipeline__run"></a>
+    </p>
+  </div>
+
+  {
+    b.lienDepot && (
+      <p class="pipeline__liens">
+        <a href={b.lienMaintenance}>
+          {t.lireMaintenance} <span aria-hidden="true">→</span>
+        </a>
+        <a href={b.lienDepot}>
+          {t.voirDepot} <span aria-hidden="true">→</span>
+        </a>
+      </p>
+    )
+  }
+</div>
