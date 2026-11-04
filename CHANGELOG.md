@@ -4,6 +4,22 @@ Format : une section par version, la plus récente en haut.
 
 ## [Non publié]
 
+## [0.5.0] - 2026-11-04
+
+Le fil.
+
+### Ajouté
+
+- Le fil sur chaque face : un tronc, une branche colorée par projet qui part du tronc et y revient, un point par solution.
+- Un losange sur le tronc pour un projet sorti, un point qui pulse pour un projet en cours.
+- Les sous-projets : une petite branche dans la branche (Gameplay Balance Sheets dans Amachahou).
+- Le parcours en bas du tronc, jusqu'au point final.
+- Production à gauche, DevOps à droite en miroir sur grand écran ; sur téléphone, le tronc reste à gauche pour garder un texte lisible.
+
+### Changé
+
+- Les projets sont rangés du plus récent au plus ancien.
+
 ## [0.4.0] - 2026-11-04
 
 Base visuelle.
