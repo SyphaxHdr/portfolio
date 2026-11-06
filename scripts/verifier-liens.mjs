@@ -5,6 +5,8 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, posix, relative, sep } from 'node:path';
 
 const racine = process.argv[2] ?? 'dist';
+// Les adresses complètes du site (versions dans l'autre langue) sont vérifiées aussi.
+const site = 'https://syphaxhdr.github.io';
 const pages = [];
 const parcourir = (dossier) => {
   for (const nom of readdirSync(dossier)) {
@@ -40,7 +42,8 @@ const erreurs = [];
 let liens = 0;
 for (const page of pages) {
   const html = readFileSync(page, 'utf8');
-  for (const [, , url] of html.matchAll(/\s(href|src|data-src)="([^"]*)"/g)) {
+  for (const [, , brut] of html.matchAll(/\s(href|src|data-src)="([^"]*)"/g)) {
+    const url = brut.startsWith(`${site}/`) ? brut.slice(site.length) : brut;
     if (url === '' || /^[a-z][a-z0-9+.-]*:/i.test(url)) continue;
     liens++;
     const [avantAncre, ancre] = url.split('#');
