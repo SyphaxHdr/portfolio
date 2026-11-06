@@ -100,7 +100,7 @@ etapesPipeline:
   - nom: Pull request
     texte: "Une branche courte par changement, puis une pull request : rien n'est poussé directement sur main."
   - nom: Vérification
-    texte: GitHub Actions construit le site et vérifie chaque fichier de contenu. Si quelque chose casse, la fusion est bloquée.
+    texte: GitHub Actions construit le site et vérifie le contenu, les liens, le poids des images et l'orthographe. Si quelque chose casse, la fusion est bloquée.
   - nom: Fusion
     texte: "Squash and merge : un commit propre par changement."
   - nom: Publication
