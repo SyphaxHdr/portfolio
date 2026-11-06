@@ -146,3 +146,59 @@ if (faces) {
   history.replaceState({ face }, '');
   window.addEventListener('popstate', () => afficher(faceDeLAdresse(), { historique: false }));
 }
+
+// Les deux bras sous le nom, dessinés chacun d'un seul trait en SVG. En CSS,
+// la courbe et la ligne droite sont deux morceaux que le navigateur n'arrondit
+// pas au même pixel à certains zooms (90 %, 110 %…) : on voyait une marche.
+// Le trait suit exactement le dessin CSS, qui reste sans JavaScript.
+const corps = document.querySelector('.heros__corps');
+if (corps) {
+  const NS = 'http://www.w3.org/2000/svg';
+  const sonde = document.createElement('i');
+  sonde.setAttribute('aria-hidden', 'true');
+  sonde.style.cssText = 'position:absolute;top:0;left:0;height:0;visibility:hidden;pointer-events:none';
+  corps.append(sonde);
+  const mesure = (variable) => {
+    sonde.style.width = `var(${variable})`;
+    return sonde.getBoundingClientRect().width;
+  };
+  const traits = [...corps.querySelectorAll('.bras')].map((bras) => {
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('class', 'bras__trait');
+    svg.setAttribute('aria-hidden', 'true');
+    const chemin = document.createElementNS(NS, 'path');
+    svg.append(chemin);
+    bras.append(svg);
+    return { bras, svg, chemin, miroir: bras.classList.contains('bras--devops') };
+  });
+  const dessiner = () => {
+    const { width: W, height: H } = corps.getBoundingClientRect();
+    const t = mesure('--trait');
+    const xt = mesure('--x-tronc');
+    const r = mesure('--r');
+    const rt = mesure('--r-tige');
+    const yb = mesure('--y-bras');
+    const R = rt + t / 2; // rayon de la courbe sous le nom (au milieu du trait)
+    const r2 = r - t / 2; // rayon du coin, au bord
+    const y = yb + t / 2; // hauteur de la ligne horizontale (au milieu du trait)
+    for (const { svg, chemin, miroir } of traits) {
+      const x = (v) => (miroir ? W - v : v).toFixed(2);
+      const s = (sens) => (miroir ? 1 - sens : sens);
+      svg.setAttribute('viewBox', `0 0 ${W.toFixed(2)} ${H.toFixed(2)}`);
+      chemin.setAttribute(
+        'd',
+        [
+          `M${x(W / 2)} 0`,
+          `V${(yb - rt).toFixed(2)}`,
+          `A${R} ${R} 0 0 ${s(1)} ${x(W / 2 - R)} ${y.toFixed(2)}`,
+          `H${x(xt + r)}`,
+          `A${r2} ${r2} 0 0 ${s(0)} ${x(xt + t / 2)} ${(yb + r).toFixed(2)}`,
+          `V${H.toFixed(2)}`,
+        ].join(' '),
+      );
+    }
+    corps.classList.add('heros__corps--svg');
+  };
+  dessiner();
+  new ResizeObserver(dessiner).observe(corps);
+}
