@@ -270,7 +270,7 @@
 }
 
 .probleme__resume:hover .probleme__texte {
-  color: var(--accent);
+  color: var(--accent-texte);
 }
 
 .probleme__branche {
@@ -305,7 +305,7 @@
   padding: 0 1rem;
   border: 1.5px solid var(--accent);
   border-radius: 999px;
-  color: var(--accent);
+  color: var(--accent-texte);
   font-size: 0.9rem;
   font-weight: 600;
   user-select: none;
@@ -419,6 +419,11 @@
   padding-top: 0;
 }
 
+.option__texte {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .option__raison {
   display: block;
   font-weight: 400;
@@ -497,7 +502,7 @@
 
 .etapes li::marker,
 .code--etapes li::marker {
-  color: var(--accent);
+  color: var(--accent-texte);
   font-family: var(--police-mono);
   font-weight: 700;
 }

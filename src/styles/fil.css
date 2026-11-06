@@ -236,7 +236,7 @@
 }
 
 .commit--plus {
-  color: var(--accent);
+  color: var(--accent-texte);
   font-weight: 600;
 }
 
