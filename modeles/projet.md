@@ -22,6 +22,12 @@ sousProjets:              # facultatif
 liens:
   - label: itch.io
     url: https://exemple.itch.io/jeu
+visuels:                 # facultatif : images en WebP dans public/projets/<projet>/
+  - fichier: /projets/nom-du-projet/01.webp
+    petit: /projets/nom-du-projet/01-petit.webp   # 640 px, facultatif
+    largeur: 1280
+    hauteur: 720
+    alt: "Ce que montre l'image, en une phrase"
 brouillon: false        # true = le fichier existe mais n'est pas affiché
 ---
 

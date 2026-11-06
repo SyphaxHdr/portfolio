@@ -177,6 +177,248 @@
   color: var(--sur-accent);
 }
 
+/* Les images du projet : un carrousel. Il montre autant d'images entières
+   que la place le permet (1 à 3 captures, 2 à 5 écrans de téléphone), sans
+   barre de défilement ; les points disent lesquelles sont affichées. On
+   passe d'une image à l'autre au doigt, à la souris (glisser), à la molette,
+   avec les flèches ou les points ; un clic ouvre l'image en grand. */
+.galerie {
+  --g: 0.9rem;
+  margin: 1.5rem 0 0;
+  direction: ltr;
+}
+
+.visuels {
+  display: flex;
+  justify-content: safe center;
+  gap: var(--g);
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  container-type: inline-size;
+  list-style: none;
+}
+
+.visuels::-webkit-scrollbar {
+  display: none;
+}
+
+.visuels--glisse {
+  scroll-snap-type: none;
+  cursor: grabbing;
+}
+
+.visuels__item {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.visuels--portrait .visuels__item {
+  flex-basis: calc((100% - var(--g)) / 2);
+}
+
+@container (min-width: 34rem) {
+  .visuels--paysage .visuels__item {
+    flex-basis: calc((100% - var(--g)) / 2);
+  }
+
+  .visuels--portrait .visuels__item {
+    flex-basis: calc((100% - 2 * var(--g)) / 3);
+  }
+}
+
+@container (min-width: 46rem) {
+  .visuels--portrait .visuels__item {
+    flex-basis: calc((100% - 3 * var(--g)) / 4);
+  }
+}
+
+@container (min-width: 58rem) {
+  .visuels--portrait .visuels__item {
+    flex-basis: calc((100% - 4 * var(--g)) / 5);
+  }
+}
+
+@container (min-width: 80rem) {
+  .visuels--paysage .visuels__item {
+    flex-basis: calc((100% - 2 * var(--g)) / 3);
+  }
+}
+
+.visuel {
+  display: block;
+  overflow: hidden;
+  border: 2px solid color-mix(in srgb, var(--sc) 55%, transparent);
+  border-radius: 0.6rem;
+  cursor: zoom-in;
+  transition: border-color 0.2s ease;
+}
+
+.visuel:hover,
+.visuel:focus-visible {
+  border-color: var(--sc);
+}
+
+.visuel img {
+  display: block;
+  width: 100%;
+  height: auto;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.galerie__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0.9rem 0 0;
+}
+
+.galerie__nav[hidden] {
+  display: none;
+}
+
+.galerie__points {
+  display: flex;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Chaque point est un bouton de 24 px ; le rond visible est plus petit. */
+.galerie__point {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.galerie__point::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--sc);
+  border-radius: 50%;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.galerie__point[aria-current='true']::before {
+  background: var(--sc);
+}
+
+.galerie__point:hover::before {
+  transform: scale(1.2);
+}
+
+.galerie__fleche {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1.5px solid var(--bordure);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--texte);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.galerie__fleche:hover:not(:disabled) {
+  border-color: var(--sc);
+}
+
+.galerie__fleche:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* La visionneuse : l'image en grand, par-dessus la page. */
+.visionneuse {
+  max-width: min(94vw, 90rem);
+  max-height: 94vh;
+  padding: 1rem 1rem 0.75rem;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: var(--fond);
+  color: var(--texte);
+}
+
+.visionneuse::backdrop {
+  background: rgb(0 0 0 / 0.75);
+}
+
+.visionneuse[open] {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+}
+
+.visionneuse__cadre {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.visionneuse__image {
+  display: block;
+  max-width: 100%;
+  max-height: calc(94vh - 7.5rem);
+  width: auto;
+  height: auto;
+  border-radius: 0.4rem;
+}
+
+.visionneuse__legende {
+  max-width: 60ch;
+  text-align: center;
+  color: var(--texte-doux);
+}
+
+.visionneuse__nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+}
+
+.visionneuse__compte {
+  min-width: 4ch;
+  font-family: var(--police-mono);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.visionneuse__fermer {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 1.5px solid var(--bordure);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--texte);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
 /* Le flux : la branche du projet part de main en bas (début du projet) et y
    revient en haut, au niveau du titre (losange), sauf s'il est en cours. */
 .bloc--flux {
@@ -623,17 +865,18 @@
 
 /* Projets voisins sur le fil */
 .voisins {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
   margin-top: clamp(1.5rem, 4vw, 2.5rem);
 }
 
 .voisin {
   display: grid;
-  align-content: start;
-  gap: 0.15rem;
-  padding: 1rem 1.25rem;
+  gap: 0.05rem;
+  max-width: min(100%, 20rem);
+  padding: 0.55rem 1rem;
   border: 1px solid var(--bordure);
   border-radius: var(--rayon);
   background: var(--surface);
@@ -645,7 +888,7 @@
 }
 
 .voisin--ancien {
-  grid-column: 2;
+  margin-left: auto;
   text-align: right;
 }
 
@@ -657,7 +900,7 @@
 
 .voisin__titre {
   font-family: var(--police-titre);
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 600;
   overflow-wrap: anywhere;
 }

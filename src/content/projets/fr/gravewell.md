@@ -18,6 +18,27 @@ pile: [Unity, main protégée, une branche par tâche]
 liens:
   - label: itch.io
     url: https://syphax-hadri.itch.io/gravewell
+visuels:
+  - fichier: /projets/gravewell/01.webp
+    petit: /projets/gravewell/01-petit.webp
+    largeur: 1279
+    hauteur: 718
+    alt: "Une épreuve : les planètes tournent autour du trou noir, la jauge de masse en haut"
+  - fichier: /projets/gravewell/02.webp
+    petit: /projets/gravewell/02-petit.webp
+    largeur: 1280
+    hauteur: 719
+    alt: "La carte du monde Dawn : sept étapes entre épreuves, boutique, événements et boss"
+  - fichier: /projets/gravewell/03.webp
+    petit: /projets/gravewell/03-petit.webp
+    largeur: 1279
+    hauteur: 719
+    alt: "Le choix d’une carte parmi quatre, en pixel art"
+  - fichier: /projets/gravewell/04.webp
+    petit: /projets/gravewell/04-petit.webp
+    largeur: 1279
+    hauteur: 719
+    alt: "Un événement : la barrière de péage, avec deux choix"
 ---
 
 Un projet court, pour me prouver qu'on peut sortir un jeu complet en tenant une date fixe.
