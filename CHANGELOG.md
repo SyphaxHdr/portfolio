@@ -4,6 +4,24 @@ Format : une section par version, la plus récente en haut.
 
 ## [Non publié]
 
+## [1.1.0] - 2026-11-06
+
+Le site en anglais.
+
+### Ajouté
+
+- Tout le site en anglais, sous `/en/` : les deux faces, les pages projet, les problèmes réglés, le parcours, les fenêtres et les pages contact et maintenance.
+- Les deux CV du site en anglais, chacun sur sa page (`/en/production/cv/`, `/en/devops/cv/`) ; leur lien Portfolio mène à la version anglaise.
+- Un lien FR / EN au bout de la barre du haut : il garde la page, la face affichée et la solution ouverte.
+- Les liens `hreflang` dans chaque page, pour que les moteurs de recherche relient les deux versions.
+- La pièce dit « heads or tails » en anglais.
+
+### Modifié
+
+- La ligne « En ce moment » est écrite dans chaque langue (`profil.yaml`).
+- Sur téléphone, le lien Parcours de la barre du haut s'efface sous 480 px de large (au lieu de 376 px) pour laisser la place au lien de langue ; le parcours reste au bout du fil.
+- Le vérificateur de liens contrôle aussi les adresses complètes du site (les versions dans l'autre langue).
+
 ## [1.0.0] - 2026-11-06
 
 Le site complet.
