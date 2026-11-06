@@ -1,0 +1,122 @@
+accroche: I turn a game team's problems into tools and processes.
+choisirFace: Pick a side to see the projects.
+production: Production
+devops: DevOps
+liens: My links
+miseAJour: Updated on
+enCours: in progress
+arrete: stopped
+equipeDe: team of
+seul: solo
+sousProjet: Sub-project
+autresSolutions: more solutions
+autresCommits: more commits
+parcours: Background
+parcoursDevops: git log main
+accrocheProduction: I organize a game team and unblock its work.
+accrocheDevops: I automate a game team's work so it ships without friction.
+maintenant: "Right now:"
+consigneNeutre: Production or DevOps? Click an arrow, press ← → or flip the coin.
+consigneNeutreTactile: Production or DevOps? Swipe the page, tap an arrow or flip the coin.
+consigneProduction: Production side. Click the coin or the DevOps arrow to flip it.
+consigneProductionTactile: Production side. To flip the coin, tap it, tap the DevOps arrow or swipe the page to the left.
+consigneDevops: DevOps side. Click the coin or the Production arrow to flip it.
+consigneDevopsTactile: DevOps side. To flip the coin, tap it, tap the Production arrow or swipe the page to the right.
+lancerPiece: Flip the coin
+pileOuFace: heads or tails
+voirProduction: See the Production side
+voirDevops: See the DevOps side
+annonceProduction: Production side shown.
+annonceDevops: DevOps side shown.
+legende: How to read the line?
+legendeTronc: "The trunk: the chosen side, from newest (top) to oldest."
+legendeBranche: A colored branch = a project. It leaves the trunk and comes back to it.
+legendeSousProjet: A small branch inside a project = a sub-project.
+legendeEnCours: A dot circled by a spinning arc = a project in progress.
+legendeLosange: A diamond = a released version.
+legendeSolution: A small circle = a solution.
+publiePar: published by GitHub Actions
+construitEnLocal: built locally
+navigationProjet: Around the project
+retourFil: Back to the line
+ficheRole: Role
+ficheEquipe: Team
+fichePeriode: Period
+fichePile: Tools
+personnes: people
+problemes: Problems solved
+problemesDevops: git log --graph
+aideProblemes: Open a problem to see how it was solved.
+aideProblemesDevops: One feature branch = one solution. Open it to see the details.
+voirSolution: See the solution
+masquerSolution: Hide
+ouvrir: Open
+fermer: Close
+blocProbleme: The problem
+blocCompte: What mattered
+blocOptions: The options
+retenue: chosen
+ecartee: ruled out
+blocSolution: The solution
+schemaSolution: Diagram of the solution
+blocLaisse: Left aside
+blocResultat: The result
+blocPreuves: Proof
+blocDeclencheur: Trigger
+blocFichier: File
+blocEtapesDevops: What it does
+blocChoix: Choice
+blocLie: Linked to
+solutionPrecedente: Previous solution
+solutionSuivante: Next solution
+debut: Project start
+debutDevops: start
+autresProjets: Other projects
+plusRecent: Newer
+plusAncien: Older
+allerAuContenu: Skip to content
+fermerFenetre: Close
+cv: CV
+cvTitre: My CV
+portfolio: Portfolio
+cvChoisir: Choose the CV
+cvOuvrir: Open the PDF
+cvTelecharger: Download
+visuelsProjet: Project images
+imagePrecedente: Previous image
+imageSuivante: Next image
+imageNumero: Image
+autreLangue: FR
+lireAutreLangue: Version française
+meContacter: Contact me
+contact: Contact
+contactIntro: An internship, a question about a project? Write to me here, the message goes straight to my inbox.
+contactNom: Name
+contactEmail: Email
+contactMessage: Message
+contactEnvoyer: Send
+contactEnvoi: Sending…
+contactMerci: Thank you, your message has been sent.
+contactErreur: Sending failed. Try again in a moment, or write to me on LinkedIn.
+contactSujet: Message from the portfolio (English)
+contactPiege: Do not fill in this field
+contactAbsent: The form is not online yet. In the meantime, write to me on LinkedIn.
+commentMaintenu: How is this site maintained?
+maintenuIntro: "This site is run like a small team project, even though I work on it alone. Every change follows the same path:"
+etapesPipeline:
+  - nom: Pull request
+    texte: "One short branch per change, then a pull request: nothing is pushed straight to main."
+  - nom: Checks
+    texte: GitHub Actions builds the site and checks the content, the links, the image sizes and the spelling. If something breaks, the merge is blocked.
+  - nom: Merge
+    texte: "Squash and merge: one clean commit per change."
+  - nom: Deploy
+    texte: The site is rebuilt and published on GitHub Pages. The update date comes from the last commit.
+cetteVersion: This version
+dernierePublication: "Last deploy:"
+runReussi: succeeded
+runEchoue: failed
+runEnCours: in progress
+voirRun: see the run
+lireMaintenance: The choices and why
+voirDepot: The site's code
