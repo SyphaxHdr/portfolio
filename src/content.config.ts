@@ -95,6 +95,8 @@ const solutions = defineCollection({
 const ui = defineCollection({
   loader: glob({ pattern: '*.yaml', base: './src/content/i18n' }),
   schema: z.object({
+    // Le résumé du site pour les moteurs de recherche (balise meta description).
+    descriptionSite: z.string(),
     accroche: z.string(),
     choisirFace: z.string(),
     production: z.string(),

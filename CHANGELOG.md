@@ -15,12 +15,18 @@ Le site en anglais.
 - Un lien FR / EN au bout de la barre du haut : il garde la page, la face affichée et la solution ouverte.
 - Les liens `hreflang` dans chaque page, pour que les moteurs de recherche relient les deux versions.
 - La pièce dit « heads or tails » en anglais.
+- Un résumé de chaque page pour les moteurs de recherche (balise `description`) : celui du site, ou celui du projet sur une page projet.
 
 ### Modifié
 
 - La ligne « En ce moment » est écrite dans chaque langue (`profil.yaml`).
 - Sur téléphone, le lien Parcours de la barre du haut s'efface sous 480 px de large (au lieu de 376 px) pour laisser la place au lien de langue ; le parcours reste au bout du fil.
 - Le vérificateur de liens contrôle aussi les adresses complètes du site (les versions dans l'autre langue).
+- Lighthouse mesure chaque page trois fois et garde le résultat du milieu : un seul passage pouvait échouer à cause d'un ralentissement de la machine de GitHub.
+
+### Corrigé
+
+- Le lien « voir le run » de la fenêtre de maintenance n'avait pas d'adresse avant d'être rempli : il mène maintenant à la liste des publications, puis à la dernière.
 
 ## [1.0.0] - 2026-11-06
 

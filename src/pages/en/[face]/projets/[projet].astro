@@ -15,9 +15,15 @@ const { face, projet, plusRecent, plusAncien } = Astro.props;
 const t = await textes(langue);
 const p = await profil();
 const titre = face === 'devops' ? projet.data.titreDevops : projet.data.titre;
+const resume = face === 'devops' ? projet.data.resumeDevops : projet.data.resume;
 ---
 
-<Base titre={`${titre} · ${titrePage(face, t, p)}`} face={face} langue={langue}>
+<Base
+  titre={`${titre} · ${titrePage(face, t, p)}`}
+  description={resume}
+  face={face}
+  langue={langue}
+>
   <PageProjet
     face={face}
     langue={langue}
