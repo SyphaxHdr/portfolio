@@ -4,18 +4,31 @@ import '../styles/global.css';
 import Entete from '../components/Entete.astro';
 import PiedDePage from '../components/PiedDePage.astro';
 import Fenetres from '../components/Fenetres.astro';
-import { textes, type Face, type FaceProjet, type Langue } from '../lib/contenu';
+import {
+  adresse,
+  LANGUES,
+  sansLangue,
+  textes,
+  type Face,
+  type FaceProjet,
+  type Langue,
+} from '../lib/contenu';
 
 interface Props {
   titre: string;
+  // Le résumé de la page pour les moteurs de recherche ; sinon, celui du site.
+  description?: string;
   face: Face;
-  langue?: Langue;
+  langue: Langue;
   // Sur une page CV : le sélecteur Production / DevOps remplace le bouton CV.
   cvFace?: FaceProjet;
 }
 
-const { titre, face, langue = 'fr', cvFace } = Astro.props;
+const { titre, description, face, langue, cvFace } = Astro.props;
 const t = await textes(langue);
+// La même page dans chaque langue, pour les moteurs de recherche.
+const chemin = sansLangue(Astro.url.pathname);
+const versions = LANGUES.map((l) => ({ langue: l, href: new URL(adresse(l, chemin), Astro.site).href }));
 ---
 
 <html lang={langue} data-face={face}>
@@ -24,7 +37,10 @@ const t = await textes(langue);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
     <link rel="icon" href="/favicon.ico?v=3" sizes="any" />
+    <meta name="description" content={description ?? t.descriptionSite} />
     <meta name="generator" content={Astro.generator} />
+    {versions.map((v) => <link rel="alternate" hreflang={v.langue} href={v.href} />)}
+    <link rel="alternate" hreflang="x-default" href={versions[0].href} />
     <Font cssVariable="--font-instrument-sans" preload />
     <Font cssVariable="--font-fraunces" />
     <Font cssVariable="--font-jetbrains-mono" />

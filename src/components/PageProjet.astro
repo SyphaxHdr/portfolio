@@ -3,6 +3,7 @@ import '../styles/fil.css';
 import '../styles/projet.css';
 import Probleme from './Probleme.astro';
 import {
+  adresse,
   adresseProjet,
   elementsDe,
   etatProjet,
@@ -29,7 +30,7 @@ const d = projet.data;
 
 // L'autre face : la même page projet si elle existe, sinon le fil.
 const autreFace: FaceProjet = devops ? 'production' : 'devops';
-const versAutreFace = d.pistes.includes(autreFace) ? adresseProjet(autreFace, projet) : `/${autreFace}/`;
+const versAutreFace = d.pistes.includes(autreFace) ? adresseProjet(autreFace, projet) : adresse(langue, `/${autreFace}/`);
 
 // Les solutions dans l'ordre ; celles d'un sous-projet portent son nom.
 const liste = elementsDe(projet, await solutions(langue, face)).flatMap((el) =>
@@ -59,7 +60,7 @@ const debut = devops
   style={`--sc: var(--branche-${d.couleur}); --sf: var(--branche-${(d.couleur % 4) + 1})`}
 >
   <nav class="projet__nav" aria-label={t.navigationProjet}>
-    <a class="projet__lien" href={`/${face}/#${face}-${slug(projet.id)}`}>
+    <a class="projet__lien" href={adresse(langue, `/${face}/#${face}-${slug(projet.id)}`)}>
       <span aria-hidden="true">←</span>
       <span>{t.retourFil}</span>
     </a>

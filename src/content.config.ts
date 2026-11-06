@@ -95,6 +95,8 @@ const solutions = defineCollection({
 const ui = defineCollection({
   loader: glob({ pattern: '*.yaml', base: './src/content/i18n' }),
   schema: z.object({
+    // Le résumé du site pour les moteurs de recherche (balise meta description).
+    descriptionSite: z.string(),
     accroche: z.string(),
     choisirFace: z.string(),
     production: z.string(),
@@ -120,6 +122,7 @@ const ui = defineCollection({
     consigneDevops: z.string(),
     consigneDevopsTactile: z.string(),
     lancerPiece: z.string(),
+    pileOuFace: z.string(),
     voirProduction: z.string(),
     voirDevops: z.string(),
     annonceProduction: z.string(),
@@ -182,6 +185,8 @@ const ui = defineCollection({
     imagePrecedente: z.string(),
     imageSuivante: z.string(),
     imageNumero: z.string(),
+    autreLangue: z.string(),
+    lireAutreLangue: z.string(),
     meContacter: z.string(),
     contact: z.string(),
     contactIntro: z.string(),
@@ -213,7 +218,8 @@ const profil = defineCollection({
   loader: glob({ pattern: 'profil.yaml', base: './src/content' }),
   schema: z.object({
     nom: z.string(),
-    situation: z.string(),
+    // La phrase « En ce moment : … », dans chaque langue.
+    situation: z.object({ fr: z.string(), en: z.string() }),
     // Identifiant du formulaire Formspree (la fin de https://formspree.io/f/<id>).
     // Sans lui, le bouton « Me contacter » n'apparaît pas.
     formulaire: z.string().regex(/^[A-Za-z0-9]+$/).optional(),

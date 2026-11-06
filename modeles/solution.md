@@ -1,5 +1,5 @@
 ---
-projet: fr/amachahou    # langue/nom du fichier du projet
+projet: fr/amachahou    # langue/nom du fichier du projet (en/amachahou pour l'anglais)
 ordre: 1                # place dans la liste du projet
 titre: Deux personnes sur la même scène → une alerte avant le conflit
 pistes: [production, devops]

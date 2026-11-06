@@ -1,3 +1,4 @@
+descriptionSite: "Portfolio de Syphax Hadri, production et DevOps de jeu vidéo : de vrais problèmes d'équipes de jeu, et les outils et process qui les ont réglés."
 accroche: Je transforme les problèmes d'une équipe de jeu en outils et en process.
 choisirFace: Choisis une face pour voir les projets.
 production: Production
@@ -23,6 +24,7 @@ consigneProductionTactile: Face production. Pour retourner la pièce, touche-la,
 consigneDevops: Face DevOps. Clique sur la pièce ou sur la flèche Production pour la retourner.
 consigneDevopsTactile: Face DevOps. Pour retourner la pièce, touche-la, touche la flèche Production ou glisse la page vers la droite.
 lancerPiece: Lancer la pièce
+pileOuFace: pile ou face
 voirProduction: Voir la face Production
 voirDevops: Voir la face DevOps
 annonceProduction: Face production affichée.
@@ -85,6 +87,8 @@ visuelsProjet: Images du projet
 imagePrecedente: Image précédente
 imageSuivante: Image suivante
 imageNumero: Image
+autreLangue: EN
+lireAutreLangue: English version
 meContacter: Me contacter
 contact: Contact
 contactIntro: Un stage, une question sur un projet ? Écris-moi ici, le message arrive directement dans ma boîte.

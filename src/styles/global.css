@@ -235,6 +235,26 @@ html {
   text-decoration: underline;
 }
 
+/* EN / FR : l'autre langue, en petit, au bout de la barre. */
+.entete__langue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  font-family: var(--police-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--texte-doux);
+  text-decoration: none;
+}
+
+.entete__langue:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
 /* CV et Me contacter : des pastilles, la seconde pleine. */
 .entete__bouton {
   display: inline-flex;
@@ -301,6 +321,10 @@ html {
     padding: 0 0.8rem;
   }
 
+  .entete__langue {
+    min-width: 28px;
+  }
+
   .si-large {
     display: none;
   }
@@ -310,8 +334,8 @@ html {
   }
 }
 
-/* Très petits écrans : le parcours reste au bout du fil, sans lien en haut. */
-@media (max-width: 23.49rem) {
+/* Petits écrans : le parcours reste au bout du fil, sans lien en haut. */
+@media (max-width: 29.99rem) {
   .entete__lien {
     display: none;
   }

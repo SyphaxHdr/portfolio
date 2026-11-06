@@ -1,9 +1,12 @@
 ---
+import { adresse, type Langue } from '../lib/contenu';
+
 // Ancienne adresse : elle renvoie vers le CV production.
-const cible = '/production/cv/';
+const langue: Langue = 'fr';
+const cible = adresse(langue, '/production/cv/');
 ---
 
-<html lang="fr">
+<html lang={langue}>
   <head>
     <meta charset="utf-8" />
     <meta name="robots" content="noindex" />

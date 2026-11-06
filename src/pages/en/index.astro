@@ -1,0 +1,13 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faces from '../../components/Faces.astro';
+import { profil, textes, titrePage, type Langue } from '../../lib/contenu';
+
+const langue: Langue = 'en';
+const t = await textes(langue);
+const p = await profil();
+---
+
+<Base titre={titrePage('neutre', t, p)} face="neutre" langue={langue}>
+  <Faces face="neutre" langue={langue} />
+</Base>

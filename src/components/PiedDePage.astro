@@ -1,5 +1,5 @@
 ---
-import { profil, textes, type Langue } from '../lib/contenu';
+import { adresse, profil, textes, type Langue } from '../lib/contenu';
 import { dateDernierCommit } from '../lib/date';
 import { infosBuild } from '../lib/build';
 
@@ -25,7 +25,7 @@ const dateLisible = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-FR' : 'en-GB',
         {
           p.formulaire && (
             <li>
-              <a href="/contact/" data-fenetre="contact">
+              <a href={adresse(langue, '/contact/')} data-fenetre="contact">
                 {t.meContacter}
               </a>
             </li>
@@ -44,7 +44,7 @@ const dateLisible = new Intl.DateTimeFormat(langue === 'fr' ? 'fr-FR' : 'en-GB',
     </nav>
     <div class="pied__meta">
       <p class="pied__maintenu">
-        <a href="/maintenance/" data-fenetre="maintenance">
+        <a href={adresse(langue, '/maintenance/')} data-fenetre="maintenance">
           {t.commentMaintenu}
         </a>
       </p>

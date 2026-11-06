@@ -2,7 +2,7 @@
 import '../styles/faces.css';
 import Fil from './Fil.astro';
 import Piece from './Piece.astro';
-import { profil, textes, titrePage, type Face, type Langue } from '../lib/contenu';
+import { adresse, profil, racine, textes, titrePage, type Face, type Langue } from '../lib/contenu';
 
 interface Props {
   face: Face;
@@ -21,7 +21,12 @@ const titres = {
 const annonces = { neutre: '', production: t.annonceProduction, devops: t.annonceDevops };
 ---
 
-<div class="faces" data-titres={JSON.stringify(titres)} data-annonces={JSON.stringify(annonces)}>
+<div
+  class="faces"
+  data-racine={racine(langue)}
+  data-titres={JSON.stringify(titres)}
+  data-annonces={JSON.stringify(annonces)}
+>
   <section class="heros" aria-labelledby="nom">
     <h1 id="nom" class="heros__nom">{p.nom}</h1>
 
@@ -36,13 +41,13 @@ const annonces = { neutre: '', production: t.annonceProduction, devops: t.annonc
       </p>
       <p class="heros__situation">
         <span class="pastille" aria-hidden="true"></span>
-        <span><strong>{t.maintenant}</strong> {p.situation}</span>
+        <span><strong>{t.maintenant}</strong> {p.situation[langue]}</span>
       </p>
 
       <div class="piece-zone">
         <a
           class="fleche fleche--production"
-          href="/production/"
+          href={adresse(langue, '/production/')}
           data-vers="production"
           aria-label={t.voirProduction}
           aria-current={face === 'production' ? 'page' : undefined}
@@ -55,11 +60,11 @@ const annonces = { neutre: '', production: t.annonceProduction, devops: t.annonc
           {t.production}
         </a>
 
-        <Piece face={face} libelle={t.lancerPiece} nom={p.nom} />
+        <Piece face={face} libelle={t.lancerPiece} nom={p.nom} mot={t.pileOuFace} />
 
         <a
           class="fleche fleche--devops"
-          href="/devops/"
+          href={adresse(langue, '/devops/')}
           data-vers="devops"
           aria-label={t.voirDevops}
           aria-current={face === 'devops' ? 'page' : undefined}

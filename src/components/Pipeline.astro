@@ -50,11 +50,19 @@ const statut = {
       <span aria-hidden="true">·</span>
       {b.lienPublication ? <a href={b.lienPublication}>{t.publiePar}</a> : <span>{t.construitEnLocal}</span>}
     </p>
-    <p class="pipeline__statut" hidden>
-      <span class="pipeline__pastille" aria-hidden="true"></span>
-      <span class="pipeline__statut-texte"></span>
-      <a class="pipeline__run"></a>
-    </p>
+    {
+      /* Rempli en direct à l'ouverture ; le lien mène d'abord à la liste des
+         publications, puis à la dernière (un lien sans adresse ne se suit pas). */
+      b.lienDepot && (
+        <p class="pipeline__statut" hidden>
+          <span class="pipeline__pastille" aria-hidden="true"></span>
+          <span class="pipeline__statut-texte"></span>
+          <a class="pipeline__run" href={`${b.lienDepot}/actions/workflows/deploy.yml`}>
+            {t.voirRun}
+          </a>
+        </p>
+      )
+    }
   </div>
 
   {

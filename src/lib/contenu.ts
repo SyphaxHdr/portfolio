@@ -9,6 +9,18 @@ export type Projet = CollectionEntry<'projets'>;
 export type Solution = CollectionEntry<'solutions'>;
 
 export const FACES: FaceProjet[] = ['production', 'devops'];
+export const LANGUES: Langue[] = ['fr', 'en'];
+
+// Le français est à la racine (/devops/), l'anglais sous /en/ (/en/devops/).
+export const racine = (langue: Langue) => (langue === 'fr' ? '' : `/${langue}`);
+export const adresse = (langue: Langue, chemin: string) => `${racine(langue)}${chemin}`;
+export const autreLangue = (langue: Langue): Langue => (langue === 'fr' ? 'en' : 'fr');
+
+// L'adresse d'une page sans sa langue : « /en/devops/ » → « /devops/ ».
+export function sansLangue(chemin: string) {
+  const sans = chemin.replace(/^\/en(?=\/|$)/, '') || '/';
+  return sans.endsWith('/') ? sans : `${sans}/`;
+}
 
 export async function textes(langue: Langue) {
   const ui = await getEntry('ui', langue);
@@ -87,11 +99,43 @@ export function cv(face: FaceProjet, langue: Langue) {
   };
 }
 
-// « fr/amachahou » → « amachahou »
+// « fr/amachahou » → « amachahou » ; la langue, elle, est avant le « / ».
 export const slug = (id: string) => id.slice(id.indexOf('/') + 1);
+const langueDe = (id: string) => id.slice(0, id.indexOf('/')) as Langue;
 
 export const adresseProjet = (face: FaceProjet, projet: Projet) =>
-  `/${face}/projets/${slug(projet.id)}/`;
+  adresse(langueDe(projet.id), `/${face}/projets/${slug(projet.id)}/`);
+
+// Les pages générées, les mêmes en français et en anglais : un CV par face
+// (s'il existe), une page par projet et par face.
+export const pagesCV = (langue: Langue) =>
+  FACES.filter((face) => cv(face, langue)).map((face) => ({ params: { face }, props: { face } }));
+
+// Chaque projet et chaque solution existe dans les deux langues, sous le même
+// nom de fichier ; sinon, le site refuse de se construire.
+async function verifierTraductions() {
+  for (const collection of ['projets', 'solutions'] as const) {
+    const ids = new Set((await getCollection(collection)).map((e) => e.id));
+    const attendus = [...ids].flatMap((id) => LANGUES.map((l) => `${l}/${slug(id)}`));
+    const manquants = [...new Set(attendus.filter((id) => !ids.has(id)))];
+    if (manquants.length) {
+      throw new Error(`Traduction manquante dans src/content/${collection}/ : ${manquants.join(', ')}`);
+    }
+  }
+}
+
+export async function pagesProjets(langue: Langue) {
+  await verifierTraductions();
+  const parFace = await Promise.all(
+    FACES.map(async (face) => ({ face, liste: await projets(langue, face) })),
+  );
+  return parFace.flatMap(({ face, liste }) =>
+    liste.map((projet, i) => ({
+      params: { face, projet: slug(projet.id) },
+      props: { face, projet, plusRecent: liste[i - 1], plusAncien: liste[i + 1] },
+    })),
+  );
+}
 
 // L'ancre d'une solution dans sa page projet, sans le nom du projet :
 // « amachahou-flux-branches » → « flux-branches ».

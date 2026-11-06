@@ -5,9 +5,13 @@ interface Props {
   face: Face;
   libelle: string;
   nom: string;
+  // Le mot de la face neutre : « pile ou face », « heads or tails ».
+  mot: string;
 }
 
-const { face, libelle, nom } = Astro.props;
+const { face, libelle, nom, mot } = Astro.props;
+// Un mot plus long que « PILE OU FACE » est resserré pour tenir dans le disque doré.
+const serre = mot.length > 12 ? ({ textLength: 96, lengthAdjust: 'spacing' } as const) : {};
 const haut = nom.toUpperCase();
 const tranches = [-4, -2.7, -1.3, 0, 1.3, 2.7, 4];
 // Stries fines des deux métaux, comme sur une pièce frappée.
@@ -45,7 +49,7 @@ const infini = 'M30 16C22 4 6 4 6 16s16 12 24 0 24-12 24 0-16 12-24 0Z';
                 <circle class="piece__coeur" cx="30" cy="16" r="1.6" />
                 <circle class="piece__coeur" cx="54" cy="16" r="1.6" />
               </g>
-              <text class="piece__mot" x="100" y="134">PILE OU FACE</text>
+              <text class="piece__mot" x="100" y="134" {...serre}>{mot.toUpperCase()}</text>
             </g>
             <g class="embleme embleme--production" filter="url(#piece-relief)">
               <g transform="translate(67.5 57) scale(1.25)">
