@@ -1,12 +1,17 @@
 {
   "version": "0.2",
   "language": "fr,en",
+  "import": ["@cspell/dict-fr-fr/cspell-ext.json"],
   "files": ["src/content/**/*.md", "src/content/**/*.yaml", "README.md", "MAINTENANCE.md", "CHANGELOG.md"],
+  "ignorePaths": ["node_modules", "dist", "public"],
+  "ignoreRegExpList": ["Urls", "/`[^`\\n]+`/g", "/^\\s*(?:-\\s+)?[A-Za-z][A-Za-z0-9]*:/gm"],
   "words": [
     "Amachahou", "Gravewell", "Drealm", "Wildline", "EasyPay", "Ormoras", "Cerdes",
     "Sefar", "Aeon", "Laika", "Earthopia", "Bobine", "Nocturne", "Béjaïa", "MAJIC",
     "kabyle", "Anzar", "itch", "Bandcamp", "Astro", "WebP", "Formspree", "Unity", "URP", "LFS",
-    "roguelike", "prefab", "FIJ", "Jira", "devops"
-  ],
-  "ignorePaths": ["node_modules", "dist", "public"]
+    "roguelike", "prefab", "FIJ", "Jira", "devops", "Syphax", "Hadri", "Cannes", "Lyon",
+    "JDR", "UML", "Figma", "Firefox", "Discord", "Dependabot", "Lighthouse", "cspell",
+    "rebase", "squash", "reouvrir", "creer", "modeles", "valider", "assignee", "naturaliste",
+    "equipe", "arrete", "liee", "gameplay", "designer", "versionnage", "Échap", "Fraunces", "README"
+  ]
 }

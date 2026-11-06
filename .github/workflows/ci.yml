@@ -33,3 +33,58 @@ jobs:
 
       - name: Construire le site
         run: npm run build
+
+      - name: Vérifier les liens internes
+        run: npm run verifier:liens
+
+      - name: Vérifier le poids des images
+        run: npm run verifier:images
+
+  orthographe:
+    name: orthographe
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Installer Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26
+          cache: npm
+
+      # --no-save : package.json et package-lock.json ne changent pas.
+      - name: Installer cspell et le dictionnaire français
+        run: npm install --no-save cspell@10.0.1 @cspell/dict-fr-fr@2.3.2
+
+      - name: Vérifier l'orthographe
+        run: npx cspell lint --no-progress --show-suggestions
+
+  # Mesure seulement : ce job n'est pas obligatoire pour fusionner.
+  lighthouse:
+    name: lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Installer Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Construire le site
+        run: npm run build
+
+      - name: Mesurer avec Lighthouse
+        run: npx --yes @lhci/cli@0.15.1 autorun

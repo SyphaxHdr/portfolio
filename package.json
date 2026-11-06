@@ -1,7 +1,7 @@
 {
   "name": "portfolio",
   "type": "module",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "engines": {
     "node": ">=22.23.4"
   },
@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "verifier:liens": "node scripts/verifier-liens.mjs dist",
+    "verifier:images": "node scripts/verifier-images.mjs"
   },
   "dependencies": {
     "astro": "^7.4.5"
