@@ -1,15 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 import Pipeline from '../components/Pipeline.astro';
-import { profil, textes } from '../lib/contenu';
+import { profil, textes, type Langue } from '../lib/contenu';
 
-const t = await textes('fr');
+const langue: Langue = 'fr';
+const t = await textes(langue);
 const p = await profil();
 ---
 
-<Base titre={`${t.commentMaintenu} · ${p.nom}`} face="neutre">
+<Base titre={`${t.commentMaintenu} · ${p.nom}`} face="neutre" langue={langue}>
   <section class="page-simple">
     <h1>{t.commentMaintenu}</h1>
-    <Pipeline langue="fr" />
+    <Pipeline langue={langue} />
   </section>
 </Base>

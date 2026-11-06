@@ -1,5 +1,15 @@
 ---
-import { cv, FACES, profil, textes, type FaceProjet, type Langue } from '../lib/contenu';
+import {
+  adresse,
+  autreLangue,
+  cv,
+  FACES,
+  profil,
+  sansLangue,
+  textes,
+  type FaceProjet,
+  type Langue,
+} from '../lib/contenu';
 
 interface Props {
   langue: Langue;
@@ -11,24 +21,28 @@ const t = await textes(langue);
 const p = await profil();
 // Le bouton CV mène à la page du CV de la face affichée (accueil : production).
 const facesCV = FACES.filter((face) => cv(face, langue));
+const adresseCV = (face: FaceProjet) => adresse(langue, `/${face}/cv/`);
 const liensCV = facesCV.length
   ? [
-      { pour: 'neutre', href: `/${facesCV[0]}/cv/` },
-      ...facesCV.map((face) => ({ pour: face, href: `/${face}/cv/` })),
+      { pour: 'neutre', href: adresseCV(facesCV[0]) },
+      ...facesCV.map((face) => ({ pour: face, href: adresseCV(face) })),
     ]
   : [];
+// La même page dans l'autre langue.
+const autre = autreLangue(langue);
+const versAutre = adresse(autre, sansLangue(Astro.url.pathname));
 ---
 
 <header class="entete">
   <div class="conteneur entete__contenu">
-    <a class="entete__nom" href="/">
+    <a class="entete__nom" href={adresse(langue, '/')}>
       <span>{p.nom}</span>
       <span class="entete__type">{t.portfolio}</span>
     </a>
     <div class="entete__actions">
       {
         FACES.map((f) => (
-          <a class="entete__lien" href={`/${f}/#parcours-${f}`} data-pour={f}>
+          <a class="entete__lien" href={adresse(langue, `/${f}/#parcours-${f}`)} data-pour={f}>
             {t.parcours}
           </a>
         ))
@@ -39,7 +53,7 @@ const liensCV = facesCV.length
             class="entete__bouton"
             href={l.href}
             data-pour={l.pour}
-            aria-current={cvFace && l.href === `/${cvFace}/cv/` ? 'page' : undefined}
+            aria-current={cvFace && l.href === adresseCV(cvFace) ? 'page' : undefined}
           >
             {t.cv}
           </a>
@@ -47,12 +61,30 @@ const liensCV = facesCV.length
       }
       {
         p.formulaire && (
-          <a class="entete__bouton entete__bouton--plein" href="/contact/" data-fenetre="contact">
+          <a
+            class="entete__bouton entete__bouton--plein"
+            href={adresse(langue, '/contact/')}
+            data-fenetre="contact"
+          >
             <span class="si-large">{t.meContacter}</span>
             <span class="si-etroit">{t.contact}</span>
           </a>
         )
       }
+      <a
+        class="entete__langue"
+        href={versAutre}
+        hreflang={autre}
+        lang={autre}
+        aria-label={t.lireAutreLangue}
+        data-langue={autre}
+      >
+        {t.autreLangue}
+      </a>
     </div>
   </div>
 </header>
+
+<script>
+  import '../scripts/langue.js';
+</script>

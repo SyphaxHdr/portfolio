@@ -2,34 +2,25 @@
 import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
 import Base from '../../../layouts/Base.astro';
 import PageProjet from '../../../components/PageProjet.astro';
-import { FACES, profil, projets, slug, textes, titrePage } from '../../../lib/contenu';
+import { pagesProjets, profil, textes, titrePage, type Langue } from '../../../lib/contenu';
 
 // Une page par projet et par face : /production/projets/<slug>/ et
 // /devops/projets/<slug>/ (seulement si le projet est sur cette face).
-export const getStaticPaths = (async () => {
-  const parFace = await Promise.all(
-    FACES.map(async (face) => ({ face, liste: await projets('fr', face) })),
-  );
-  return parFace.flatMap(({ face, liste }) =>
-    liste.map((projet, i) => ({
-      params: { face, projet: slug(projet.id) },
-      props: { face, projet, plusRecent: liste[i - 1], plusAncien: liste[i + 1] },
-    })),
-  );
-}) satisfies GetStaticPaths;
+export const getStaticPaths = (() => pagesProjets('fr')) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
+const langue: Langue = 'fr';
 const { face, projet, plusRecent, plusAncien } = Astro.props;
-const t = await textes('fr');
+const t = await textes(langue);
 const p = await profil();
 const titre = face === 'devops' ? projet.data.titreDevops : projet.data.titre;
 ---
 
-<Base titre={`${titre} · ${titrePage(face, t, p)}`} face={face}>
+<Base titre={`${titre} · ${titrePage(face, t, p)}`} face={face} langue={langue}>
   <PageProjet
     face={face}
-    langue="fr"
+    langue={langue}
     projet={projet}
     plusRecent={plusRecent}
     plusAncien={plusAncien}

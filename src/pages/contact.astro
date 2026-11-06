@@ -1,15 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 import Contact from '../components/Contact.astro';
-import { profil, textes } from '../lib/contenu';
+import { profil, textes, type Langue } from '../lib/contenu';
 
-const t = await textes('fr');
+const langue: Langue = 'fr';
+const t = await textes(langue);
 const p = await profil();
 ---
 
-<Base titre={`${t.meContacter} · ${p.nom}`} face="neutre">
+<Base titre={`${t.meContacter} · ${p.nom}`} face="neutre" langue={langue}>
   <section class="page-simple">
     <h1>{t.meContacter}</h1>
-    <Contact langue="fr" prefixe="page" />
+    <Contact langue={langue} prefixe="page" />
   </section>
 </Base>

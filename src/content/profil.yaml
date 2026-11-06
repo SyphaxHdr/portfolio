@@ -1,5 +1,7 @@
 nom: Syphax Hadri
-situation: je cherche un stage de 3 à 6 mois à partir de mars 2027, en production ou en DevOps.
+situation:
+  fr: je cherche un stage de 3 à 6 mois à partir de mars 2027, en production ou en DevOps.
+  en: I'm looking for an internship of 3 to 6 months from March 2027, in production or DevOps.
 formulaire: xeaadndp
 liens:
   - label: LinkedIn

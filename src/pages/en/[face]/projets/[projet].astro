@@ -1,0 +1,28 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import Base from '../../../../layouts/Base.astro';
+import PageProjet from '../../../../components/PageProjet.astro';
+import { pagesProjets, profil, textes, titrePage, type Langue } from '../../../../lib/contenu';
+
+// Une page par projet et par face : /production/projets/<slug>/ et
+// /devops/projets/<slug>/ (seulement si le projet est sur cette face).
+export const getStaticPaths = (() => pagesProjets('en')) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const langue: Langue = 'en';
+const { face, projet, plusRecent, plusAncien } = Astro.props;
+const t = await textes(langue);
+const p = await profil();
+const titre = face === 'devops' ? projet.data.titreDevops : projet.data.titre;
+---
+
+<Base titre={`${titre} · ${titrePage(face, t, p)}`} face={face} langue={langue}>
+  <PageProjet
+    face={face}
+    langue={langue}
+    projet={projet}
+    plusRecent={plusRecent}
+    plusAncien={plusAncien}
+  />
+</Base>

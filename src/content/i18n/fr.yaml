@@ -23,6 +23,7 @@ consigneProductionTactile: Face production. Pour retourner la pièce, touche-la,
 consigneDevops: Face DevOps. Clique sur la pièce ou sur la flèche Production pour la retourner.
 consigneDevopsTactile: Face DevOps. Pour retourner la pièce, touche-la, touche la flèche Production ou glisse la page vers la droite.
 lancerPiece: Lancer la pièce
+pileOuFace: pile ou face
 voirProduction: Voir la face Production
 voirDevops: Voir la face DevOps
 annonceProduction: Face production affichée.
@@ -85,6 +86,8 @@ visuelsProjet: Images du projet
 imagePrecedente: Image précédente
 imageSuivante: Image suivante
 imageNumero: Image
+autreLangue: EN
+lireAutreLangue: English version
 meContacter: Me contacter
 contact: Contact
 contactIntro: Un stage, une question sur un projet ? Écris-moi ici, le message arrive directement dans ma boîte.

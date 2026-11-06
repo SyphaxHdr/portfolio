@@ -6,7 +6,13 @@ const racine = document.documentElement;
 const faces = document.querySelector('.faces');
 
 if (faces) {
-  const adresses = { neutre: '/', production: '/production/', devops: '/devops/' };
+  // En anglais, les adresses commencent par /en (data-racine).
+  const prefixe = faces.dataset.racine || '';
+  const adresses = {
+    neutre: `${prefixe}/`,
+    production: `${prefixe}/production/`,
+    devops: `${prefixe}/devops/`,
+  };
   const titres = JSON.parse(faces.dataset.titres || '{}');
   const annonces = JSON.parse(faces.dataset.annonces || '{}');
   const scene = faces.querySelector('.piece-scene');
@@ -49,8 +55,9 @@ if (faces) {
   };
 
   const faceDeLAdresse = () => {
-    if (location.pathname.startsWith('/production')) return 'production';
-    if (location.pathname.startsWith('/devops')) return 'devops';
+    const chemin = location.pathname.slice(prefixe.length);
+    if (chemin.startsWith('/production')) return 'production';
+    if (chemin.startsWith('/devops')) return 'devops';
     return 'neutre';
   };
 

@@ -1,5 +1,5 @@
 ---
-import { cv, FACES, textes, type FaceProjet, type Langue } from '../lib/contenu';
+import { adresse, cv, FACES, textes, type FaceProjet, type Langue } from '../lib/contenu';
 
 interface Props {
   langue: Langue;
@@ -20,7 +20,7 @@ const facesCV = FACES.filter((f) => cv(f, langue));
         {facesCV.length > 1 && (
           <nav class="cv__bascule" aria-label={t.cvChoisir}>
             {facesCV.map((f) => (
-              <a href={`/${f}/cv/`} aria-current={f === face ? 'page' : undefined}>
+              <a href={adresse(langue, `/${f}/cv/`)} aria-current={f === face ? 'page' : undefined}>
                 {nomFace[f]}
               </a>
             ))}
