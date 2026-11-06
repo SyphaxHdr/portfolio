@@ -67,6 +67,8 @@
   --texte-doux: color-mix(in srgb, var(--texte) 72%, var(--fond));
   --bordure: color-mix(in srgb, var(--texte) 15%, var(--fond));
   --bordure-champ: color-mix(in srgb, var(--texte) 50%, var(--fond));
+  /* L'accent pour du texte : un peu plus contrasté que pour un trait. */
+  --accent-texte: color-mix(in srgb, var(--accent) 78%, var(--texte));
 }
 
 /* Sur les très grands écrans, tout grandit un peu pour occuper la place. */

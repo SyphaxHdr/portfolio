@@ -4,6 +4,25 @@ Format : une section par version, la plus récente en haut.
 
 ## [Non publié]
 
+## [0.10.0] - 2026-11-04
+
+Le vrai contenu et les vérifications complètes.
+
+### Ajouté
+
+- Face production : Drealm et EasyPay, avec leur page.
+- Face DevOps : wildline et bobine · nocturne, avec leur page.
+- Amachahou : sept solutions de plus (modèles d'issues, branches créées toutes seules, tâches rouvertes sans responsable, notification après fusion, bot Discord, GitHub Projects, Git LFS et son guide).
+- À chaque pull request : vérification des liens internes (pages, fichiers, ancres), du poids des images et de l'orthographe ; la fusion est bloquée en cas d'erreur.
+- Lighthouse mesure la performance et l'accessibilité de chaque page.
+- Dependabot garde à jour les actions des workflows.
+- Les fins de ligne sont fixées en LF dans le dépôt (`.gitattributes`).
+
+### Corrigé
+
+- Les textes en couleur d'accent (« + N autres solutions », « Voir la solution », numéros des étapes) sont plus contrastés.
+- Sur un écran de 320 px, la pastille « retenue » ou « écartée » ne déborde plus.
+
 ## [0.9.0] - 2026-11-04
 
 Fenêtres et accessibilité.

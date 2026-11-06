@@ -54,9 +54,16 @@ Le projet apparaît sur le fil de chaque face listée dans `pistes`, avec sa pag
 À chaque pull request, la fusion est bloquée si :
 
 - le site ne se construit pas ;
-- un fichier de contenu a un champ manquant.
+- un fichier de contenu a un champ manquant ;
+- un lien interne mène à une page, un fichier ou une ancre qui n'existe pas (`npm run verifier:liens`, après `npm run build`) ;
+- une image dépasse 500 Ko ou un CV dépasse 2 Mo (`npm run verifier:images`) ;
+- un mot est inconnu du correcteur d'orthographe (cspell, en français et en anglais).
 
-Avant la version 1.0 s'ajoutent : les liens cassés, le poids des images et l'orthographe (les noms propres et les mots kabyles sont dans `cspell.json`).
+Un mot correct mais inconnu (nom propre, mot kabyle, terme technique) s'ajoute en une ligne dans la liste `words` de `cspell.json`.
+
+Lighthouse mesure aussi la performance et l'accessibilité de chaque page (objectif : 90 ou plus). Il ne bloque pas la fusion.
+
+Dependabot propose chaque semaine la mise à jour des actions des workflows, épinglées sur un SHA complet.
 
 À chaque fusion sur `main` : le site est publié sur GitHub Pages. La date « Mis à jour le » vient du dernier commit.
 
