@@ -164,6 +164,29 @@
   border-end-end-radius: calc(var(--r-tige) + var(--trait));
 }
 
+/* Avec JavaScript, chaque bras est un seul trait SVG (voir faces.js) : même
+   épaisseur et pas de marche à tous les zooms. */
+.bras__trait {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.bras__trait path {
+  fill: none;
+  stroke: var(--c);
+  stroke-width: var(--trait);
+  transition: stroke 0.4s ease;
+}
+
+.heros__corps--svg .bras::before,
+.heros__corps--svg .bras::after {
+  display: none;
+}
+
 /* Le point de départ, juste sous le nom. */
 .racine {
   position: absolute;

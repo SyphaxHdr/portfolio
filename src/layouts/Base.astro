@@ -4,15 +4,17 @@ import '../styles/global.css';
 import Entete from '../components/Entete.astro';
 import PiedDePage from '../components/PiedDePage.astro';
 import Fenetres from '../components/Fenetres.astro';
-import { textes, type Face, type Langue } from '../lib/contenu';
+import { textes, type Face, type FaceProjet, type Langue } from '../lib/contenu';
 
 interface Props {
   titre: string;
   face: Face;
   langue?: Langue;
+  // Sur une page CV : le sélecteur Production / DevOps remplace le bouton CV.
+  cvFace?: FaceProjet;
 }
 
-const { titre, face, langue = 'fr' } = Astro.props;
+const { titre, face, langue = 'fr', cvFace } = Astro.props;
 const t = await textes(langue);
 ---
 
@@ -20,8 +22,8 @@ const t = await textes(langue);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
+    <link rel="icon" href="/favicon.ico?v=3" sizes="any" />
     <meta name="generator" content={Astro.generator} />
     <Font cssVariable="--font-instrument-sans" preload />
     <Font cssVariable="--font-fraunces" />
@@ -30,7 +32,7 @@ const t = await textes(langue);
   </head>
   <body>
     <a class="aller-au-contenu" href="#contenu">{t.allerAuContenu}</a>
-    <Entete langue={langue} />
+    <Entete langue={langue} cvFace={cvFace} />
     <main class="conteneur principal" id="contenu">
       <slot />
     </main>

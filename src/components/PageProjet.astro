@@ -41,6 +41,8 @@ const liste = elementsDe(projet, await solutions(langue, face)).flatMap((el) =>
       })),
 );
 const enCours = d.statut === 'en-cours';
+// Images en largeur (captures de jeu) ou en hauteur (écrans de téléphone).
+const paysage = d.visuels.length > 0 && d.visuels[0].largeur >= d.visuels[0].hauteur;
 const titre = (p: Projet) => (devops ? p.data.titreDevops : p.data.titre);
 const equipe = d.equipe === 1 ? t.seul : `${d.equipe} ${t.personnes}`;
 const debut = devops
@@ -118,6 +120,69 @@ const debut = devops
                 </li>
               ))}
             </ul>
+          )
+        }
+
+        {
+          d.visuels.length > 0 && (
+            <section class="galerie" aria-label={t.visuelsProjet} data-galerie>
+              <ul class:list={['visuels', paysage ? 'visuels--paysage' : 'visuels--portrait']}>
+                {d.visuels.map((v, i) => (
+                  <li class="visuels__item">
+                    <a class="visuel" href={v.fichier} data-index={i} draggable="false">
+                      <img
+                        src={v.petit ?? v.fichier}
+                        srcset={v.petit ? `${v.petit} 640w, ${v.fichier} ${v.largeur}w` : undefined}
+                        sizes={paysage ? '(min-width: 64rem) 32rem, 90vw' : '(min-width: 64rem) 12rem, 45vw'}
+                        width={v.largeur}
+                        height={v.hauteur}
+                        alt={v.alt}
+                        loading="lazy"
+                        decoding="async"
+                        draggable="false"
+                      />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              {d.visuels.length > 1 && (
+                <div class="galerie__nav" hidden>
+                  <button class="galerie__fleche" type="button" data-sens="-1" aria-label={t.imagePrecedente}>
+                    <span aria-hidden="true">←</span>
+                  </button>
+                  <ol class="galerie__points">
+                    {d.visuels.map((_, i) => (
+                      <li>
+                        <button class="galerie__point" type="button" data-index={i} aria-label={`${t.imageNumero} ${i + 1}`} />
+                      </li>
+                    ))}
+                  </ol>
+                  <button class="galerie__fleche" type="button" data-sens="1" aria-label={t.imageSuivante}>
+                    <span aria-hidden="true">→</span>
+                  </button>
+                </div>
+              )}
+              <dialog class="visionneuse" aria-label={t.visuelsProjet}>
+                <button class="visionneuse__fermer" type="button" data-fermer aria-label={t.fermerFenetre}>
+                  <span aria-hidden="true">×</span>
+                </button>
+                <figure class="visionneuse__cadre">
+                  <img class="visionneuse__image" src={d.visuels[0].fichier} alt="" />
+                  <figcaption class="visionneuse__legende" />
+                </figure>
+                {d.visuels.length > 1 && (
+                  <p class="visionneuse__nav">
+                    <button class="galerie__fleche" type="button" data-sens="-1" aria-label={t.imagePrecedente}>
+                      <span aria-hidden="true">←</span>
+                    </button>
+                    <span class="visionneuse__compte" />
+                    <button class="galerie__fleche" type="button" data-sens="1" aria-label={t.imageSuivante}>
+                      <span aria-hidden="true">→</span>
+                    </button>
+                  </p>
+                )}
+              </dialog>
+            </section>
           )
         }
       </header>
@@ -199,4 +264,5 @@ const debut = devops
 
 <script>
   import '../scripts/projet.js';
+  import '../scripts/galerie.js';
 </script>

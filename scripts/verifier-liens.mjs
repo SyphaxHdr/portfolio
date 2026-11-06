@@ -43,7 +43,8 @@ for (const page of pages) {
   for (const [, , url] of html.matchAll(/\s(href|src|data-src)="([^"]*)"/g)) {
     if (url === '' || /^[a-z][a-z0-9+.-]*:/i.test(url)) continue;
     liens++;
-    const [chemin, ancre] = url.split('#');
+    const [avantAncre, ancre] = url.split('#');
+    const chemin = avantAncre.split('?')[0];
     const fichier = chemin ? fichierVise(chemin, page) : page;
     if (!existsSync(fichier)) {
       erreurs.push(`${adresse(page)} : « ${url} » n'existe pas`);

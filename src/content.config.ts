@@ -28,6 +28,20 @@ const projets = defineCollection({
       .array(z.object({ id: z.string(), titre: z.string(), titreDevops: z.string() }))
       .default([]),
     liens: z.array(z.object({ label: z.string(), url: z.url() })).default([]),
+    // Images du projet, dans public/projets/<projet>/ (WebP déjà allégés) ;
+    // « petit » est une version de 640 px pour la galerie.
+    visuels: z
+      .array(
+        z.object({
+          fichier: z.string().regex(/^\/projets\/[a-z0-9-]+\/[a-z0-9-]+\.webp$/),
+          petit: z.string().regex(/^\/projets\/[a-z0-9-]+\/[a-z0-9-]+\.webp$/).optional(),
+          largeur: z.number().int().positive(),
+          hauteur: z.number().int().positive(),
+          alt: z.string().min(10),
+        }),
+      )
+      .max(8)
+      .default([]),
     brouillon: z.boolean().default(false),
   }),
 });
@@ -160,10 +174,14 @@ const ui = defineCollection({
     fermerFenetre: z.string(),
     cv: z.string(),
     cvTitre: z.string(),
+    portfolio: z.string(),
     cvChoisir: z.string(),
     cvOuvrir: z.string(),
     cvTelecharger: z.string(),
-    cvApercu: z.string(),
+    visuelsProjet: z.string(),
+    imagePrecedente: z.string(),
+    imageSuivante: z.string(),
+    imageNumero: z.string(),
     meContacter: z.string(),
     contact: z.string(),
     contactIntro: z.string(),

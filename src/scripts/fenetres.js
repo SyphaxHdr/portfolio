@@ -1,6 +1,5 @@
-// Fenêtres : CV, contact, « Comment ce site est maintenu ? ».
-// Sans JavaScript, les liens mènent au PDF ou aux pages /cv/, /contact/ et
-// /maintenance/. Échap, la croix et un clic sur le fond ferment la fenêtre ;
+// Fenêtres : contact et « Comment ce site est maintenu ? » (le CV a sa page).
+// Sans JavaScript, les liens mènent aux pages /contact/ et /maintenance/. Échap, la croix et un clic sur le fond ferment la fenêtre ;
 // le navigateur rend alors le focus au bouton qui l'a ouverte.
 
 // Statut de la dernière publication, lu dans l'API publique de GitHub.
@@ -52,14 +51,6 @@ const chargerStatut = async (pipeline) => {
 const ouvrir = (fenetre) => {
   if (fenetre.open) return;
   fenetre.showModal();
-  // Le PDF ne se charge qu'à l'ouverture, et seulement s'il est affiché
-  // (sur téléphone, c'est l'aperçu en image).
-  fenetre.querySelectorAll('iframe[data-src]').forEach((cadre) => {
-    if (cadre.offsetParent) {
-      cadre.src = cadre.dataset.src;
-      cadre.removeAttribute('data-src');
-    }
-  });
   fenetre.querySelectorAll('.pipeline').forEach(chargerStatut);
 };
 

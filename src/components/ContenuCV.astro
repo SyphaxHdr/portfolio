@@ -1,57 +1,60 @@
 ---
-import { cv, FACES, textes, type Langue } from '../lib/contenu';
+import { cv, FACES, textes, type FaceProjet, type Langue } from '../lib/contenu';
 
 interface Props {
   langue: Langue;
-  // Dans la fenêtre, on montre le CV de la face affichée ; sur la page /cv/,
-  // les deux.
-  tous?: boolean;
+  face: FaceProjet;
 }
 
-const { langue, tous = false } = Astro.props;
+const { langue, face } = Astro.props;
 const t = await textes(langue);
+const fichier = cv(face, langue);
 const nomFace = { production: t.production, devops: t.devops };
-const liste = FACES.flatMap((face) => {
-  const fichier = cv(face);
-  return fichier ? [{ face, ...fichier, titre: `${t.cv} ${nomFace[face]}` }] : [];
-});
+const facesCV = FACES.filter((f) => cv(f, langue));
 ---
 
 {
-  !tous &&
-    liste.map((c) => (
-      <div class="cv" data-pour={c.face}>
-        <iframe class="cv__lecteur" title={`${c.titre} (PDF)`} data-src={`${c.pdf}#view=FitH`} />
-        {c.apercu && <img class="cv__apercu" src={c.apercu} alt={t.cvApercu} loading="lazy" />}
+  fichier && (
+    <div class="cv">
+      <div class="cv__barre">
+        {facesCV.length > 1 && (
+          <nav class="cv__bascule" aria-label={t.cvChoisir}>
+            {facesCV.map((f) => (
+              <a href={`/${f}/cv/`} aria-current={f === face ? 'page' : undefined}>
+                {nomFace[f]}
+              </a>
+            ))}
+          </nav>
+        )}
         <p class="cv__actions">
-          <a class="bouton" href={c.pdf} target="_blank" rel="noopener">
+          <a class="bouton" href={fichier.pdf} target="_blank" rel="noopener">
             {t.cvOuvrir}
           </a>
-          <a class="bouton bouton--plein" href={c.pdf} download>
+          <a class="bouton bouton--plein" href={fichier.pdf} download>
             {t.cvTelecharger}
           </a>
         </p>
       </div>
-    ))
-}
 
-<div class="cv-choix" data-pour={tous ? undefined : 'neutre'}>
-  <p>{t.cvChoisir}</p>
-  <ul>
-    {
-      liste.map((c) => (
-        <li class="cv-choix__carte">
-          <span class="cv-choix__titre">{c.titre}</span>
-          <span class="cv__actions">
-            <a class="bouton" href={c.pdf} target="_blank" rel="noopener">
-              {t.cvOuvrir}
-            </a>
-            <a class="bouton bouton--plein" href={c.pdf} download>
-              {t.cvTelecharger}
-            </a>
-          </span>
-        </li>
-      ))
-    }
-  </ul>
-</div>
+      <div class="cv__page">
+        <img
+          src={fichier.petit ?? fichier.image}
+          srcset={fichier.petit ? `${fichier.petit} 900w, ${fichier.image} ${fichier.largeur}w` : undefined}
+          sizes="(min-width: 66rem) 62rem, calc(100vw - 2rem)"
+          width={fichier.largeur}
+          height={fichier.hauteur}
+          alt={`${t.cvTitre} · ${nomFace[face]}`}
+          fetchpriority="high"
+        />
+        {fichier.liens.map((l) => (
+          <a
+            class="cv__lien"
+            href={l.href}
+            aria-label={l.texte}
+            style={`left: ${l.x}%; top: ${l.y}%; width: ${l.l}%; height: ${l.h}%`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}

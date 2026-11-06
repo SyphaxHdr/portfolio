@@ -1,0 +1,30 @@
+{
+ "largeur": 1600,
+ "hauteur": 2265,
+ "liens": [
+  {
+   "href": "https://syphaxhdr.github.io/",
+   "texte": "Portfolio",
+   "x": 25.46,
+   "y": 12.47,
+   "l": 6.43,
+   "h": 1.78
+  },
+  {
+   "href": "https://www.linkedin.com/in/syphax-hadri",
+   "texte": "LinkedIn",
+   "x": 33.91,
+   "y": 12.47,
+   "l": 6.3,
+   "h": 1.78
+  },
+  {
+   "href": "https://github.com/SyphaxHdr",
+   "texte": "GitHub",
+   "x": 42.23,
+   "y": 12.47,
+   "l": 5.42,
+   "h": 1.78
+  }
+ ]
+}

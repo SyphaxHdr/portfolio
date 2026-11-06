@@ -4,6 +4,29 @@ Format : une section par version, la plus récente en haut.
 
 ## [Non publié]
 
+## [1.0.0] - 2026-11-06
+
+Le site complet.
+
+### Ajouté
+
+- Les deux CV, un par face (le CV DevOps aux couleurs de la face DevOps), chacun sur sa page : `/production/cv/` et `/devops/cv/`. Le CV est montré en image sur toute la largeur, ses liens restent cliquables ; au-dessus, Production / DevOps pour passer de l'un à l'autre, et Ouvrir le PDF / Télécharger.
+- Le formulaire de contact, relié à Formspree : les messages arrivent dans ma boîte sans que mon adresse apparaisse.
+- Les images de Gravewell, Drealm et EasyPay dans leur page projet : un carrousel qui montre autant d'images entières que la place le permet, avec des points qui disent lesquelles sont affichées ; on avance au doigt, à la souris, à la molette, avec les flèches ou les points ; un clic ouvre l'image en grand dans une visionneuse.
+- Drealm : trois problèmes réglés (le suivi de la 3D, les échelles, le lien avec les sound designers).
+- EasyPay : trois problèmes (le choix de React Native, l'architecture en UML, le paiement avec la carte Edahabia), et pourquoi le projet s'est arrêté.
+- « Portfolio » après le nom dans la barre du haut et dans le titre de l'onglet ; une icône d'onglet en forme de branche Git.
+
+### Modifié
+
+- La ligne « En ce moment » ne précise plus de ville.
+- Les boutons vers le projet plus récent et plus ancien sont plus petits.
+
+### Corrigé
+
+- La ligne qui part du nom faisait une petite marche à certains zooms (90 %, 110 %…) : chaque bras est maintenant dessiné d'un seul trait.
+- Le vérificateur de liens ignore les paramètres d'adresse (`?v=3`).
+
 ## [0.10.0] - 2026-11-04
 
 Le vrai contenu et les vérifications complètes.
