@@ -30,8 +30,8 @@ Tout le texte du site est dans `src/content/`. Il n'y a aucun texte dans le code
 | `src/content/parcours/` | les étapes du parcours |
 | `src/content/profil.yaml` | nom, situation, liens, identifiant du formulaire de contact (Formspree) |
 | `src/content/i18n/` | les textes de l'interface, accroches comprises : `fr.yaml` (puis `en.yaml`) |
-| `src/assets/` | les images d'origine, converties en WebP au build (à venir) |
-| `public/cv/` | les CV en PDF (`cv-production.pdf`, `cv-devops.pdf`) et l'aperçu de leur première page en WebP ; le bouton CV n'apparaît que si le PDF est là |
+| `public/projets/<projet>/` | les images des projets en WebP (moins de 500 Ko chacune), listées dans le champ `visuels` du fichier projet |
+| `public/cv/` | les CV en PDF, un par face et par langue (`cv-production-fr.pdf`, `cv-devops-fr.pdf`), et l'aperçu de leur première page en WebP (même nom, `.webp`) ; chaque CV a sa page (`/production/cv/`, `/devops/cv/`) ; le bouton CV n'apparaît que si un PDF est là |
 
 ## Ajouter un projet
 
