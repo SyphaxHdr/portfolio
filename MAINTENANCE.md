@@ -14,6 +14,7 @@ Ce site est géré comme un petit projet d'équipe, même si je suis seul dessus
 - **Une seule branche principale** : je travaille seul ; des branches courtes et des pull requests suffisent, et `main` est toujours publiable.
 - **Images en WebP** : plus légères à qualité égale, donc une page qui s'affiche plus vite, surtout sur téléphone.
 - **Un service pour le formulaire** : un site statique ne peut pas envoyer d'e-mail ; le service transmet les messages sans afficher mon adresse.
+- **Deux langues, les mêmes fichiers** : le français à la racine, l'anglais sous `/en/`. Chaque page a son double ; le lien FR / EN garde la page et l'endroit où l'on est, et les moteurs de recherche relient les deux versions. Un texte manquant dans une langue bloque la publication.
 - **Le pipeline avant les fonctionnalités** : dès la première version, chaque changement était vérifié et publié automatiquement.
 
 C'est la même méthode que j'applique aux projets de jeu : des règles simples, vérifiées par des outils, pour que l'équipe se concentre sur le travail.
