@@ -193,6 +193,29 @@ html {
   text-decoration: none;
 }
 
+/* « · Portfolio » après le nom ; sur téléphone, en petit dessous. */
+.entete__nom {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.entete__type {
+  font-family: var(--police-texte);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--texte-doux);
+}
+
+.entete__type::before {
+  content: '·';
+  margin-right: 0.45rem;
+}
+
+.entete__bouton[aria-current='page'] {
+  border-color: var(--accent);
+}
+
 .entete__actions {
   display: flex;
   align-items: center;
@@ -246,7 +269,20 @@ html {
 
 @media (max-width: 47.99rem) {
   .entete__nom {
+    flex-direction: column;
+    gap: 0;
     font-size: 1.05rem;
+    line-height: 1.15;
+  }
+
+  .entete__type {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .entete__type::before {
+    content: none;
   }
 
   [data-face='devops'] .entete__nom {

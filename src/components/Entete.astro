@@ -1,27 +1,30 @@
 ---
-import { cv, FACES, profil, textes, type Langue } from '../lib/contenu';
+import { cv, FACES, profil, textes, type FaceProjet, type Langue } from '../lib/contenu';
 
 interface Props {
   langue: Langue;
+  cvFace?: FaceProjet;
 }
 
-const { langue } = Astro.props;
+const { langue, cvFace } = Astro.props;
 const t = await textes(langue);
 const p = await profil();
-// Le bouton CV ouvre la fenêtre ; sans JavaScript, il mène au PDF de la face
-// affichée, ou à la page /cv/ sur l'accueil.
-const liensCV = [
-  ...(FACES.some((face) => cv(face)) ? [{ pour: 'neutre', href: '/cv/' }] : []),
-  ...FACES.flatMap((face) => {
-    const fichier = cv(face);
-    return fichier ? [{ pour: face, href: fichier.pdf }] : [];
-  }),
-];
+// Le bouton CV mène à la page du CV de la face affichée (accueil : production).
+const facesCV = FACES.filter((face) => cv(face, langue));
+const liensCV = facesCV.length
+  ? [
+      { pour: 'neutre', href: `/${facesCV[0]}/cv/` },
+      ...facesCV.map((face) => ({ pour: face, href: `/${face}/cv/` })),
+    ]
+  : [];
 ---
 
 <header class="entete">
   <div class="conteneur entete__contenu">
-    <a class="entete__nom" href="/">{p.nom}</a>
+    <a class="entete__nom" href="/">
+      <span>{p.nom}</span>
+      <span class="entete__type">{t.portfolio}</span>
+    </a>
     <div class="entete__actions">
       {
         FACES.map((f) => (
@@ -32,7 +35,12 @@ const liensCV = [
       }
       {
         liensCV.map((l) => (
-          <a class="entete__bouton" href={l.href} data-pour={l.pour} data-fenetre="cv">
+          <a
+            class="entete__bouton"
+            href={l.href}
+            data-pour={l.pour}
+            aria-current={cvFace && l.href === `/${cvFace}/cv/` ? 'page' : undefined}
+          >
             {t.cv}
           </a>
         ))

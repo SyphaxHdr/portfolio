@@ -1,15 +1,17 @@
 ---
-import Base from '../layouts/Base.astro';
-import ContenuCV from '../components/ContenuCV.astro';
-import { profil, textes } from '../lib/contenu';
-
-const t = await textes('fr');
-const p = await profil();
+// Ancienne adresse : elle renvoie vers le CV production.
+const cible = '/production/cv/';
 ---
 
-<Base titre={`${t.cvTitre} · ${p.nom}`} face="neutre">
-  <section class="page-simple">
-    <h1>{t.cvTitre}</h1>
-    <ContenuCV langue="fr" tous />
-  </section>
-</Base>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0; url=${cible}`} />
+    <link rel="canonical" href={cible} />
+    <title>CV · Syphax Hadri</title>
+  </head>
+  <body>
+    <p><a href={cible}>CV</a></p>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+---
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import Base from '../../layouts/Base.astro';
+import ContenuCV from '../../components/ContenuCV.astro';
+import { cv, FACES, profil, textes } from '../../lib/contenu';
+
+// Une page par CV, aux couleurs de sa face : /production/cv/ et /devops/cv/.
+// On passe de l'une à l'autre par le sélecteur de la barre du haut.
+export const getStaticPaths = (() =>
+  FACES.filter((face) => cv(face, 'fr')).map((face) => ({ params: { face }, props: { face } }))) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { face } = Astro.props;
+const t = await textes('fr');
+const p = await profil();
+const nomFace = face === 'devops' ? t.devops : t.production;
+---
+
+<Base titre={`${t.cvTitre} · ${nomFace} · ${p.nom}`} face={face} cvFace={face}>
+  <section class="page-cv" aria-labelledby="titre-cv">
+    <h1 class="visuellement-cache" id="titre-cv">{`${t.cvTitre} · ${nomFace}`}</h1>
+    <ContenuCV langue="fr" face={face} />
+  </section>
+</Base>

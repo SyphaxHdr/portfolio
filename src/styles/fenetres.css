@@ -141,73 +141,88 @@ html:has(.fenetre[open]) {
   cursor: wait;
 }
 
-/* CV : le PDF dans le lecteur du navigateur ; sur téléphone, un aperçu. */
-.cv__lecteur {
-  display: block;
-  width: 100%;
-  height: min(70vh, 56rem);
-  border: 1px solid var(--bordure);
-  border-radius: var(--rayon);
-  background: #fff;
+/* Page CV : en haut, Production / DevOps et Ouvrir / Télécharger ; puis le
+   CV en image sur toute la largeur. La page défile normalement (pas de
+   lecteur PDF ni de seconde barre de défilement) ; on peut zoomer. */
+.page-cv {
+  padding: 1.25rem 0 3rem;
 }
 
-.cv__apercu {
-  display: none;
-  width: 100%;
-  height: auto;
-  border: 1px solid var(--bordure);
-  border-radius: var(--rayon);
+.cv {
+  max-width: 62rem;
+  margin: 0 auto;
+}
+
+.cv__barre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin: 0 0 1rem;
+}
+
+.cv__bascule {
+  display: inline-flex;
+  padding: 3px;
+  border: 1.5px solid var(--texte);
+  border-radius: 999px;
+}
+
+.cv__bascule a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 1.1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cv__bascule a:hover {
+  background: color-mix(in srgb, var(--texte) 10%, transparent);
+}
+
+.cv__bascule a[aria-current='page'] {
+  background: var(--texte);
+  color: var(--fond);
 }
 
 .cv__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
-  margin: 1rem 0 0;
-}
-
-.cv-choix > p {
-  margin: 0 0 0.75rem;
-}
-
-.cv-choix ul {
-  display: grid;
-  gap: 0.75rem;
   margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
-.cv-choix__carte {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem 1rem;
-  padding: 1rem 1.25rem;
+.cv__page {
+  position: relative;
+  overflow: hidden;
   border: 1px solid var(--bordure);
-  border-radius: var(--rayon);
-  background: var(--fond-bloc);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 2rem color-mix(in srgb, var(--texte) 14%, transparent);
 }
 
-.cv-choix__titre {
-  font-family: var(--police-titre);
-  font-size: 1.15rem;
-  font-weight: 600;
+.cv__page img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-.cv-choix__carte .cv__actions {
-  margin: 0;
+/* Les liens du CV (Portfolio, LinkedIn, GitHub), cliquables sur l'image. */
+.cv__lien {
+  position: absolute;
+  border-radius: 3px;
 }
 
-@media (max-width: 47.99rem) {
-  .cv__lecteur {
-    display: none;
-  }
+.cv__lien:hover {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
 
-  .cv__apercu {
-    display: block;
-  }
+.cv__lien:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* Contact */

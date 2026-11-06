@@ -1,10 +1,9 @@
 ---
 import '../styles/fenetres.css';
 import Fenetre from './Fenetre.astro';
-import ContenuCV from './ContenuCV.astro';
 import Contact from './Contact.astro';
 import Pipeline from './Pipeline.astro';
-import { cv, FACES, profil, textes, type Langue } from '../lib/contenu';
+import { profil, textes, type Langue } from '../lib/contenu';
 
 interface Props {
   langue: Langue;
@@ -15,13 +14,6 @@ const t = await textes(langue);
 const p = await profil();
 ---
 
-{
-  FACES.some((face) => cv(face)) && (
-    <Fenetre nom="cv" titre={t.cvTitre} fermer={t.fermerFenetre} large>
-      <ContenuCV langue={langue} />
-    </Fenetre>
-  )
-}
 {
   p.formulaire && (
     <Fenetre nom="contact" titre={t.meContacter} fermer={t.fermerFenetre}>

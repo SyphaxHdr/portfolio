@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 
@@ -51,18 +51,40 @@ export type Textes = Awaited<ReturnType<typeof textes>>;
 type Profil = Awaited<ReturnType<typeof profil>>;
 
 export function titrePage(face: Face, t: Textes, p: Profil) {
-  if (face === 'production') return `${t.production} · ${p.nom}`;
-  if (face === 'devops') return `${t.devops} · ${p.nom}`;
-  return p.nom;
+  if (face === 'production') return `${p.nom} · ${t.portfolio} · ${t.production}`;
+  if (face === 'devops') return `${p.nom} · ${t.portfolio} · ${t.devops}`;
+  return `${p.nom} · ${t.portfolio}`;
 }
 
-// Un CV par face, dans public/cv/ : il n'apparaît sur le site que si son PDF
-// existe. L'aperçu (première page en WebP) sert sur téléphone.
-export function cv(face: FaceProjet) {
-  const existe = (fichier: string) => existsSync(join(process.cwd(), 'public', fichier));
-  const pdf = `/cv/cv-${face}.pdf`;
-  const apercu = `/cv/cv-${face}.webp`;
-  return existe(pdf) ? { pdf, apercu: existe(apercu) ? apercu : undefined } : undefined;
+// Un CV par face et par langue, dans public/cv/ : cv-<face>-<langue>.pdf, son
+// image (.webp, 1600 px, et -petit.webp, 900 px) et .json (taille de l'image,
+// position des liens en % de la page). Il n'apparaît sur le site que si le PDF
+// et l'image existent. La page CV montre l'image : elle s'affiche vite, sur
+// toute la largeur, et se zoome ; les liens restent cliquables par-dessus.
+export interface LienCV {
+  href: string;
+  texte: string;
+  x: number;
+  y: number;
+  l: number;
+  h: number;
+}
+
+export function cv(face: FaceProjet, langue: Langue) {
+  const chemin = (fichier: string) => join(process.cwd(), 'public', fichier);
+  const base = `/cv/cv-${face}-${langue}`;
+  if (!existsSync(chemin(`${base}.pdf`)) || !existsSync(chemin(`${base}.json`))) return undefined;
+  const infos = JSON.parse(readFileSync(chemin(`${base}.json`), 'utf-8')) as {
+    largeur: number;
+    hauteur: number;
+    liens: LienCV[];
+  };
+  return {
+    pdf: `${base}.pdf`,
+    image: `${base}.webp`,
+    petit: existsSync(chemin(`${base}-petit.webp`)) ? `${base}-petit.webp` : undefined,
+    ...infos,
+  };
 }
 
 // « fr/amachahou » → « amachahou »

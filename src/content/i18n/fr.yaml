@@ -77,10 +77,14 @@ allerAuContenu: Aller au contenu
 fermerFenetre: Fermer
 cv: CV
 cvTitre: Mon CV
-cvChoisir: "Deux CV, un par face :"
+portfolio: Portfolio
+cvChoisir: Choisir le CV
 cvOuvrir: Ouvrir le PDF
 cvTelecharger: Télécharger
-cvApercu: Aperçu de la première page du CV
+visuelsProjet: Images du projet
+imagePrecedente: Image précédente
+imageSuivante: Image suivante
+imageNumero: Image
 meContacter: Me contacter
 contact: Contact
 contactIntro: Un stage, une question sur un projet ? Écris-moi ici, le message arrive directement dans ma boîte.
